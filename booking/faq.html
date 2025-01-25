@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Rental Website</title>
+    <style>
+        /* Basic styling for the FAQ section */
+        .faq-section {
+            margin-top: 2rem;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+        }
+
+        .faq-question {
+            font-weight: bold;
+            cursor: pointer;
+            position: relative; /* For positioning the arrow */
+        }
+
+        .faq-question::before {
+            content: "\f107"; /* Font Awesome down arrow */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-right: 0.5rem;
+            display: inline-block;
+            transition: transform 0.3s ease; /* Add a smooth transition */
+        }
+
+        .faq-answer {
+            display: none;
+            margin-top: 0.5rem;
+            padding-left: 1rem;
+            border-left: 2px solid #ddd;
+        }
+
+        /* Rotate the arrow when the answer is visible */
+        .faq-question.active::before {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="faq-section" id="faqSection">
+        <h2>Frequently Asked Questions</h2>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">What is the cancellation policy?</div>
+            <div class="faq-answer">
+                <p>Our cancellation policy varies depending on the hotel and the type of reservation you make. Generally, you can find the cancellation policy details on the hotel's page during the booking process or in your confirmation email.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">How do I modify my booking?</div>
+            <div class="faq-answer">
+                <p>To modify your booking, please log into your account, go to 'My Bookings,' find the booking you want to change, and follow the on-screen instructions. If you face any issues, you can contact our customer support for assistance.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">What payment methods do you accept?</div>
+            <div class="faq-answer">
+                <p>We accept major credit cards (Visa, Mastercard, American Express), debit cards, and some hotels may also offer alternative payment methods like PayPal. You can see the available payment options during the checkout process.</p>
+            </div>
+        </div>
+
+        </div>
+
+    <script>
+        function toggleAnswer(element) {
+            element.classList.toggle("active");
+            const answer = element.nextElementSibling;
+            answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>
+

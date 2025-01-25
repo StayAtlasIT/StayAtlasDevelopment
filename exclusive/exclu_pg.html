@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exclusive Villa Booking</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="exclu_pg.css">
+</head>
+<body>
+
+
+    <!-- Villa Container -->
+    <div class="villa-container" id="villaContainer">
+        <!-- Villas will be dynamically added here -->
+    </div>
+
+    <!-- Guest Selection Popup -->
+    <div class="guest-popup" id="guestPopup">
+        <h3>Guests</h3>
+        <div class="guest-counter">
+            <span>Adults</span>
+            <button class="counter-button" onclick="updateGuests('adults', -1)">-</button>
+            <input type="number" class="counter-input" id="adultsCount" value="2" min="1" max="30">
+        </div>
+        <div class="popup-buttons">
+        </div>
+    </div>
+
+    <script src="exclu_pg.js"></script>
+</body>
+</html>

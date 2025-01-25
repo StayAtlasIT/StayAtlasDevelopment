@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holiday Hotel Rental Login</title>
+    <style>
+        
+        /* login.css */
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: image-set(url('../login/space.png'));
+            opacity: 100%;
+            
+        }
+        .login-container {
+          background-color: white;
+            background-size: cover; /* Cover the entire container */
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            text-align: center;
+            opacity: 100; /* Adjust opacity for transparency */
+        }
+        h3 {
+            margin-bottom: 20px;
+            color: #0e3226;
+        }
+        input[type="tel"],
+        input[type="text"] {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.3s ease;
+        }
+        input:focus {
+            border-color: #d4af75;
+            outline: none;
+        }
+        .btn {
+            background-color: #d4af75;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-bottom: 10px;
+        }
+        .btn:hover {
+            background-color: #0e3226;
+        }
+        .google-btn {
+            background-color: #d4af75; /* Updated color */
+        }
+        .google-btn:hover {
+            background-color: #0e3226; /* Updated hover color */
+        }
+        .captcha-container {
+            margin: 15px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .captcha {
+            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        .refresh-captcha {
+            cursor: pointer;
+            color: #007bff;
+            text-decoration: underline;
+            font-size: 14px;
+        }
+        .verification {
+            display: none;
+            color: #28a745; /* Green color for verification */
+            font-size: 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h3>Login</h3>
+    <form id="loginForm">
+        <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number" required>
+        <button type="button" class="btn" onclick="sendOTP()">Send OTP</button>
+        
+        <input type="text" id="otp" name="otp" placeholder="Enter OTP" required>
+        <button type="button" class="btn" onclick="verifyOTP()">Verify OTP</button>
+        
+        <div class="captcha-container">
+            <div class="captcha" id="captcha">ABCD1234</div>
+            <input type="text" id="captchaInput" name="captchaInput" placeholder="Enter CAPTCHA" required>
+            <span class="refresh-captcha" onclick="refreshCaptcha()">Refresh CAPTCHA</span>
+        </div>
+        
+        <button type="button" class="btn google-btn" onclick="signInWithGoogle()">Sign in with Google</button>
+        <div class="verification" id="verificationMessage">✅ OTP Verified!</div>
+    </form>
+</div>
+
+<script>
+    // login.js
+    function sendOTP() {
+        // Placeholder function for sending OTP
+        alert('OTP sent to your phone number!');
+    }
+
+    function verifyOTP() {
+        const otpInput = document.getElementById('otp').value;
+        // Here you would normally check the OTP against your backend
+        if (otpInput) { // Assuming any input is valid for demonstration
+            document.getElementById('verificationMessage').style.display = 'block';
+        } else {
+            alert('Please enter a valid OTP.');
+        }
+    }
+
+    function signInWithGoogle() {
+        // Placeholder function for Google sign-in
+        alert('Redirecting to Google sign-in...');
+    }
+
+    function refreshCaptcha() {
+        // Generate a new CAPTCHA (for demonstration purposes, using a static string)
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let captcha = '';
+        for (let i = 0; i < 8; i++) {
+            captcha += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        document.getElementById('captcha').innerText = captcha;
+    }
+
+    // Refresh CAPTCHA on page load
+    window.onload = refreshCaptcha;
+</script>
+
+</body>
+</html>

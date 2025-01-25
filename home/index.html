@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Bar and Slideshow</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="footer.css">
+
+    <style>
+        .footer {
+            background: linear-gradient(circle,#0e3226, #eeeeee); /* Fixed radial gradient */
+        }
+
+        .footer a {
+            transition: color 0.3s ease; /* Smooth color transition on hover */
+        }
+        .footer a:hover {
+            color: #ffcc00; /* Change color on hover */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../home/index.html" class="logo">Stay Atlas</a>
+        <div class="menu-icon" id="menu-icon">&#9776;</div>
+        <div class="buttons">
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Explore</a></li>
+                <li><a href="../exclusive/index1.html">Exclusive</a></li>
+                <li><a href="#" id="property-btn">List Your Property</a></li>
+            </ul>
+            <button class="login" id="login-btn">Login</button>
+        </div>
+    </nav>
+
+    <div class="sidebar" id="sidebar">
+        <a href="#" class="closebtn" id="sidebar-closebtn">&times;</a>
+        <a href="#"><i class="fas fa-home"></i> Home</a>
+        <a href="#"><i class="fas fa-globe-asia"></i> Explore</a>
+        <a href="../exclusive/index1.html"><i class="fas fa-star"></i> Exclusive</a>
+        <a href="#" id="sidebar-property-btn"><i class="fas fa-building"></i> List Your Property</a>
+        <button class="sidebar-login" id="sidebar-login-btn">Login</button>
+    </div>
+
+    <!-- Slideshow Section -->
+    <section class="slideshow-container">
+        <div class="slides">
+            <div class="slide">
+                <img src="beachhouse.jpg" alt="Slide 1">
+            </div>
+            <div class="slide">
+                <img src="Stayatlas.jpg" alt="Slide 2">
+            </div>
+            <div class="slide">
+                <img src="vacation.jpg" alt="Slide 3">
+            </div>
+        </div>
+    </section>
+
+    <!-- Property Request Form -->
+    <div id="property-form-container" class="hidden">
+        <div class="container">
+            <i class="fas fa-times close-icon" id="property-cancel-icon" onclick="closePropertyForm()"></i>
+            <h2>Property Request Form</h2>
+            <form>
+                <input type="text" id="firstName" name="firstName" placeholder="First Name *" required>
+                <input type="text" id="lastName" name="lastName" placeholder="Last Name *" required>
+                <input type="email" id="email" name="email" placeholder="Email ID *" required>
+                <input type="tel" id="mobile" name="mobile" placeholder="Mobile Phone *" required>
+                <input type="text" id="location" name="location" placeholder="Provide Your Property Location *" required>
+                <select id="propertyType" name="propertyType" required>
+                    <option value="">Select Property Type *</option>
+                    <option value="apartment">Apartment</option>
+                    <option value="villa">Villa</option>
+                    <option value="land">Land</option>
+                    <option value="commercial">Commercial</option>
+                </select>
+                <input type="number" id="rooms" name="rooms" placeholder="How Many Rooms? *" required>
+                <label for="photos">Photos (Upload)</label>
+                <input type="file" id="photos" name="photos" accept="image/*" multiple>
+                <textarea id="description" name="description" rows="4" placeholder="Describe Your Property"></textarea>
+                <button type="submit">Send Request</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Login Form -->
+    <div id="login-form-container" class="hidden">
+        <div class="login-container">
+            <i class="fas fa-times close-icon" id="login-cancel-icon" onclick="closeLoginForm()"></i>
+            <h3>Login</h3>
+            <form id="loginForm">
+                <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number" required>
+                <button type="button" class="btn" onclick="sendOTP()">Send OTP</button>
+                
+                <input type="text" id="otp" name="otp" placeholder="Enter OTP" required>
+                <button type="button" class="btn" onclick="verifyOTP()">Verify OTP</button>
+                
+                <div class="captcha-container">
+                    <div class="captcha" id="captcha">ABCD1234</div>
+                    <input type="text" id="captchaInput" name="captchaInput" placeholder="Enter CAPTCHA" required>
+                    <span class="refresh-captcha" onclick="refreshCaptcha()">Refresh CAPTCHA</span>
+                </div>
+                
+                <button type="button" class="btn google-btn" onclick="signInWithGoogle()">Sign in with Google</button>
+                <div class="verification" id="verificationMessage">✅ OTP Verified!</div>
+            </form>
+        </div>
+    </div>
+
+    <div class="website-container">
+        <h2>Trending Villas</h2>
+        <button class="scroll-button left" id="scrollLeft">
+            <img src="s_left_arrow.png" alt="Left Arrow">
+        </button>
+        <section class="homes" id="villaContainer">
+            <div id="villas">
+                <div class="home">
+                    <a href="../booking/sub.html">
+                    <img src="media/VILLA1.jpg" alt="Sunny Beach Villa">
+                    </a>
+                    <h3>Sunny Beach Villa</h3>
+                    <p>A beautiful villa located near Paradise Beach, California, offering ocean views.</p>
+                    <p>Price = $350 + taxes</p>
+                    <div class="villa-rating">
+                        <a href="../booking/sub.html" class="villa-rating"></a>
+                        <div class="stars">
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9734;</span>
+                        </div>
+                        <span>4.5</span>
+                    </div>
+                    <form action="/booking/sub.html">
+                        <input type="submit" value="Book Now">
+                    </form>
+                </div>
+                <div class="home">
+                    <a href="../booking/sub.html">
+                    <img src="media/VILLA2.jpg" alt="Ocean View Villa">
+                    </a>
+                    <h3>Ocean View Villa</h3>
+                    <p>Located on the cliffs of Malibu, this villa offers breathtaking views of the ocean.</p>
+                    <p>Price = $400 + taxes</p>
+                    <div class="villa-rating">
+                        <div class="stars">
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                        </div>
+                        <span>5.0</span>
+                    </div>
+                    <form action="/booking/sub.html">
+                        <input type="submit" value="Book Now">
+                    </form>
+                </div>
+                <div class="home">
+                    <a href="../booking/sub.html">
+                    <img src="media/VILLA3.jpg" alt="Mountain Retreat">
+                    </a>
+                    <h3>Mountain Retreat</h3>
+                    <p>A serene villa in the heart of the Rockies, perfect for nature lovers & hikers.</p>
+                    <p>Price = $300 + taxes</p>
+                    <div class="villa-rating">
+                        <div class="stars">
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9734;</span>
+                            <span class="star">&#9734;</span>
+                        </div>
+                        <span>4.0</span>
+                    </div>
+                    <form action="/booking/sub.html">
+                        <input type="submit" value="Book Now">
+                    </form>
+                </div>
+                <div class="home">
+                    <a href="../booking/sub.html">
+                    <img src="media/VILLA4.jpg" alt="Desert Oasis">
+                    </a>
+                    <h3>Desert Oasis</h3>
+                    <p>A luxurious villa near Palm Springs, offering a tranquil desert like experience.</p>
+                    <p>Price = $450 + taxes</p>
+                    <div class="villa-rating">
+                        <div class="stars">
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9734;</span>
+                        </div>
+                        <span>4.5</span>
+                    </div>
+                    <form action="/booking/sub.html">
+                        <input type="submit" value="Book Now">
+                    </form>
+                </div>
+                <div class="home">
+                    <a href="../booking/sub.html">
+                    <img src="media/VILLA5.jpeg" alt="Lakeside Cabin">
+                    </a>
+                    <h3>Lakeside Cabin</h3>
+                    <p>A cozy cabin by Lake Tahoe, ideal for a peaceful and authentic getaway feel.</p>
+                    <p>Price = $275 + taxes</p>
+                    <div class="villa-rating">
+                        <div class="stars">
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9734;</span>
+                            <span class="star">&#9734;</span>
+                            <span class="star">&#9734;</span>
+                        </div>
+                        <span>3.0</span>
+                    </div>
+                    <form action="/booking/sub.html">
+                        <input type="submit" value="Book Now">
+                    </form>
+                </div>
+                <div class="home">
+                    <a href="../booking/sub.html">
+                    <img src="media/VILLA6.jpg" alt="City Escape">
+                    </a>
+                    <h3>City Escape</h3>
+                    <p>A modern villa located in downtown San Francisco, perfect for urban explorers.</p>
+                    <p>Price = $500 + taxes</p>
+                    <div class="villa-rating">
+                        <div class="stars">
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                        </div>
+                        <span>5.0</span>
+                    </div>
+                    <form action="/booking/sub.html">
+                        <input type="submit" value="Book Now">
+                    </form>
+                </div>
+                <div class="home">
+                    <a href="../booking/sub.html">
+                    <img src="media/VILLA7.jpg" alt="Tropical Paradise">
+                    </a>
+                    <h3>Tropical Paradise</h3>
+                    <p>A stunning villa located in the Bahamas, offering a slice of paradise.</p>
+                    <p>Price = $600 + taxes</p>
+                    <div class="villa-rating">
+                        <div class="stars">
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                        </div>
+                        <span>5.0</span>
+                    </div>
+                    <form action="/booking/sub.html">
+                        <input type="submit" value="Book Now">
+                    </form>
+                </div>
+            </div>
+        </section>
+        <button class="scroll-button right" id="scrollRight">
+            <img src="s_right_arrow.png" alt="Right Arrow">
+        </button>
+    </div>
+    <div class="footer">
+        <div class="fcontainer">
+            <h4>For more Information</h4>
+            <ul>
+                <li><a href="listproperty/list.html">List your property</a></li>
+                <li><a href="#">Stays</a></li>
+                <li><a href="chat.html">Customer Support</a></li>
+                <li><a href="aboutus/aboutus.html">About us</a></li>
+                <li><a href="https://wa.me/message/AYZVA4A3E6GFG1" target="_blank">Contact us</a></li>
+            </ul>
+            <div class="contact-info">
+                <h4>Contact Information</h4>
+                <p>Address: Malad, Mumbai, 400097</p>
+                <p>Phone: +91 85911 31447</p>
+                <p>Email: <a href="mailto:stayatlasin@gmail.com" style="color: #ffffff;">stayatlasin@gmail.com</a></p>
+            </div>
+            <div class="social-icons">
+                <a href="https://wa.me/message/AYZVA4A3E6GFG1" target="_blank" class="fab fa-whatsapp" aria-label="WhatsApp"></a>
+                <a href="https://www.instagram.com/stayatlas.in?igsh=NXU2NXlhYmRlemJh" target="_blank" class="fab fa-instagram" aria-label="Instagram"></a>
+                <a href="https://www.facebook.com/yourpage" target="_blank" class="fab fa-facebook" aria-label="Facebook"></a>
+            </div>
+            <div class="policies">
+                <h4>Policies</h4>
+                <p>
+                    <a href="policy/term.html" style="color: #ffffff; text-decoration: none;">Terms & Conditions</a> | 
+                    <a href="policy/PrivacyPolicy.html" style="color: #ffffff; text-decoration: none;">Privacy Policy</a> | 
+                    <a href="policy/Cancellation Policy.html" style="color: #ffffff; text-decoration: none;">Cancellation Policy</a>
+                </p>
+            </div>
+            <div class="intro-text">
+                <p>"Whether you want a quaint abode among the woods, a luxurious stay, or a homely vibe for your vacations - we, at Stayatlas & Experiences, strive to provide the best, striking the right balance between luxury and homely convenience."</p>
+            </div>
+            <div class="copyright"> 
+                <p>&copy; 2025 Staysatlas | All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -345,6 +345,7 @@ function renderVillas() {
             <div class="villa-price">
                 <div class="price-amount">₹${villa.price}</div>
                 <button class="view-button" onclick="window.location.href='../booking/sub.html'">View</button>
+                <button class="book-button" onclick="window.location.href='../booking/sub.html'">BOOK NOW</button>
             </div>
         </div>
     `).join('');

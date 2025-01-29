@@ -103,6 +103,35 @@ document.addEventListener('DOMContentLoaded', function () {
         villaContainer.scrollLeft += 300;
     });
 
+    // Swipe functionality
+    let startX, endX;
+
+    villaContainer.addEventListener('touchstart', (event) => {
+        startX = event.touches[0].clientX;
+        clearInterval(scrollInterval); // Pause auto-scrolling on touch
+    });
+
+    villaContainer.addEventListener('touchmove', (event) => {
+        endX = event.touches[0].clientX;
+    });
+
+    villaContainer.addEventListener('touchend', () => {
+        if (startX > endX + 50) {
+            // Swipe left
+            villaContainer.scrollLeft += 300; // Adjust scroll amount as needed
+        } else if (startX < endX - 50) {
+            // Swipe right
+            villaContainer.scrollLeft -= 300; // Adjust scroll amount as needed
+        }
+        // Restart auto-scrolling
+        scrollInterval = setInterval(() => {
+            villaContainer.scrollLeft += 1;
+            if (villaContainer.scrollLeft >= villaContainer.scrollWidth - villaContainer.clientWidth) {
+                villaContainer.scrollLeft = 0;
+            }
+        }, 20);
+    });
+
     // Modal functionality
     function showModal(message) {
         document.getElementById('modal-message').innerText = message;

@@ -429,7 +429,7 @@ h2 {
 
 section.homes {
     margin: 20px;
-    overflow-x: hidden;
+    overflow-x: hidden; /* Prevent scrollbars from appearing */
     white-space: nowrap;
     position: relative;
     border-radius: 40px;
@@ -451,7 +451,7 @@ section.homes {
 
 .home img {
     width: 100%;
-    height: 200px;
+    height: 300px;
     object-fit: cover;
     border-radius: 5px;
 }

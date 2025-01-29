@@ -10,6 +10,10 @@ function initMap() {
     });
 }
 
+document.getElementById('myButton').onclick = function() {
+    window.location.href = 'https://api.whatsapp.com/send?text=Check%20out%20this%20amazing%20villa!%20[Your%20link%20here]" target="_blank';
+};
+
 function viewVideo() {
     const videoUrl = 'videoplayback.mp4';
     const videoWindow = window.open('', '_blank');
@@ -53,6 +57,76 @@ function viewPhotos() {
 function togglePhotoModal() {
     const photoModal = document.getElementById('photoModal');
     photoModal.style.display = 'none'; // Hide the modal
+}
+
+function openBookingModal() {
+    document.getElementById('bookingModal').style.display = 'block';
+}
+
+function closeBookingModal() {
+    document.getElementById('bookingModal').style.display = 'none';
+}
+
+window.onclick = function(event) {
+    if (event.target == document.getElementById('bookingModal')) {
+        closeBookingModal();
+    }
+}
+
+function updateCheckOutMinDate() {
+    const checkInDate = document.getElementById('checkInDate').value;
+    document.getElementById('checkOutDate').setAttribute('min', checkInDate);
+}
+
+function updateTotalPrice() {
+    const checkInDate = new Date(document.getElementById('checkInDate').value);
+    const checkOutDate = new Date(document.getElementById('checkOutDate').value);
+    const timeDifference = checkOutDate - checkInDate;
+    const nights = Math.ceil(timeDifference / (1000 * 3600 * 24)); 
+    const guestCount = parseInt(document.getElementById('guestCount').value);
+
+    let totalPrice = 20000; // Example villa price
+    
+    let finalTotalPrice = (5000 * nights * guestCount) + ((5000 * nights * guestCount) + totalPrice) * 0.18 + totalPrice;
+
+    document.getElementById('totalPrice').innerText = `₹${totalPrice.toFixed(2)}`; 
+    document.getElementById('finalTotalPrice').innerText = `₹${finalTotalPrice.toFixed(2)}`;
+}
+
+function changeGuestCount(change) {
+    const guestCountInput = document.getElementById('guestCount');
+    let currentCount = parseInt(guestCountInput.value);
+    currentCount += change;
+    if (currentCount < 1) currentCount = 1; 
+    guestCountInput.value = currentCount;
+    updateTotalPrice(); 
+}
+
+document.getElementById('priceBreakdownBtn').onclick = function() {
+    const nights = Math.ceil((new Date(document.getElementById('checkOutDate').value) - new Date(document.getElementById('checkInDate').value)) / (1000 * 3600 * 24));
+    const guestCount = parseInt(document.getElementById('guestCount').value);
+    let totalBeforeTax = (5000 * nights * guestCount) + 20000;
+
+    const taxAmount = totalBeforeTax * 0.18;
+    const finalTotal = totalBeforeTax + taxAmount;
+
+    document.getElementById('basePrice').innerText = 5000;
+    document.getElementById('nightsCount').innerText = nights;
+    document.getElementById('totalBeforeTax').innerText = totalBeforeTax.toFixed(2);
+    document.getElementById('taxAmount').innerText = taxAmount.toFixed(2);
+    document.getElementById('finalTotal').innerText = finalTotal.toFixed(2);
+
+    document.getElementById('priceBreakdownModal').style.display = "block";
+}
+
+function closeModal() {
+    document.getElementById('priceBreakdownModal').style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == document.getElementById('priceBreakdownModal')) {
+        closeModal();
+    }
 }
 
 function toggleReviewForm() {

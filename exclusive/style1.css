@@ -33,6 +33,7 @@ nav {
 /* Search container styles */
 .search-container {
     position: relative;
+    margin-left: auto; /* Push search wrapper to the right */
 }
 
 .search-wrapper {
@@ -43,6 +44,7 @@ nav {
     padding: 0.5rem;
     gap: 0.5rem;
     transition: background-color 0.3s ease;
+    /* Remove margin-left: 1500px; */
 }
 
 .search-wrapper:hover {
@@ -240,6 +242,19 @@ nav {
     to {
         transform: translateY(0);
         opacity: 1;
+    }
+}
+/* Mobile styles */
+@media (max-width: 768px) {
+    .search-container,
+    .user-controls {
+        display: flex;
+        justify-content: center; /* Center user controls and search on mobile */
+        width: 100%;
+    }
+
+    .search-wrapper {
+        margin-left: 0; /* Reset margin for mobile */
     }
 }
 

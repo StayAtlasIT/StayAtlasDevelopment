@@ -2,7 +2,7 @@
 const villas = [
     {
         id: 1,
-        name: 'Exclusive Villa 1',
+        name: 'Exclusive Villa 1', 
         location: 'Maharashtra',
         image: 'media/VILLA1.jpg',
         price: 30000,

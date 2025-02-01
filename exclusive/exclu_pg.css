@@ -9,7 +9,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: ;
 }
 
 /* Villa List Styles */
@@ -38,6 +38,7 @@
     width: 100%;
     max-width: 500px;
     height: 350px;
+    aspect-ratio: 16 / 9 ;
     object-fit: cover;
 }
 
@@ -46,19 +47,24 @@
     padding: 0.5rem;
     position: relative;
     width: 100%;
+    background-color: #ffffff;
 }
 
 .villa-title {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     margin-bottom: 0rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-family: 'Roboto',sans-serif;
 }
+
 
 .villa-location {
     color: #666;
     margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-family: 'Montserrat',sans-serif;
 }
 
 .villa-capacity {
@@ -70,12 +76,14 @@
     border-top: 1px solid var(--border-color);
     border-bottom: 1px solid var(--border-color);
     color: #666;
+    font-family: 'Montserrat',sans-serif;
 }
 
 .villa-capacity-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    font-family: 'Montserrat',sans-serif;
 }
 
 .villa-amenities {
@@ -84,6 +92,7 @@
     margin-bottom: 1rem;
     flex-wrap: wrap;
     justify-content: space-around;
+    font-family: 'Montserrat',sans-serif;
 }
 
 .amenity-icon {
@@ -96,19 +105,21 @@
     position: relative;
     padding: 1rem;
     border-top: 1px solid var(--border-color);
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(230, 225, 225, 0.589);
     width: 100%;
     box-sizing: border-box;
     display: flex;
     justify-content: space-around;
     align-items: center;
     gap: 1rem;
+    font-family: 'Montserrat',sans-serif;
 }
 
 .price-amount {
     font-size: 1.5rem;
     color: var(--accent-color);
     margin-bottom: 0.5rem;
+    font-family: 'Montserrat',sans-serif;
 }
 
 .rating {
@@ -120,7 +131,7 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem;
-    background: rgba(2, 247, 55, 0.589);
+    background: rgba(255, 255, 255, 0.664);
     border-top-right-radius: 10px;
 }
 
@@ -146,6 +157,7 @@
     border-radius: 4px;
     cursor: pointer;
     width: 100px;
+    font-family: 'Montserrat',sans-serif;
 }
 
 
@@ -154,15 +166,17 @@
 
     .villa-container {
         padding: 1rem;
+        align-self: start; 
     }
 
     .villa-card {
-        flex-direction: column;
+        flex-direction: column;;
     }
 
     .villa-image {
         width: 100%;
         justify-content: center;
+        aspect-ratio: 16/9;
     }
 
     .villa-price {
@@ -174,6 +188,12 @@
     .villa-title, .price-amount {
         font-size: 1.2rem;
     }
+    .villa-image {
+        width: auto;
+        height: auto;
+        justify-content: center;
+        aspect-ratio: 16/9;
+    }
 
     .villa-price {
         text-align: left;
@@ -188,12 +208,31 @@
         width: 100px;
         padding: 0.5rem;
     }
+    .villa-location {
+        font-size: 1rem;
+        font-family: 'Montserrat light',sans-serif;
+    }
+    .villa-title{
+        font-size: 1.5rem;
+        font-family: 'roboto',sans-serif;
+    }
+    
+    
 }
 
 @media (max-width: 375px) {
     .villa-title, .price-amount {
         font-size: 1.1rem;
     }
+    .villa-image {
+        width: 100%;
+        height: auto;
+        justify-content: center;
+        aspect-ratio: 16/9;
+    }
+    .villa-location {
+        font-size: 1rem;font-family: 'Montserrat';
+    }
 
     .villa-price {
         text-align: left;
@@ -205,8 +244,7 @@
     }
 
     .view-button {
-        width: 100px;
-        padding: 0.5rem;
+        width: 100px;padding: 0.5rem;
     }
 }
 
@@ -214,18 +252,22 @@
     .villa-title, .price-amount {
         font-size: 1rem;
     }
+    .villa-image {
+        width: 100%;justify-content: center; aspect-ratio: 16/9;
+    }
+    .villa-location {
+        font-size: 1rem;font-family: 'Montserrat light';
+    }
 
     .villa-price {
         text-align: left;
     }
 
     .book-button {
-        width: 100px;
-        padding: 0.5rem;
+        width: 100px;padding: 0.5rem;
     }
 
     .view-button {
-        width: 100px;
-        padding: 0.5rem;
+        width: 100px;padding: 0.5rem;
     }
 }

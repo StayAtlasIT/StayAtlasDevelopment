@@ -85,26 +85,25 @@
             <div class="nav-item" onclick="toggleLocation()">Location</div>
             <div class="nav-item">Experiences</div>
             <div class="nav-item" onclick="toggleFAQ()">FAQ's</div>
-            <button class="book-now" onclick="openBookingModal()">Book now</button>
+            <button class="Book-Now" onclick="openBookingModal()" style="margin-left: auto;">Book now</button>
         </nav>
 
         <!-- Booking Modal -->
-        <div id="bookingModal" class="modal" style="display: none;">
+        <div id="bookingModal" class="modal" style="display: none; right: 0; top: 0;">
             <div class="modal-content">
                 <span class="close" onclick="closeBookingModal()">&times;</span>
                 <div class="booking-card">
                     <div class="header">
                         <span>₹5000</span> <span>per night + taxes</span>
-                        <img src="bookingg/close-circle.svg" alt="Close" class="close-button" onclick="closeBookingModal()" style="cursor: pointer; float: right; width: 15px; height: 15px;">
                     </div>
                     <div class="section date-selection">
                         <div>
                             <label for="checkInDate">Check in</label>
-                            <input type="date" id="checkInDate" value="" onchange="updateCheckOutMinDate(); updateTotalPrice()">
+                            <input type="date" id="checkinoutdate" value="" onchange="updateCheckOutMinDate(); updateTotalPrice()">
                         </div>
                         <div>
                             <label for="checkOutDate">Check out</label>
-                            <input type="date" id="checkOutDate" value="" onchange="updateTotalPrice()">
+                            <input type="date" id="checkinoutdate" value="" onchange="updateTotalPrice()">
                         </div>
                     </div>
                     <div class="section guest-selection">

@@ -179,12 +179,47 @@ nav {
     background-color: #000;
     color: #fff;
     border: none;
+    margin-top: 19px;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .search-btn:hover {
     background-color: #333;
     transform: scale(1.05);
+}
+
+.guest-button {
+    background-color: #ffffff;
+    color: rgb(7, 7, 7);
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.guest-popup {
+    position:sticky;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    text-align: center;
+
+    width: 300px; /* Set the width of the popup */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.guest-popup label {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.guest-popup div {
+    margin-bottom: 10px;
+}
+
+.guest-popup button {
+    margin-right: 5px;
 }
 
 /* Keyframes for animations */
@@ -250,6 +285,7 @@ nav {
         display: flex;
     }
 }
+
 
 /* Mobile styles */
 @media (max-width: 768px) {

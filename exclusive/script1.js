@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Event listener for user controls
     if (userControls) {
-        userControls.addEventListener('click', toggleExpandedSearch);
+        userControls.addEventListener('click');
     }
 
     // Event listener for guests button
@@ -53,3 +53,33 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const guestInput = document.getElementById('guestInput');
+    const guestPopup = document.getElementById('guestPopup');
+
+    guestInput.addEventListener('click', function () {
+        guestPopup.style.display = guestPopup.style.display === 'none' ? 'block' : 'none';
+    });
+
+    window.addEventListener('click', function (event) {
+        if (!guestInput.contains(event.target) && !guestPopup.contains(event.target)) {
+            guestPopup.style.display = 'none';
+        }
+    });
+});
+
+function clearGuestDetails() {
+    document.getElementById('adultsCount').value = 2;
+    document.getElementById('childrenCount').value = 0;
+    document.getElementById('roomsCount').value = 1;
+}
+
+function applyAndSearch() {
+    const adults = document.getElementById('adultsCount').value;
+    const children = document.getElementById('childrenCount').value;
+    const rooms = document.getElementById('roomsCount').value;
+    // Implement the search logic here using the selected values
+    guestPopup.style.display = 'none';
+    alert(`Searching for ${adults} adults, ${children} children, in ${rooms} rooms.`);
+}

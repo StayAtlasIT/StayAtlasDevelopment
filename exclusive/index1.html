@@ -64,8 +64,25 @@
             </div>
             <div class="search-field">
                 <label>Total Guests</label>
-                <input type="text" value="Guest" readonly>
+                <button type="button" id="guestInput" class="guest-button">Guest</button>
+                <div class="guest-popup" id="guestPopup" style="display: none;">
+                    <div>
+                        <label>Adults (Age 13+)</label>
+                        <input type="number" id="adultsCount" value="2" min="1">
+                    </div>
+                    <div>
+                        <label>Children (Age 0-12)</label>
+                        <input type="number" id="childrenCount" value="0" min="0">
+                    </div>
+                    <div>
+                        <label>Rooms</label>
+                        <input type="number" id="roomsCount" value="1" min="1">
+                    </div>
+                    <button onclick="clearGuestDetails()">Clear</button>
+                    <button onclick="applyAndSearch()">Apply & Search</button>
+                </div>
             </div>
+            
             <button class="search-btn">SEARCH STAYS</button>
         </div>
     </div>

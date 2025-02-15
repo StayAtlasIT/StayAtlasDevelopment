@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exclusive Villas For You By StayAtlas</title>
+<!--    <link rel="stylesheet" href="{% static 'booking/css/exclusive/style1.css' %}"> -->
+    <link rel="stylesheet" href="/static/booking/css/exclusive/footer.css">
+    <link rel="stylesheet" href="/static/booking/css/exclusive/exclu_pg.css"> <!-- Include the CSS from Code 2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Include Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<style>
+    /* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+body {
+    background-color: #f4f4f9;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #d4af75;
+    text-decoration: none;
+}
+
+/* Navigation styles */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid #e5e5e5;
+    background: #0e3226;
+    position: sticky;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Search container styles */
+.search-container {
+    position: relative;
+    margin-left: auto; /* Push search wrapper to the right */
+}
+
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    background: #f7f7f7;
+    border-radius: 50px;
+    padding: 0.5rem;
+    gap: 0.5rem;
+    transition: background-color 0.3s ease;
+    /* Remove margin-left: 1500px; */
+}
+
+.search-wrapper:hover {
+    background-color: #e0e0e0;
+}
+
+.search-option {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.search-option:hover {
+    color: #000;
+}
+
+.search-option:not(:last-child) {
+    border-right: 1px solid #ddd;
+}
+
+.search-icon {
+    background: #000;
+    color: #fff;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.search-icon:hover {
+    background-color: #333;
+    transform: rotate(20deg);
+}
+
+/* User controls styles */
+.user-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.notification-btn, .profile-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.notification-btn:hover, .profile-btn:hover {
+    transform: scale(1.1);
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff385c;
+    color: white;
+    font-size: 0.7rem;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Expanded Search Styles */
+.expanded-search {
+    display: none;
+    padding: 1rem;
+    background-color: #f7f7f7;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 1rem;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.expanded-search.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+    animation: slideDown 0.5s ease-out;
+}
+
+.expanded-search-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.search-field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.search-field label {
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.search-field input {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.search-field input:focus {
+    border-color: #000;
+}
+
+.search-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    margin-top: 19px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.search-btn:hover {
+    background-color: #333;
+    transform: scale(1.05);
+}
+
+.guest-button {
+    background-color: #ffffff;
+    color: rgb(7, 7, 7);
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.guest-popup {
+    position:sticky;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    text-align: center;
+
+    width: 300px; /* Set the width of the popup */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.guest-popup label {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.guest-popup div {
+    margin-bottom: 10px;
+}
+
+.guest-popup button {
+    margin-right: 5px;
+}
+
+/* Keyframes for animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+/* Mobile styles */
+@media (max-width: 768px) {
+    .search-container,
+    .user-controls {
+        display: flex;
+        justify-content: center; /* Center user controls and search on mobile */
+        width: 100%;
+    }
+
+    .search-wrapper {
+        margin-left: 0; /* Reset margin for mobile */
+    }
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .search-container,
+    .user-controls {
+        display: none;
+    }
+
+    .navbar .mobile-search-icon {
+        display: block;
+        background: #000;
+        color: #fff;
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .mobile-search-icon:hover {
+        background-color: #333;
+        transform: rotate(20deg);
+    }
+
+    .expanded-search {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 60px; /* Adjust based on your navbar height */
+        left: 0;
+        background-color: #f7f7f7;
+        z-index: 1000;
+    }
+
+    .expanded-search.show {
+        display: flex;
+    }
+}
+
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .navbar .mobile-search-icon {
+        display: block;
+        background: #000;
+        color: #fff;
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .mobile-search-icon:hover {
+        background-color: #333;
+        transform: rotate(20deg);
+    }
+
+    .expanded-search {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 60px; /* Adjust based on your navbar height */
+        left: 0;
+        background-color: #f7f7f7;
+        z-index: 1000;
+    }
+
+    .expanded-search.show {
+        display: flex;
+    }
+}
+
+/* Laptop and larger screens */
+@media (min-width: 769px) {
+    .navbar .mobile-search-icon {
+        display: none;
+    }
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .expanded-search-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-field {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .search-field input {
+        width: 100%;
+    }
+
+    .search-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.guest-selection {
+    padding: 1rem;
+    background-color: #f7f7f7;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 1rem;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+    display: none;
+}
+
+.guest-selection.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+    animation: slideDown 0.5s ease-out;
+}
+
+.guest-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.guest-option label {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.guest-option input {
+    width: 50px;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    text-align: center;
+}
+
+</style>
+<body>
+    <nav class="navbar">
+        <a href="{% url 'home' %}"  class="logo">Stay Atlas</a>
+        <!-- Mobile Search Icon -->
+        <button class="mobile-search-icon" id="mobileSearchIcon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </button>
+
+        <div class="search-container" id="mainSearchBar">
+            <div class="search-wrapper">
+                <button class="search-option guests-btn" id="SEARCH">Search</button>
+                <button class="search-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="user-controls">
+            <button class="profile-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Expanded Search Content -->
+    <div class="expanded-search" id="expandedSearch">
+        <div class="expanded-search-row">
+            <div class="search-field">
+                <label>Location/Villas/Landmark</label>
+                <input type="text" placeholder="Mumbai, Maharashtra">
+            </div>
+            <div class="search-field">
+                <label>Check-In</label>
+                <input type="text" id="checkIn" placeholder="Select Date" readonly>
+            </div>
+            <div class="search-field">
+                <label>Check-Out</label>
+                <input type="text" id="checkOut" placeholder="Select Date" readonly>
+            </div>
+            <div class="search-field">
+                <label>Total Guests</label>
+                <button type="button" id="guestInput" class="guest-button">Guest</button>
+                <div class="guest-popup" id="guestPopup" style="display: none;">
+                    <div>
+                        <label>Adults (Age 13+)</label>
+                        <input type="number" id="adultsCount" value="2" min="1">
+                    </div>
+                    <div>
+                        <label>Children (Age 0-12)</label>
+                        <input type="number" id="childrenCount" value="0" min="0">
+                    </div>
+                    <div>
+                        <label>Rooms</label>
+                        <input type="number" id="roomsCount" value="1" min="1">
+                    </div>
+                    <button onclick="clearGuestDetails()">Clear</button>
+                    <button onclick="applyAndSearch()">Apply & Search</button>
+                </div>
+            </div>
+            
+            <button class="search-btn">SEARCH STAYS</button>
+        </div>
+    </div>
+
+    <!-- Integrated Villa Booking Section -->
+    <div class="villa-container" id="villaContainer">
+        <!-- Villas will be dynamically added here -->
+    </div>
+
+    <!-- Guest Selection Popup -->
+
+    <!-- Include Footer -->
+    <div>
+        <div class="footer">
+            <div class="container">
+                <h3>For more Information</h3>
+                <ul>
+                    <li><a href= "{% url 'list_property' %}">List your property</a></li>
+                    <li><a href="#">Stays</a></li>
+                    <li><a href="{% url 'customer_support' %}">Customer Support</a></li>
+                    <li><a href="{% url 'about_us' %}">About us</a></li>
+                    <li><a href="{% url 'home' %}">Home</a></li> <!-- Link to main page -->
+                    <li><a href="https://wa.me/message/AYZVA4A3E6GFG1" target="_blank">Contact us</a></li>
+                </ul>
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <p>Address: Malad, Mumbai, 400097</p>
+                    <p>Phone: +91 85911 31447</p>
+                    <p>Email: <a href="mailto:stayatlasin@gmail.com" style="color: #ffffff;">stayatlasin@gmail.com</a></p>
+                </div>
+                <div class="social-icons">
+                    <a href="https://wa.me/message/AYZVA4A3E6GFG1" target="_blank" class="fab fa-whatsapp" aria-label="WhatsApp"></a>
+                    <a href="https://www.instagram.com/stayatlas.in?igsh=NXU2NXlhYmRlemJh" target="_blank" class="fab fa-instagram" aria-label="Instagram"></a>
+                    <a href="https://www.facebook.com/yourpage" target="_blank" class="fab fa-facebook" aria-label="Facebook"></a>
+                </div>
+                <div class="policies">
+                    <h3>Policies</h3>
+                    <p>
+                        <a href="policy/term.html" style="color: #ffffff; text-decoration: none;">Terms & Conditions</a> | 
+                        <a href="policy/PrivacyPolicy.html" style="color: #ffffff; text-decoration: none;">Privacy Policy</a> | 
+                        <a href="policy/Cancellation Policy.html" style="color: #ffffff; text-decoration: none;">Cancellation Policy</a>
+                    </p>
+                </div>
+                <div class="intro-text">
+                    <p>"Whether you want a quaint abode among the woods, a luxurious stay, or a homely vibe for your vacations - we, at Stayatlas & Experiences, strive to provide the best, striking the right balance between luxury and homely convenience."</p>
+                </div>
+                <div class="copyright"> 
+                    <p>&copy; 2025 Staysatlas | All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const expandedSearch = document.getElementById('expandedSearch');
+            const mobileSearchIcon = document.getElementById('mobileSearchIcon');
+            const mainSearchBar = document.getElementById('mainSearchBar');
+            const userControls = document.querySelector('.user-controls');
+            const guestsBtn = document.getElementById('guestsBtn');
+            const guestSelection = document.getElementById('guestSelection');
+        
+            // Toggle expanded search visibility
+            function toggleExpandedSearch() {
+                expandedSearch.classList.toggle('show');
+            }
+        
+            // Toggle guest selection visibility
+            function toggleGuestSelection() {
+                guestSelection.classList.toggle('show');
+            }
+        
+            // Event listener for mobile search icon
+            if (mobileSearchIcon) {
+                mobileSearchIcon.addEventListener('click', toggleExpandedSearch);
+            }
+        
+            // Event listener for search container
+            if (mainSearchBar) {
+                mainSearchBar.addEventListener('click', toggleExpandedSearch);
+            }
+        
+            // Event listener for user controls
+            if (userControls) {
+                userControls.addEventListener('click');
+            }
+        
+            // Event listener for guests button
+            if (guestsBtn) {
+                guestsBtn.addEventListener('click', toggleGuestSelection);
+            }
+        
+            // Initialize Flatpickr for check-in and check-out inputs
+            flatpickr("#checkIn", {
+                dateFormat: "Y-m-d",
+                minDate: "today",
+                onChange: function(selectedDates, dateStr, instance) {
+                    console.log("Check-in date selected:", dateStr);
+                }
+            });
+        
+            flatpickr("#checkOut", {
+                dateFormat: "Y-m-d",
+                minDate: "today",
+                onChange: function(selectedDates, dateStr, instance) {
+                    console.log("Check-out date selected:", dateStr);
+                }
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            const guestInput = document.getElementById('guestInput');
+            const guestPopup = document.getElementById('guestPopup');
+        
+            guestInput.addEventListener('click', function () {
+                guestPopup.style.display = guestPopup.style.display === 'none' ? 'block' : 'none';
+            });
+        
+            window.addEventListener('click', function (event) {
+                if (!guestInput.contains(event.target) && !guestPopup.contains(event.target)) {
+                    guestPopup.style.display = 'none';
+                }
+            });
+        });
+        
+        function clearGuestDetails() {
+            document.getElementById('adultsCount').value = 2;
+            document.getElementById('childrenCount').value = 0;
+            document.getElementById('roomsCount').value = 1;
+        }
+        
+        function applyAndSearch() {
+            const adults = document.getElementById('adultsCount').value;
+            const children = document.getElementById('childrenCount').value;
+            const rooms = document.getElementById('roomsCount').value;
+            // Implement the search logic here using the selected values
+            guestPopup.style.display = 'none';
+            alert(`Searching for ${adults} adults, ${children} children, in ${rooms} rooms.`);
+        } 
+         
+        const villas = [
+    {
+        id: 1,
+        name: 'Exclusive Villa 1', 
+        location: 'Maharashtra',
+        image: '{% static "booking/images/VILLA1.jpg" %}',  
+        price: 30000,
+        rating: 4.5,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 25,
+        rooms: 5,
+        baths: 5
+    },
+    {
+        id: 2,
+        name: 'Exclusive Villa 2',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA2.jpg',
+        price: 30000,
+        rating: 4.2,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 3,
+        name: 'Exclusive Villa 3',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA3.jpg',
+        price: 30000,
+        rating: 4.0,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 4,
+        name: 'Exclusive Villa 4',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA4.jpg',
+        price: 30000,
+        rating: 4.3,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 5,
+        name: 'Exclusive Villa 5',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA5.jpeg',
+        price: 30000,
+        rating: 4.1,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 6,
+        name: 'Exclusive Villa 6',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA6.jpg',
+        price: 30000,
+        rating: 4.4,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 7,
+        name: 'Exclusive Villa 7',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA7.jpg',
+        price: 30000,
+        rating: 4.6,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 8,
+        name: 'Exclusive Villa 8',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA8.jpg',
+        price: 30000,
+        rating: 4.2,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 9,
+        name: 'Exclusive Villa 9',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA9.jpg',
+        price: 30000,
+        rating: 4.3,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 10,
+        name: 'Exclusive Villa 10',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA10.jpg',
+        price: 30000,
+        rating: 4.1,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 11,
+        name: 'Exclusive Villa 11',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA11.jpg',
+        price: 30000,
+        rating: 4.0,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 12,
+        name: 'Exclusive Villa 12',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA12.jpg',
+        price: 30000,
+        rating: 4.5,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 13,
+        name: 'Exclusive Villa 13',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA13.jpg',
+        price: 30000,
+        rating: 4.2,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 14,
+        name: 'Exclusive Villa 14',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA14.jpg',
+        price: 30000,
+        rating: 4.3,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 15,
+        name: 'Exclusive Villa 15',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA15.jpg',
+        price: 30000,
+        rating: 4.1,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 16,
+        name: 'Exclusive Villa 16',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA16.jpeg',
+        price: 30000,
+        rating: 4.0,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 17,
+        name: 'Exclusive Villa 17',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA17.jpg',
+        price: 30000,
+        rating: 4.6,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 18,
+        name: 'Exclusive Villa 18',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA18.jpg',
+        price: 30000,
+        rating: 4.2,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 19,
+        name: 'Exclusive Villa 19',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA19.jpg',
+        price: 30000,
+        rating: 4.3,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 20,
+        name: 'Exclusive Villa 20',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA20.jpg',
+        price: 30000,
+        rating: 4.1,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 21,
+        name: 'Exclusive Villa 21',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA21.jpg',
+        price: 30000,
+        rating: 4.0,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 22,
+        name: 'Exclusive Villa 22',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA22.jpg',
+        price: 30000,
+        rating: 4.5,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 23,
+        name: 'Exclusive Villa 23',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA23.jpg',
+        price: 30000,
+        rating: 4.2,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 24,
+        name: 'Exclusive Villa 24',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA24.jpg',
+        price: 30000,
+        rating: 4.3,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    },
+    {
+        id: 25,
+        name: 'Exclusive Villa 25',
+        location: 'Maharashtra',
+        image: '/static/booking/images/VILLA25.jpg',
+        price: 30000,
+        rating: 4.1,
+        amenities: ['Heated', 'Lawn', 'Meals', 'WiFi', 'Bar'],
+        guests: 20,
+        rooms: 4,
+        baths: 4
+    }
+];
+
+function openSubPage(villaId) {
+    if (villaId === 1) { // Ensure this ID matches "Exclusive Villa 1"
+        window.location.href = '../booking/sub.html';
+    }
+}
+
+// Render villas
+function renderVillas() {
+    const container = document.getElementById('villaContainer');
+    container.innerHTML = villas.map(villa => `
+        <div class="villa-card">
+            <img src="${villa.image}" alt="${villa.name}" class="villa-image" onclick="openSubPage(${villa.id})">
+            <div class="villa-details">
+                <div class="villa-title">
+                    <span>${villa.name}</span>
+                    <div class="rating">
+                        ★ ${villa.rating}
+                    </div>
+                </div>
+                <p class="villa-location">${villa.location}</p>
+                <div class="villa-capacity">
+                    <div class="villa-capacity-item">
+                        <i class="fas fa-users"></i> Upto ${villa.guests} Guests
+                    </div>
+                    <div class="villa-capacity-item">
+                        <i class="fas fa-bed"></i> ${villa.rooms} Rooms
+                    </div>
+                    <div class="villa-capacity-item">
+                        <i class="fas fa-bath"></i> ${villa.baths} Baths
+                    </div>
+                </div>
+                <div class="villa-amenities">
+                    ${villa.amenities.map(amenity => `
+                        <span class="amenity-icon">
+                            <i class="fas fa-check"></i>
+                            ${amenity}
+                        </span>
+                    `).join('')}
+                </div>
+            </div>
+            <div class="villa-price">
+                <div class="price-amount">₹${villa.price}</div>
+                <button class="view-button" onclick="window.location.href='../booking/sub.html'">View</button>
+                <button class="book-button" onclick="window.location.href='../booking/sub.html'">BOOK NOW</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Initialize
+renderVillas();
+
+    </script>
+
+    <!-- Include Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="{% static 'booking/js/exclusive/script1.js' %}"></script>
+    <!--<script src="{% static 'booking/js/exclusive/exclu_pg.js' %}"></script> Include the JS from Code 2 -->
+</body>
+</html>

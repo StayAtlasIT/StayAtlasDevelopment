@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Villa Amenities</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #ff4e5c;
+            border-radius: 2px;
+        }
+
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .amenity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem;
+        }
+
+        .amenity-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .amenity-icon img {
+            width: 24px;
+            height: 24px;
+            opacity: 0.7;
+        }
+
+        .amenity-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .amenity-name {
+            font-size: 0.95rem;
+            color: #333;
+        }
+
+        .amenity-price {
+            color: #22c55e;
+            font-size: 0.85rem;
+            margin-top: 2px;
+        }
+
+        .more-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .amenities-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .amenities-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="section-title">Villa Amenities</h2>
+        <div class="amenities-grid">
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">CCTV</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Indoor/ Outdoor Games</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-parking"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Parking</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Driver/ Staff Accommodation</span>
+                    <span class="amenity-price">₹1,000</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-fire-extinguisher"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Fire Extinguisher</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-wifi"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Wi-Fi</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-temperature-high"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Heater</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-umbrella-beach"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Balcony/ Terrace</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Cook Available</span>
+                    <span class="amenity-price">₹3,000</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-bed"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Extra Mattress</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-tv"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">TV</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-music"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Music System/ Speaker</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-hot-tub"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Towels</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-pump-soap"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Toiletries</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <a href="#" class="more-link">+8 more</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="sub.css"> <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="footer.css"> <!-- Link to the footer CSS file -->
+   
+    <title>Book your Luxurious Villa</title>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../home/index.html" class="logo">Stay Atlas</a>
+        
+        <div class="search-bar">
+            <input type="text" class="location-input" placeholder="Search Location" onfocus="showDropdown()" onblur="hideDropdown()" oninput="filterLocations()">
+            <div class="dropdown" id="locationDropdown">
+                <div class="dropdown-item">Location 1</div>
+                <div class="dropdown-item">Location 2</div>
+                <div class="dropdown-item">Location 3</div>
+                <div class="dropdown-item">Location 4</div>
+                <div class="dropdown-item">Location 5</div>
+                <div class="dropdown-item">Location 6</div>
+                <div class="dropdown-item">Location 7</div>
+                <div class="dropdown-item">Location 8</div>
+                <div class="dropdown-item">Location 9</div>
+                <div class="dropdown-item">Location 10</div>
+            </div>
+            <button class="icon-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <div class="user-actions">
+            <a href="tel:+919082647708">
+                <img src="phone-call.svg" alt="Contact Number" class="icon" style="width: 20px; height: 20px;">
+            </a>
+            <a href="login/login.html"><i class="fas fa-user-circle"></i></a> <!-- Updated to link to login page -->
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="gallery">
+            <div class="main-image">
+                    <img src="villa3.jfif" alt="Villa main view">
+                <div class="action-buttons">
+                    <button class="btn" onclick="viewVideo()">
+                        <i class="fas fa-play"></i>
+                        View Video
+                    </button>
+                    <button class="btn" onclick="viewPhotos()">
+                        <i class="fas fa-camera"></i>
+                        View Photos
+                    </button>
+                    <button class="btn" onclick="view360Degree()">
+                        <i class="fas fa-eye"></i>
+                        360° View
+                    </button>
+                </div>
+                
+                <div class="share-save">
+                    
+                    <button id="myButton" class="icon-button" onclick="share()">
+                        <i class="fas fa-share"></i>
+                    </button>
+                    
+                    <button class="icon-button" onclick="window.location.href='login/login.html';">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="side-images">
+                <div class="side-image">
+                    <img src="villa3.jfif" alt="Mountain view">
+                </div>
+                <div class="side-image">
+                    <img src="villa3.jfif" alt="Firepit area">
+                </div>
+            </div>
+        </div>
+
+        
+        <nav class="navigation">
+            <div class="nav-item" onclick="toggleLocation()">Location</div>
+            <div class="nav-item">Experiences</div>
+            <div class="nav-item" onclick="toggleFAQ()">FAQ's</div>
+            <button class="Book-Now" onclick="openBookingModal()" style="margin-left: auto;">Book now</button>
+        </nav>
+
+        <!-- Booking Modal -->
+        <div id="bookingModal" class="modal" style="display: none; right: 0; top: 0;">
+            <div class="modal-content">
+                <span class="close" onclick="closeBookingModal()">&times;</span>
+                <div class="booking-card">
+                    <div class="header">
+                        <span>₹5000</span> <span>per night + taxes</span>
+                    </div>
+                    <div class="section date-selection">
+                        <div>
+                            <label for="checkInDate">Check in</label>
+                            <input type="date" id="checkinoutdate" value="" onchange="updateCheckOutMinDate(); updateTotalPrice()">
+                        </div>
+                        <div>
+                            <label for="checkOutDate">Check out</label>
+                            <input type="date" id="checkinoutdate" value="" onchange="updateTotalPrice()">
+                        </div>
+                    </div>
+                    <div class="section guest-selection">
+                        <label for="guestCount">Guests</label>
+                        <button onclick="changeGuestCount(-1)">-</button>
+                        <input type="text" id="guestCount" value="1" readonly>
+                        <button onclick="changeGuestCount(1)">+</button>
+                    </div>
+                    <div class="section coupon-section">
+                        <input type="text" placeholder="Apply Coupon">
+                        <button>Apply</button>
+                    </div>
+                    <div class="total-price">
+                        Villa price: <span id="totalPrice">₹20000</span>
+                    </div>
+                    <div class="total-price">
+                        Final Total Price: <span id="finalTotalPrice">0</span>
+                    </div>
+                    <button class="book-now">Book now</button>
+                    <button id="priceBreakdownBtn" class="price-breakdown-btn">Price Breakdown</button>
+                    <div class="footer1">
+                        <img src="https://img.icons8.com/ios-filled/50/000000/shield.png" alt="Shield Icon">
+                        Safe, Secure and Fast payments. Easy cancellation and refund policy.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="share.js"></script>
+    <script src="login.js"></script>
+    <script src="sub.js"></script>
+    <script>
+        function openBookingModal() {
+            document.getElementById('bookingModal').style.display = 'block';
+        }
+
+        function closeBookingModal() {
+            document.getElementById('bookingModal').style.display = 'none';
+        }
+    </script>
+        <h2 class="section-title">Villa Amenities</h2>
+        <div class="amenities-grid">
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">CCTV</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Indoor/ Outdoor Games</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-parking"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Parking</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Driver/ Staff Accommodation</span>
+                    <span class="amenity-price">₹1,000</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-fire-extinguisher"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Fire Extinguisher</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-wifi"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Wi-Fi</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-temperature-high"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Heater</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-umbrella-beach"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Balcony/ Terrace</span>
+                </div>
+            </div>
+
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <div class="amenity-details">
+                    <span class="amenity-name">Cook Available</span>
+                    <span class="amenity-price">₹3,000</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review Section -->
+        <div class="review-section">
+            <h2>Reviews</h2>
+            <button id="addReview" onclick="toggleReviewForm()">Add Review</button>
+            <div id="reviewForm" style="display: none;">
+                <h3>Add Your Review</h3>
+                <input type="text" id="reviewerName" placeholder="Your Name" required>
+                <input type="text" id="reviewerLocation" placeholder="Your Location" required>
+                <input type="text" id="reviewRating" placeholder="Rating (e.g., 5/5)" required>
+                <textarea id="reviewComment" placeholder="Your Review" required></textarea>
+                <button id="submitReview">Submit Review</button>
+            </div>
+            <div class="review" id="review1">
+                <h3>Hrishigandha K</h3>
+                <p class="date">Date: [Insert Date]</p>
+                <p class="rating">Rating: <span class="stars">★★★★★</span></p>
+                <p class="comment"><span role="img" aria-label="message">💬</span> An excellent property to unwind with your family and loved ones...</p>
+            </div>
+            <div class="review" id="review2">
+                <h3>Kedar L</h3>
+                <p class="date">Date: [Insert Date]</p>
+                <p class="rating">Rating: <span class="stars">★★★★☆</span></p>
+                <p class="comment"><span role="img" aria-label="message">💬</span> Great place with fantastic staff...</p>
+            </div>
+            <div class="review" id="review3">
+                <h3>Atharva Y</h3>
+                <p class="date">Date: [Insert Date]</p>
+                <p class="rating">Rating: <span class="stars">★★★★★</span></p>
+                <p class="comment"><span role="img" aria-label="message">💬</span> This is one of the best properties in Karjat...</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Login Container -->
+    <div id="loginContainer" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="toggleLoginModal()">&times;</span>
+            <div class="login-container">
+                <h3>Login</h3>
+                <form id="loginForm">
+                    <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number" required>
+                    <button type="button" class="btn" onclick="sendOTP()">Send OTP</button>
+                    
+                    <input type="text" id="otp" name="otp" placeholder="Enter OTP" required>
+                    <button type="button" class="btn" onclick="verifyOTP()">Verify OTP</button>
+                    
+                    <div class="captcha-container">
+                        <div class="captcha" id="captcha">ABCD1234</div>
+                        <input type="text" id="captchaInput" name="captchaInput" placeholder="Enter CAPTCHA" required>
+                        <span class="refresh-captcha" onclick="refreshCaptcha()">Refresh CAPTCHA</span>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo Modal -->
+    <div id="photoModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="togglePhotoModal()">&times;</span>
+            <div class="photo-gallery">
+                <img src="villa3.jfif" alt="Villa view" class="photo">
+                <img src="villa3.jfif" alt="Villa view" class="photo">
+                <img src="villa3.jfif" alt="Villa view" class="photo">
+                <img src="villa3.jfif" alt="Villa view" class="photo">
+                <img src="villa3.jfif" alt="Villa view" class="photo">
+                <img src="villa3.jfif" alt="Villa view" class="photo">
+                <button class="prev-btn" onclick="prevPhoto()">‹</button>
+                <!-- Add more images as needed -->
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="share.js"></script>
+    <script src="login.js"></script>
+    <script src="sub.js"></script> <!-- Link to the external JavaScript file -->
+    
+    <div class="footer">
+        <div class="container">
+            <h3>For more Information</h3>
+            <ul>
+                <li><a href="list.html">List your property</a></li>
+                <li><a href="#">Stays</a></li>
+                <li><a href="chat.html">Customer Support</a></li>
+                <li><a href="aboutus.html">About us</a></li>
+                <li><a href="https://wa.me/message/AYZVA4A3E6GFG1" target="_blank">Contact us</a></li>
+            </ul>
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <p>Address: Malad, Mumbai, 400097</p>
+                <p>Phone: +91 85911 31447</p>
+                <p>Email: <a href="mailto:stayatlasin@gmail.com" style="color: #ffffff;">stayatlasin@gmail.com</a></p>
+            </div>
+            <div class="social-icons">
+                <a href="https://wa.me/message/AYZVA4A3E6GFG1" target="_blank" class="fab fa-whatsapp" aria-label="WhatsApp"></a>
+                <a href="https://www.instagram.com/stayatlas.in?igsh=NXU2NXlhYmRlemJh" target="_blank" class="fab fa-instagram" aria-label="Instagram"></a>
+                <a href="https://www.facebook.com/yourpage" target="_blank" class="fab fa-facebook" aria-label="Facebook"></a>
+            </div>
+            <div class="policies">
+                <h3>Policies</h3>
+                <p>
+                    <a href="term.html" style="color: #ffffff; text-decoration: none;">Terms & Conditions</a> | 
+                    <a href="PrivacyPolicy.html" style="color: #ffffff; text-decoration: none;">Privacy Policy</a> | 
+                    <a href="Cancellation Policy.html" style="color: #ffffff; text-decoration: none;">Cancellation Policy</a>
+                </p>
+            </div>
+            <div class="intro-text">
+                <p>"Whether you want a quaint abode among the woods, a luxurious stay, or a homely vibe for your vacations - we, at Stayatlas and Experiences, strive to provide the best, striking the right balance between luxury and homely convenience."</p>
+            </div>
+            <div class="copyright"> 
+                <p>&copy; 2025 Staysatlas | All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

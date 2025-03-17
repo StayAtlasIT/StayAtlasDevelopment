@@ -1,0 +1,281 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Customer Support Chatbot</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #e0f7fa; /* Light blue background */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Chatbot Window */
+        .chat-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 90%; /* Adjust width for mobile */
+            height: 75vh; /* Adjust height for mobile */
+            transform: translate(-50%, -50%); /* Center the chatbox */
+            background: linear-gradient(to bottom, #d4af75,#0e3226); /* Updated gradient background */
+            border: 2px solid #00bcd4; /* Cyan border */
+            border-radius: 12px; /* More rounded corners */
+            box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2); /* Enhanced shadow */
+            display: flex; /* Display by default */
+            flex-direction: column;
+            transition: all 0.3s ease; /* Smooth transition */
+        }
+
+        /* Header */
+        .chat-header {
+            background-color: #0e3226; /* Darker purple */
+            color: white;
+            padding: 12px;
+            text-align: center;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            font-size: 1.5rem; /* Larger font size */
+        }
+
+        /* Messages Display Area */
+        .chat-messages {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: #f1f8e9; /* Light green background */
+            height: 100%;
+            border-radius: 0 0 12px 12px; /* Rounded bottom corners */
+        }
+
+        .chat-messages .user-msg {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        .chat-messages .bot-msg {
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        .chat-messages .msg {
+            display: inline-block;
+            max-width: 70%;
+            padding: 10px 15px; /* Increased padding */
+            border-radius: 8px;
+            transition: background-color 0.3s; /* Smooth background transition */
+            animation: fadeIn 0.5s; /* Animation for message appearance */
+            font-family: 'Courier New', Courier, monospace; /* Change font for responses */
+        }
+
+        .user-msg .msg {
+            background-color: #00796b; /* User message background */
+            color: rgb(255, 255, 255);
+        }
+
+        .bot-msg .msg {
+            background-color: #e1f5fe; /* Bot message background */
+            color: #000000;
+        }
+
+        /* User Input Section */
+        .chat-input {
+            display: flex;
+            border-top: 2px solid #ddd;
+        }
+
+        .chat-input input {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            margin: 10px;
+        }
+
+        .chat-input button {
+            background-color: blue; /* Updated button color to blue */
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+            margin: 10px;
+        }
+
+        .chat-input button:hover {
+            background-color: #00f7ea; /* Darker color on hover */
+        }
+
+        /* Animation for message appearance */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Media Query for Mobile Screens */
+        @media (max-width: 600px) {
+            .chat-container {
+                width: 95%; /* Wider on smaller screens */
+                height: 75vh; /* Taller on smaller screens */
+            }
+
+            .chat-header {
+                font-size: 1.5rem; /* Increase font size for better readability */
+            }
+
+            .chat-input input {
+                font-size: 18px; /* Larger font size for input */
+                padding: 10px; /* Adjust padding */
+            }
+
+            .chat-input button {
+                padding: 10px 14px; /* Adjust button size */
+                font-size: 18px; /* Larger font size for button */
+            }
+        }
+
+        /* New CSS for Question Options */
+        .question-option {
+            border: 1px solid #00bcd4; /* Cyan border */
+            padding: 10px; /* Add some padding */
+            border-radius: 5px; /* Rounded corners */
+            margin: 5px 0; /* Space between options */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Chatbot Window -->
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">AI Customer Support</div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Ask something..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Chatbot Logic
+        const chatContainer = document.getElementById('chatContainer');
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+
+        // Function to send a message and get a response
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (message === '') return;
+
+            // Display the user's message
+            displayMessage(message, 'user');
+
+            // Show typing indicator
+            const typingMessage = displayMessage("Typing...", 'bot');
+
+            // Get the bot's response (simple predefined responses)
+            const response = getBotResponse(message);
+
+            // Display the bot's message after a 2-second delay
+            setTimeout(() => {
+                chatMessages.removeChild(typingMessage); // Remove typing indicator
+                displayMessage(response, 'bot'); // Show the actual response
+            }, 2000);
+
+            // Clear the input field
+            userInput.value = '';
+        }
+
+        // Add event listener for "Enter" key press
+        userInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Function to display a message
+        function displayMessage(message, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add(sender + '-msg');
+            const msgContent = document.createElement('span');
+            msgContent.classList.add('msg');
+            msgContent.innerText = message;
+            messageDiv.appendChild(msgContent);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight; /* Scroll to the bottom */
+            return messageDiv; /* Return the messageDiv for later removal */
+        }
+
+        // Function to show question options
+        function showQuestionOptions() {
+            const options = [
+                "What are your current offers?",
+                "What services do you provide?",
+                "How can I book a villa?",
+                "What is your cancellation policy?",
+                "What are the check-in and check-out times?",
+                "What amenities are included in the villa?",
+                "How does listing my villa with your company benefit me?",
+                "Can you manage reservations from different sources, such as website, OTAs & travel agents, through your platform?",
+                "How does your marketing and branding support work?",
+                "Is there a cost involved in using your reservation management services?",
+                "What kind of support can I expect for maintenance and upkeep of my property?",
+                "How do you handle communication with guests?",
+                "Can I modify my booking?"
+            ];
+
+            options.forEach(option => {
+                const optionDiv = document.createElement('div');
+                optionDiv.classList.add('question-option');
+                optionDiv.innerText = option;
+                optionDiv.onclick = () => {
+                    displayMessage(option, 'user');
+                    const response = getBotResponse(option);
+                    displayMessage(response, 'bot');
+                };
+                chatMessages.appendChild(optionDiv);
+            });
+        }
+
+        // Simple bot response logic
+        function getBotResponse(message) {
+            const userMessage = message.toLowerCase();
+
+            if (userMessage.includes('hello') || userMessage.includes('hi')) {
+                return 'Hello! How can I assist you today?';
+            } else if (userMessage.includes('pricing') || userMessage.includes('price')) {
+                return 'Our prices start at ₹12000 per night. For more details, please contact us.';
+            } else if (userMessage.includes('location') || userMessage.includes('where')) {
+                return 'We are located in the beautiful sunny city of Miami!';
+            } else if (userMessage.includes('offers') || userMessage.includes('promotion')) {
+                return 'Check out our special offers: 20% off for early bookings and free breakfast included!';
+            } else if (userMessage.includes('services')) {
+                return 'We provide villa bookings, event planning, and customer support.';
+            } else if (userMessage.includes('book') || userMessage.includes('reservation')) {
+                return 'You can book a villa through our website or by contacting our support team.';
+            } else if (userMessage.includes('cancellation')) {
+                return 'Our cancellation policy allows free cancellation up to 48 hours before check-in.';
+            } else if (userMessage.includes('check-in') || userMessage.includes('check-out')) {
+                return 'Check-in is at 3 PM and check-out is at 11 AM.';
+            } else if (userMessage.includes('amenities')) {
+                return 'Our villas include free Wi-Fi, swimming pools, and kitchen facilities.';
+            } else if (userMessage.includes('benefit')) {
+                return 'Listing your villa with us opens the door to a global audience, maximizing your property visibility. Our tailored marketing strategies, streamlined processes, and dedicated support ensure a hassle-free and lucrative hosting experience.';
+            } else {
+                return 'I\'m sorry, I didn\'t understand that. Can you please rephrase?'; /* Default response */
+            }
+        }
+
+        // Initial setup to show the chat window
+        showQuestionOptions(); /* Show question options when chat opens */
+    </script>
+
+</body>
+</html>

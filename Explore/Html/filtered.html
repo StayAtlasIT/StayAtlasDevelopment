@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="../../Home/Media/stay.PNG" style="border-radius: 100%;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayAtlas-Explore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/explore.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+</head>
+<body>
+    <div class="mcontainer">
+        <header>
+            <div class="logo">StayAtlas</div>
+        </header>
+        <br>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+            <div></div>
+            <div style="position: relative;">
+                <button id="filterBtn" style="padding: 8px 15px; background: white; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                    <i class="fas fa-sliders-h"></i> Filters
+                </button>
+                <div class="filter-dropdown" id="filterDropdown">
+                    <div class="filter-section">
+                        <div class="filter-title">Price Range</div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="priceLow" class="filter-checkbox">
+                            <label for="priceLow">₹0 - ₹10,000</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="priceMid" class="filter-checkbox">
+                            <label for="priceMid">₹10,000 - ₹20,000</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="priceHigh" class="filter-checkbox">
+                            <label for="priceHigh">₹20,000+</label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <div class="filter-title">Amenities</div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="pool" class="filter-checkbox">
+                            <label for="pool">Pool</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="wifi" class="filter-checkbox">
+                            <label for="wifi">Wi-Fi</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="kitchen" class="filter-checkbox">
+                            <label for="kitchen">Kitchen</label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <div class="filter-title">Sort By</div>
+                        <div class="filter-option">
+                            <input type="radio" name="sort" id="priceLowFirst" class="filter-radio">
+                            <label for="priceLowFirst">Price (Lowest First)</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="radio" name="sort" id="priceHighFirst" class="filter-radio">
+                            <label for="priceHighFirst">Price (Highest First)</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="radio" name="sort" id="newListings" class="filter-radio">
+                            <label for="newListings">New Listings</label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-actions">
+                        <button id="applyFilters" class="apply-button">Apply Filters</button>
+                        <button id="clearFilters" class="clear-button">Clear All</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        
+        <div class="property-grid">
+            <!-- Property Card 1 -->
+            <div class="property-card">
+                <img src="../media/villa2.webp" alt="Villa Property" class="property-image">
+                <span class="pet-friendly-emoji" style="position: absolute; top: 10px; left: 10px; font-size: 20px;">🐾</span>
+                <button class="favorite-button">
+                    <i class="far fa-heart"></i>
+                </button>
+                <div class="property-details">
+                    <div class="property-title">Silva Heritage, South Goa Pet Pool Villa</div>
+                    <div class="property-location">
+                        <i class="fas fa-map-marker-alt location-icon"></i>
+                        <span>Benaulim, India</span>
+                    </div>
+                    <div class="property-amenities">5 Beds | 5 Baths | 10 guests</div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                        <div class="property-price">
+                            <span class="price-amount">₹ 29999</span>
+                            <span class="price-period">per night</span>
+                        </div>
+                        <div class="property-rating">
+                            <i class="fas fa-star rating-star"></i>
+                            <span class="rating-value">5</span>
+                        </div>
+                    </div><br>
+                    <button class="cta-button">Book Now</button>
+                </div>
+            </div>
+            
+            <!-- Property Card 2 -->
+            <div class="property-card">
+                <img src="../media/villa3.jpg" alt="Villa Property" class="property-image">
+                <button class="favorite-button">
+                    <i class="far fa-heart"></i>
+                </button>
+                <div class="property-details">
+                    <div class="property-title">15 BHK Hills Estate, Pawna Lake Pet Pool Villa</div>
+                    <div class="property-location">
+                        <i class="fas fa-map-marker-alt location-icon"></i>
+                        <span>Pawna Lake, India</span>
+                    </div>
+                    <div class="property-amenities">15 Beds | 15 Baths | 50 guests</div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                        <div class="property-price">
+                            <span class="price-amount">₹ 19999</span>
+                            <span class="price-period">per night</span>
+                        </div>
+                        <div class="property-rating">
+                            <i class="fas fa-star rating-star"></i>
+                            <span class="rating-value">4.7</span>
+                        </div>
+                    </div><br>
+                    <button class="cta-button">Book Now</button>
+                </div>
+            </div>
+            
+            <!-- Property Card 3 -->
+            <div class="property-card">
+                <img src="../Media/villa4.jpg" alt="Villa Property" class="property-image">
+                <span class="pet-friendly-emoji" style="position: absolute; top: 10px; left: 10px; font-size: 20px;">🐾</span>
+                <button class="favorite-button">
+                    <i class="far fa-heart"></i>
+                </button>
+                <div class="property-details">
+                    <div class="property-title">Villa Vanessa, North Goa Pet Pool Villa</div>
+                    <div class="property-location">
+                        <i class="fas fa-map-marker-alt location-icon"></i>
+                        <span>Siolim, India</span>
+                    </div>
+                    <div class="property-amenities">5 Beds | 5 Baths | 12 guests</div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                        <div class="property-price">
+                            <span class="price-amount">₹ 9999</span>
+                            <span class="price-period">per night</span>
+                        </div>
+                        <div class="property-rating">
+                            <i class="fas fa-star rating-star"></i>
+                            <span class="rating-value">4.7</span>
+                        </div>
+                    </div><br>
+                    <button class="cta-button">Book Now</button>
+                </div>
+            </div>
+            
+            <!-- Property Card 4 -->
+            <div class="property-card">
+                <img src="../media/H88a785491ad94b0385a46d40a3c3a0366.avif" alt="Villa Property" class="property-image">
+                <button class="favorite-button">
+                    <i class="far fa-heart"></i>
+                </button>
+                <div class="property-details">
+                    <div class="property-title">Sands & Streams 4BHK Pet Pool Villa</div>
+                    <div class="property-location">
+                        <i class="fas fa-map-marker-alt location-icon"></i>
+                        <span>Arpora, India</span>
+                    </div>
+                    <div class="property-amenities">4 Beds | 4 Baths | 12 guests</div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                        <div class="property-price">
+                            <span class="price-amount">₹ 21999</span>
+                            <span class="price-period">per night</span>
+                        </div>
+                        <div class="property-rating">
+                            <i class="fas fa-star rating-star"></i>
+                            <span class="rating-value">4.5</span>
+                        </div>
+                    </div><br>
+                    <button class="cta-button">Book Now</button>
+                </div>
+            </div>
+            <div class="property-card">
+                <img src="../media/H88a785491ad94b0385a46d40a3c3a0366.avif" alt="Villa Property" class="property-image">
+                <span class="pet-friendly-emoji" style="position: absolute; top: 10px; left: 10px; font-size: 20px;">🐾</span>
+                <button class="favorite-button">
+                    <i class="far fa-heart"></i>
+                </button>
+                <div class="property-details">
+                    <div class="property-title">Sands & Streams 4BHK Pet Pool Villa</div>
+                    <div class="property-location">
+                        <i class="fas fa-map-marker-alt location-icon"></i>
+                        <span>Arpora, India</span>
+                    </div>
+                    <div class="property-amenities">4 Beds | 4 Baths | 12 guests</div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                        <div class="property-price">
+                            <span class="price-amount">₹ 28999</span>
+                            <span class="price-period">per night</span>
+                        </div>
+                        <div class="property-rating">
+                            <i class="fas fa-star rating-star"></i>
+                            <span class="rating-value">4.5</span>
+                        </div>
+                    </div><br>
+                    <button class="cta-button">Book Now</button>
+                </div>
+            </div>
+            <div class="property-card">
+                <img src="../media/H88a785491ad94b0385a46d40a3c3a0366.avif" alt="Villa Property" class="property-image">
+                <button class="favorite-button">
+                    <i class="far fa-heart"></i>
+                </button>
+                <div class="property-details">
+                    <div class="property-title">Sands & Streams 4BHK Pet Pool Villa</div>
+                    <div class="property-location">
+                        <i class="fas fa-map-marker-alt location-icon"></i>
+                        <span>Arpora, India</span>
+                    </div>
+                    <div class="property-amenities">4 Beds | 4 Baths | 12 guests</div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                        <div class="property-price">
+                            <span class="price-amount">₹ 19999</span>
+                            <span class="price-period">per night</span>
+                        </div>
+                        <div class="property-rating">
+                            <i class="fas fa-star rating-star"></i>
+                            <span class="rating-value">4.5</span>
+                        </div>
+                    </div><br>
+                    <button class="cta-button">Book Now</button>
+                </div>
+            </div><div class="property-card">
+                <img src="../media/H88a785491ad94b0385a46d40a3c3a0366.avif" alt="Villa Property" class="property-image">
+                <button class="favorite-button">
+                    <i class="far fa-heart"></i>
+                </button>
+                <div class="property-details">
+                    <div class="property-title">Sands & Streams 4BHK Pet Pool Villa</div>
+                    <div class="property-location">
+                        <i class="fas fa-map-marker-alt location-icon"></i>
+                        <span>Arpora, India</span>
+                    </div>
+                    <div class="property-amenities">4 Beds | 4 Baths | 12 guests</div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                        <div class="property-price">
+                            <span class="price-amount">₹ 8999</span>
+                            <span class="price-period">per night</span>
+                        </div>
+                        <div class="property-rating">
+                            <i class="fas fa-star rating-star"></i>
+                            <span class="rating-value">4.5</span>
+                        </div>
+                    </div>
+                    <br>
+                    <button class="cta-button">Book Now</button>
+                </div>
+            </div>
+            <div class="property-card">
+                <img src="../media/H88a785491ad94b0385a46d40a3c3a0366.avif" alt="Villa Property" class="property-image">
+                <button class="favorite-button">
+                    <i class="far fa-heart"></i>
+                </button>
+                <div class="property-details">
+                    <div class="property-title">Sands & Streams 4BHK Pet Pool Villa</div>
+                    <div class="property-location">
+                        <i class="fas fa-map-marker-alt location-icon"></i>
+                        <span>Arpora, India</span>
+                    </div>
+                    <div class="property-amenities">4 Beds | 4 Baths | 12 guests</div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                        <div class="property-price">
+                            <span class="price-amount">₹ 39999</span>
+                            <span class="price-period">per night</span>
+                        </div>
+                        <div class="property-rating">
+                            <i class="fas fa-star rating-star"></i>
+                            <span class="rating-value">4.5</span>
+                        </div>
+                    </div><br>
+                    <button class="cta-button">Book Now</button>
+                </div>
+            </div><div class="property-card">
+                <img src="../media/H88a785491ad94b0385a46d40a3c3a0366.avif" alt="Villa Property" class="property-image">
+                <button class="favorite-button">
+                    <i class="far fa-heart"></i>
+                </button>
+                <div class="property-details">
+                    <div class="property-title">Sands & Streams 4BHK Pet Pool Villa</div>
+                    <div class="property-location">
+                        <i class="fas fa-map-marker-alt location-icon"></i>
+                        <span>Arpora, India</span>
+                    </div>
+                    <div class="property-amenities">4 Beds | 4 Baths | 12 guests</div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                        <div class="property-price">
+                            <span class="price-amount">₹ 18999</span>
+                            <span class="price-period">per night</span>
+                        </div>
+                        <div class="property-rating">
+                            <i class="fas fa-star rating-star"></i>
+                            <span class="rating-value">4.5</span>
+                        </div>
+                    </div><br>
+                    <button class="cta-button">Book Now</button>
+                </div>
+            </div>
+            
+            <!-- Add more property cards as needed -->
+            <div class="property-card">
+                <img src="../media/villa2.webp" alt="Villa Property" class="property-image">
+                <button class="favorite-button">
+                    <i class="far fa-heart"></i>
+                </button>
+                <div class="property-details">
+                    <div class="property-title">Labdhi Bungalow 8BHK Pet Pool Villa</div>
+                    <div class="property-location">
+                        <i class="fas fa-map-marker-alt location-icon"></i>
+                        <span>Lonavala, India</span>
+                    </div>
+                    <div class="property-amenities">8 Beds | 8 Baths | 20 guests</div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                        <div class="property-price">
+                            <span class="price-amount">₹ 29999</span>
+                            <span class="price-period">per night</span>
+                        </div>
+                        <div class="property-rating">
+                            <i class="fas fa-star rating-star"></i>
+                            <span class="rating-value">4.3</span>
+                        </div>
+                    </div><br>
+                    <button class="cta-button">Book Now</button>
+                </div>
+            </div>
+            
+            <div class="property-card">
+                <img src="../media/villa3.jpg" alt="Villa Property" class="property-image">
+                <button class="favorite-button">
+                    <i class="far fa-heart"></i>
+                </button>
+                <div class="property-details">
+                    <div class="property-title">By The Foothills 7BHK, Pawna Lake Pet Pool Villa</div>
+                    <div class="property-location">
+                        <i class="fas fa-map-marker-alt location-icon"></i>
+                        <span>Pawna Lake, India</span>
+                    </div>
+                    <div class="property-amenities">7 Beds | 7 Baths | 30 guests</div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                        <div class="property-price">
+                            <span class="price-amount">₹ 27999</span>
+                            <span class="price-period">per night</span>
+                        </div>
+                        <div class="property-rating">
+                            <i class="fas fa-star rating-star"></i>
+                            <span class="rating-value">4.7</span>
+                        </div>
+                    </div><br>
+                    <button class="cta-button">Book Now</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="pagination">
+            <div class="page-item page-nav">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="page-item active">1</div>
+            <div class="page-item">2</div>
+            <div class="page-item">3</div>
+            <div class="page-item page-nav">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Guest Modal -->
+    <div class="modal" id="guestModal">
+        <div class="modal-content">
+            <div class="modal-header">Number of Guests</div>
+            <div class="guest-counter">
+                <div>Adults</div>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <button class="counter-button" id="adultMinus">-</button>
+                    <span class="guest-count" id="adultCount">0</span>
+                    <button class="counter-button" id="adultPlus">+</button>
+                </div>
+            </div>
+            <div class="guest-counter">
+                <div>Children</div>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <button class="counter-button" id="childMinus">-</button>
+                    <span class="guest-count" id="childCount">0</span>
+                    <button class="counter-button" id="childPlus">+</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="apply-button" id="applyGuests">Apply</button>
+            </div>
+        </div>
+    </div>
+    <!-- Calendar Modal -->
+<div id="calendarModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>Select Dates</h3>
+        <input type="text" id="dateRange" placeholder="Choose dates..." readonly>
+        <button id="applyDates">Apply</button>
+    </div>
+</div>
+<!-- Villa Popup Modal -->
+<div id="villaModal" class="villa-modal">
+    <div class="villa-modal-content">
+        <span class="close-villa-modal">&times;</span>
+        <div class="villa-3d-container">
+            <img id="villaImage" src="" alt="Villa Image" class="villa-3d-image">
+        </div>
+        <h2 id="villaTitle"></h2>
+        <p id="villaPrice"></p>
+    </div>
+</div>
+    <script src="../js/explore.js"></script>
+    <script src="../js/property-handler.js"></script>
+</body>
+
+</html>

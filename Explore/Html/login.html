@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="../../Home/Media/stay.PNG" style="border-radius: 100%;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayAtlas-Login</title>
+    <link rel="stylesheet" href="../../Explore/css/login.css">
+</head>
+<body>
+    <div class="container">
+        <div class="hero-image">
+            <button class="back-btn" onclick="goBack()" style="display:none;">&larr;</button>
+            <div class="overlay"></div>
+            <div class="logo">StayAtlas</div>
+        </div>
+        
+        <div class="login-section" id="initialLoginSection">
+            <h2>Book a Room. Enjoy A Villa Getaway</h2>
+            <div class="input-group country-code">
+                <select>
+                    <option>+91</option>
+                </select>
+                <input type="tel" id="phoneNumber" maxlength="10" placeholder="Enter Mobile Number" pattern="[0-9]{10}">
+            </div>
+            <button class="continue-btn" onclick="checkUserStatus()">Continue</button>
+            <div class="terms">
+                By continuing, you agree to our 
+                <a href="../../footer/html/term.html">Terms & Conditions</a> and 
+                <a href="../../footer/html/PrivacyPolicy.html">Privacy Policy</a>
+            </div>
+        </div>
+
+        <div class="signup-section" id="signupSection" style="display:none;">
+            <h2>Create Your Account</h2>
+            <div class="welcome-message">Welcome to StayVista!</div>
+            <div class="input-group">
+                <input type="text" id="firstName" placeholder="First Name" required>
+            </div>
+            <div class="input-group">
+                <input type="text" id="lastName" placeholder="Last Name" required>
+            </div>
+            <div class="input-group country-code">
+                <select disabled>
+                    <option>+91</option>
+                </select>
+                <input type="tel" id="signupPhoneNumber" maxlength="10" placeholder="Mobile Number" pattern="[0-9]{10}" required readonly>
+            </div>
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email" required>
+            </div>
+            <div class="input-group">
+                <input type="text" id="city" placeholder="Residential City" required>
+            </div>
+            <button class="continue-btn" onclick="proceedSignup()">Continue</button>
+            <div class="terms">
+                By continuing, you agree to our 
+                <a href="#">Terms & Conditions</a> and 
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+
+        <div class="otp-section" id="otpSection" style="display:none;">
+            <h2>Verify OTP</h2>
+            <div class="login-number-display" id="otpNumberDisplay"></div>
+            <div class="otp-inputs">
+                <input type="text" maxlength="1">
+                <input type="text" maxlength="1">
+                <input type="text" maxlength="1">
+                <input type="text" maxlength="1">
+                <input type="text" maxlength="1">
+                <input type="text" maxlength="1">
+            </div>
+            <div class="timer" id="otpTimer">Resend OTP in 00:17</div>
+            <button class="continue-btn" onclick="verifyOTP()">Continue</button>
+        </div>
+    </div>
+
+    <script>
+        // Simulated user database (replace with actual backend logic)
+        const userDatabase = {
+            '9137444636': true,  // Existing user
+            '9876543210': false  // New user
+        };
+
+        function checkUserStatus() {
+            const phoneNumber = document.getElementById('phoneNumber');
+            const initialLoginSection = document.getElementById('initialLoginSection');
+            const signupSection = document.getElementById('signupSection');
+            const otpSection = document.getElementById('otpSection');
+            const backBtn = document.querySelector('.back-btn');
+
+            if (phoneNumber.value.length === 10) {
+                // Check if user exists
+                const isExistingUser = userDatabase[phoneNumber.value];
+
+                if (isExistingUser) {
+                    // Existing user - go to OTP
+                    initialLoginSection.style.display = 'none';
+                    otpSection.style.display = 'block';
+                    backBtn.style.display = 'block';
+                    
+                    document.getElementById('otpNumberDisplay').textContent = 
+                        `OTP sent to +91 ${phoneNumber.value}`;
+                    
+                    startOTPTimer();
+                } else {
+                    // New user - go to signup
+                    initialLoginSection.style.display = 'none';
+                    signupSection.style.display = 'block';
+                    backBtn.style.display = 'block';
+
+                    // Pre-fill phone number in signup form
+                    document.getElementById('signupPhoneNumber').value = phoneNumber.value;
+                }
+            } else {
+                alert('Please enter a valid 10-digit mobile number');
+            }
+        }
+
+        function proceedSignup() {
+            const firstName = document.getElementById('firstName');
+            const lastName = document.getElementById('lastName');
+            const phoneNumber = document.getElementById('signupPhoneNumber');
+            const email = document.getElementById('email');
+            const city = document.getElementById('city');
+            const signupSection = document.getElementById('signupSection');
+            const otpSection = document.getElementById('otpSection');
+
+            if (firstName.value && lastName.value && 
+                phoneNumber.value.length === 10 && 
+                email.value && city.value) {
+                // Hide signup, show OTP
+                signupSection.style.display = 'none';
+                otpSection.style.display = 'block';
+                
+                document.getElementById('otpNumberDisplay').textContent = 
+                    `OTP sent to +91 ${phoneNumber.value}`;
+                
+                startOTPTimer();
+            } else {
+                alert('Please fill out all fields correctly');
+            }
+        }
+
+        function startOTPTimer() {
+            const timerElement = document.getElementById('otpTimer');
+            let timeLeft = 17;
+
+            const timer = setInterval(() => {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerElement.textContent = `Resend OTP in ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    timerElement.textContent = 'Resend OTP';
+                }
+                timeLeft--;
+            }, 1000);
+        }
+
+        function verifyOTP() {
+            const otpInputs = document.querySelectorAll('.otp-inputs input');
+            const otpValues = Array.from(otpInputs).map(input => input.value);
+            
+            if (otpValues.every(val => val !== '' && !isNaN(val))) {
+                alert('Login/Signup Successful!');
+                // Add further login/signup logic here
+            } else {
+                alert('Please enter a valid OTP');
+            }
+        }
+
+        function goBack() {
+            const initialLoginSection = document.getElementById('initialLoginSection');
+            const signupSection = document.getElementById('signupSection');
+            const otpSection = document.getElementById('otpSection');
+            const backBtn = document.querySelector('.back-btn');
+
+            if (otpSection.style.display === 'block') {
+                // From OTP to previous screen
+                otpSection.style.display = 'none';
+                initialLoginSection.style.display = 'block';
+                backBtn.style.display = 'none';
+            } else if (signupSection.style.display === 'block') {
+                // From signup to initial login
+                signupSection.style.display = 'none';
+                initialLoginSection.style.display = 'block';
+                backBtn.style.display = 'none';
+            }
+        }
+
+        // OTP input auto-focus and navigation
+        const otpInputs = document.querySelectorAll('.otp-inputs input');
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('input', () => {
+                if (input.value.length === 1 && index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && input.value === '' && index > 0) {
+                    otpInputs[index - 1].focus();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="../Media/stay.PNG" style="border-radius: 100%;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayAtlas | Amazing Villas For You</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../../footer/css/footer.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif&display=swap">
+    <link rel="stylesheet" href="../../EXCLUSIVE/Css/exclusive.css"> <!-- Added link to exclusive.css -->
+    <link rel="stylesheet" href="../../Explore/css/explore.css"> <!-- Added link to exclusive.css -->
+
+    <style>
+        .footer {
+            background: #0e3226;
+            color: #ffffff;
+            padding: 40px 0;
+            text-align: center;
+            position: relative;
+            width: 100%; /* Full width */
+        }
+        
+        .footer .fcontainer {
+            width: 80%;
+            margin: auto;
+        }
+        
+        div.fcontainer{
+            color: #ffffff;
+            background: #0e3226;
+            padding: 30px;
+            margin: 0px 150px 0px 150px;
+        }
+        .footer {
+            background: linear-gradient(circle,#0e3226, #eeeeee); /* Fixed radial gradient */
+        }
+
+        .footer a {
+            transition: color 0.3s ease; /* Smooth color transition on hover */
+        }
+        .footer a:hover {
+            color: #ffcc00; /* Change color on hover */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div><a href="../Html/index.html" class="logo" id="logo"><img src="../Media/stay.PNG"></a></div>
+        <div class="menu-icon" id="menu-icon">&#9776;</div>
+        <div class="buttons">
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="../../Explore/Html/explore.html">Explore</a></li>
+                <li><a href="../../EXCLUSIVE/Html/exclusive.html">Exclusive</a></li>
+                <li><a href="#" id="property-btn">List Your Property</a></li>
+            </ul>
+            <a href="../../Explore/Html/login.html">
+                <button class="login">Login</button>
+              </a>
+        </div>
+    </nav>
+
+    <div class="sidebar" id="sidebar">
+        <a href="#" class="closebtn" id="sidebar-closebtn">&times;</a>
+        <a href="#"><i class="fas fa-home"></i> Home</a>
+        <a href="../../Explore/Html/explore.html"><i class="fas fa-globe-asia"></i> Explore</a>
+        <a href="../../EXCLUSIVE/Html/exclusive.html"><i class="fas fa-star"></i> Exclusive</a>
+        <a href="#" id="sidebar-property-btn"><i class="fas fa-building"></i> List Your Property</a>
+        <a href="../../Explore/Html/login.html">
+            <button class="login">Login</button>
+          </a>
+    </div>
+
+    <!-- Slideshow Section -->
+    <section class="slideshow-container">
+        <div class="slides">
+            <div class="slide">
+                <img src="../../Media/beachhouse.jpg" alt="Slide 1">
+            </div>
+            <div class="slide">
+                <img src="../../Media/Stayatlas.jpg" alt="Slide 2">
+            </div>
+            <div class="slide">
+                <img src="../../Media/vacation.jpg" alt="Slide 3">
+            </div>
+        </div>
+    </section>
+
+            <!-- Search Bar Section -->
+            <!-- <div class="search-container">
+                <div class="search-box">
+                    <div class="search-field">
+                        <label for="location">Location/Villas/Landmark</label>
+                        <input type="text" id="location" name="location" placeholder="Where To?" list="locations">
+                        <datalist id="locations">
+                            <option value="Goa"></option>
+                            <option value="Manali"></option>
+                            <option value="Jaipur"></option>
+                        </datalist>
+                    </div>
+                    <div class="search-field">
+                        <label for="checkin">Check-in</label>
+                        <input type="date" id="checkin" name="checkin">
+                    </div>
+                    <div class="search-field">
+                        <label for="checkout">Check-out</label>
+                        <input type="date" id="checkout" name="checkout">
+                    </div>
+                    <div class="search-field">
+                        <label for="guests">Guests</label>
+                        <select id="guests" name="guests">
+                            <option value="1">1 Guest</option>
+                            <option value="2">2 Guests</option>
+                            <option value="3">3 Guests</option>
+                            <option value="4">4 Guests</option>
+                        </select>
+                    </div>
+                    <div class="search-field">
+                        <label for="rooms">Rooms</label>
+                        <input type="number" id="rooms" name="rooms" min="1" max="20" value="1">
+                    </div>
+                    <button type="submit" class="search-button">Search</button>
+                </div>
+            </div> -->
+
+
+    <!-- Property Request Form -->
+    <div id="property-form-container" class="hidden">
+        <div class="container">
+            <i class="fas fa-times close-icon" id="property-cancel-icon" onclick="closePropertyForm()"></i>
+            <h2>Property Request Form</h2>
+            <form>
+                <input type="text" id="firstName" name="firstName" placeholder="First Name *" required>
+                <input type="text" id="lastName" name="lastName" placeholder="Last Name *" required>
+                <input type="email" id="email" name="email" placeholder="Email ID *" required>
+                <input type="tel" id="mobile" name="mobile" placeholder="Mobile Phone *" required>
+                <input type="text" id="location" name="location" placeholder="Provide Your Property Location *" required>
+                <select id="propertyType" name="propertyType" required>
+                    <option value="">Select Property Type *</option>
+                    <option value="apartment">Apartment</option>
+                    <option value="villa">Villa</option>
+                    <option value="land">Land</option>
+                    <option value="commercial">Commercial</option>
+                </select>
+                <input type="number" id="rooms" name="rooms" placeholder="How Many Rooms? *" required>
+                <label for="photos">Photos (Upload)</label>
+                <input type="file" id="photos" name="photos" accept="image/*" multiple>
+                <textarea id="description" name="description" rows="4" placeholder="Describe Your Property"></textarea>
+                <button type="submit">Send Request</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Login Form -->
+    <div id="login-form-container" class="hidden">
+        <div class="login-container">
+            <i class="fas fa-times close-icon" id="login-cancel-icon" onclick="closeLoginForm()"></i>
+            <h3>Login</h3>
+            <form id="loginForm">
+                <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number" required>
+                <button type="button" class="btn" onclick="sendOTP()">Send OTP</button>
+                
+                <input type="text" id="otp" name="otp" placeholder="Enter OTP" required>
+                <button type="button" class="btn" onclick="verifyOTP()">Verify OTP</button>
+                
+                <div class="captcha-container">
+                    <div class="captcha" id="captcha">ABCD1234</div>
+                    <input type="text" id="captchaInput" name="captchaInput" placeholder="Enter CAPTCHA" required>
+                    <span class="refresh-captcha" onclick="refreshCaptcha()">Refresh CAPTCHA</span>
+                </div>
+                
+                <button type="button" class="btn google-btn" onclick="signInWithGoogle()">Sign in with Google</button>
+                <div class="verification" id="verificationMessage">✅ OTP Verified!</div>
+            </form>
+        </div>
+    </div>
+    <div class="website-container">
+        <h2>Trending Villas</h2>
+        <button class="scroll-button left" id="scrollLeft">
+            <img src="../../Media/s_left_arrow.png" alt="Left Arrow">
+        </button>
+        <section class="homes" id="villaContainer">
+            <div id="villas">
+                <div class="home">
+                    <a href="../../Booking/Html/index.html">
+                    <img src="../../Media/VILLA1.jpg" alt="Sunny Beach Villa">
+                    </a>
+                    <h3>Sunny Beach Villa</h3>
+                    <p>A beautiful villa located near Paradise Beach, California, offering ocean views.</p>
+                    <p>Price = $350 + taxes</p>
+                    <div class="villa-rating">
+                        <a href="../../Booking/Html/index.html" class="villa-rating"></a>
+                        <div class="stars">
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9734;</span>
+                        </div>
+                        <span>4.5</span>
+                    </div>
+                    <form action="../../Booking/Html/index.html">
+                        <input type="submit" value="Book Now">
+                    </form>
+                </div>
+                <div class="home">
+                    <a href="../../Booking/Html/index.html">
+                    <img src="../Media/VILLA2.jpg" alt="Ocean View Villa">
+                    </a>
+                    <h3>Ocean View Villa</h3>
+                    <p>Located on the cliffs of Malibu, this villa offers breathtaking views of the ocean.</p>
+                    <p>Price = $400 + taxes</p>
+                    <div class="villa-rating">
+                        <div class="stars">
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                        </div>
+                        <span>5.0</span>
+                    </div>
+                    <form action="../../Booking/Html/index.html">
+                        <input type="submit" value="Book Now">
+                    </form>
+                </div>
+                <div class="home">
+                    <a href="../../Booking/Html/index.html">
+                    <img src="../Media/VILLA3.jpg" alt="Mountain Retreat">
+                    </a>
+                    <h3>Mountain Retreat</h3>
+                    <p>A serene villa in the heart of the Rockies, perfect for nature lovers & hikers.</p>
+                    <p>Price = $300 + taxes</p>
+                    <div class="villa-rating">
+                        <div class="stars">
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9734;</span>
+                            <span class="star">&#9734;</span>
+                        </div>
+                        <span>4.0</span>
+                    </div>
+                    <form action="../../Booking/Html/index.html">
+                        <input type="submit" value="Book Now">
+                    </form>
+                </div>
+                <div class="home">
+                    <a href="../../Booking/Html/index.html">
+                    <img src="../Media/VILLA4.jpg" alt="Desert Oasis">
+                    </a>
+                    <h3>Desert Oasis</h3>
+                    <p>A luxurious villa near Palm Springs, offering a tranquil desert like experience.</p>
+                    <p>Price = $450 + taxes</p>
+                    <div class="villa-rating">
+                        <div class="stars">
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9734;</span>
+                        </div>
+                        <span>4.5</span>
+                    </div>
+                    <form action="../../Booking/Html/index.html">
+                        <input type="submit" value="Book Now">
+                    </form>
+                </div>
+                <div class="home">
+                    <a href="../../Booking/Html/index.html">
+                    <img src="../Media/VILLA5.jpeg" alt="Lakeside Cabin">
+                    </a>
+                    <h3>Lakeside Cabin</h3>
+                    <p>A cozy cabin by Lake Tahoe, ideal for a peaceful and authentic getaway feel.</p>
+                    <p>Price = $275 + taxes</p>
+                    <div class="villa-rating">
+                        <div class="stars">
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9734;</span>
+                            <span class="star">&#9734;</span>
+                            <span class="star">&#9734;</span>
+                        </div>
+                        <span>3.0</span>
+                    </div>
+                    <form action="../../Booking/Html/index.html">
+                        <input type="submit" value="Book Now">
+                    </form>
+                </div>
+                <div class="home">
+                    <a href="../../Booking/Html/index.html">
+                    <img src="../Media/VILLA6.jpg" alt="City Escape">
+                    </a>
+                    <h3>City Escape</h3>
+                    <p>A modern villa located in downtown San Francisco, perfect for urban explorers.</p>
+                    <p>Price = $500 + taxes</p>
+                    <div class="villa-rating">
+                        <div class="stars">
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                        </div>
+                        <span>5.0</span>
+                    </div>
+                    <form action="../../Booking/Html/index.html">
+                        <input type="submit" value="Book Now">
+                    </form>
+                </div>
+                <div class="home">
+                    <a href="../../Booking/Html/index.html">
+                    <img src="../Media/VILLA7.jpg" alt="Tropical Paradise">
+                    </a>
+                    <h3>Tropical Paradise</h3>
+                    <p>A stunning villa located in the Bahamas, offering a slice of paradise.</p>
+                    <p>Price = $600 + taxes</p>
+                    <div class="villa-rating">
+                        <div class="stars">
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                        </div>
+                        <span>5.0</span>
+                    </div>
+                    <form action="../../Booking/Html/index.html">
+                        <input type="submit" value="Book Now">
+                    </form>
+                </div>
+            </div>
+        </section>
+        <button class="scroll-button right" id="scrollRight">
+            <img src="../Media/s_right_arrow.png" alt="Right Arrow">
+        </button>
+    </div>
+    <div class="section__container">
+      <div class="header">
+        <p>TESTIMONIALS</p>
+        <h1>What our clients say about us.</h1>
+      </div>
+      <div class="testimonials__grid">
+        <div class="card">
+          <span><i class="ri-double-quotes-l"></i></span>
+          <p>
+            I've been working with these guys for a long time and I can say that
+            my house is in the perfect hands.
+          </p>
+          <hr />
+          <img src="../Media/bg-img.jpg" alt="user" />
+          <p class="name">Allan Collins</p>
+        </div>
+        <div class="card">
+          <span><i class="ri-double-quotes-l"></i></span>
+          <p>
+            Working with Sentry Oak is just great, every problem in my house is
+            solved in a matter of days.
+          </p>
+          <hr />
+          <img src="../Media/bg-img.jpg" alt="user" />
+          <p class="name">Clay Washington</p>
+        </div>
+        <div class="card">
+          <span><i class="ri-double-quotes-l"></i></span>
+          <p>
+            Once a pipe burst in my kitchen and an hour later it was already
+            repaired, thanks to Sentry Oak.
+          </p>
+          <hr />
+          <img src="../Media/bg-img.jpg" alt="user" />
+          <p class="name">Tanya Grant</p>
+        </div>
+      </div>
+    </div>
+      <div class="footer">
+
+        <div class="fcontainer">
+            <h4>For more Information</h4>
+            <ul>
+                <li><a href="../footer/html/list.html">List your property</a></li>
+                <li><a href="../Html/index.html">Stays</a></li>
+                <li><a href="../footer/html/chat.html">Customer Support</a></li>
+                <li><a href="../footer/html/aboutus.html">About us</a></li>
+                <li><a href="https://wa.me/918591131447" target="_blank">Contact us</a></li>
+            </ul>
+            <div class="contact-info">
+                <h4>Contact Information</h4>
+                <p>Address: Malad, Mumbai, 400097</p>
+                <p>Phone: +91 85911 31447</p>
+                <p>Email: <a href="mailto:stayatlasin@gmail.com" style="color: #ffffff;">stayatlasin@gmail.com</a></p>
+            </div>
+            <div class="social-icons">
+                <a href="https://wa.me/918591131447" target="_blank" class="fab fa-whatsapp" aria-label="WhatsApp"></a>
+                <a href="https://www.instagram.com/stayatlas.in?igsh=NXU2NXlhYmRlemJh" target="_blank" class="fab fa-instagram" aria-label="Instagram"></a>
+                <a href="https://www.facebook.com/yourpage" target="_blank" class="fab fa-facebook" aria-label="Facebook"></a>
+            </div>
+            <div class="policies">
+                <h4>Policies</h4>
+                <p>
+                    <a href="../footer/html/term.html" style="color: #ffffff; text-decoration: none;">Terms & Conditions</a> | 
+                    <a href="../footer/html/PrivacyPolicy.html" style="color: #ffffff; text-decoration: none;">Privacy Policy</a> | 
+                    <a href="../footer/html/Cancellation Policy.html" style="color: #ffffff; text-decoration: none;">Cancellation Policy</a>
+                </p>
+            </div>
+            <div class="intro-text">
+                <p>"Whether you want a quaint abode among the woods, a luxurious stay, or a homely vibe for your vacations - we, at Stayatlas & Experiences, strive to provide the best, striking the right balance between luxury and homely convenience."</p>
+            </div>
+            <div class="copyright"> 
+                <p>&copy; 2025 Staysatlas | All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+    <script src="../Js/script.js"></script>
+</body>
+
+</html>
+<!-- {% if messages %}
+    <div id="popup-box" class="popup">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        <button id="close-popup" class="close-btn">&times;</button>
+    </div>
+{% endif %} -->
+
+<style>    
+    .popup {
+        position: fixed;
+        top: 15%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 255, 255, 0.9);
+        color: black;
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        font-size: 16px;
+        z-index: 1000;
+        display: none;
+    }
+    .close-btn {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        color: black;
+    }
+
+    /*Review Pop-up styles */
+    .rpopup {
+        display: none;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+      }
+      .rpopup-content {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        width: 300px;
+      }
+
+    /*
+    .search-bar-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: -50px; /* Adjust according to your hero section */ /*
+        position: absolute;
+        width: 100%;
+    }
+    
+    .search-bar {
+        display: flex;
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        gap: 15px;
+        align-items: center;
+        width: 80%;
+        max-width: 1100px;
+    }
+    
+    .search-input {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+    
+    .search-input label {
+        font-size: 12px;
+        font-weight: bold;
+        color: #444;
+        margin-bottom: 5px;
+    }
+    
+    .search-input input {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+        width: 100%;
+    }
+    
+    .search-btn {
+        background-color: black;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    
+    .search-btn:hover {
+        background-color: #444;
+    }
+    
+    /* Responsive Design */ /*
+    @../Media (max-width: 768px) {
+        .search-bar {
+            flex-direction: column;
+            width: 90%;
+            gap: 10px;
+        }
+    
+        .search-btn {
+            width: 100%;
+        }
+    }*/    
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var popup = document.getElementById("popup-box");
+        var closeButton = document.getElementById("close-popup");
+        if (popup) {
+            popup.style.display = "block";
+            setTimeout(function() {
+                popup.style.display = "none";
+            }, 30000);  // Auto-close after 10 seconds
+            // Manual close when the button is clicked
+            closeButton.addEventListener("click", function() {
+                popup.style.display = "none";
+            });
+        }
+    });
+
+    /*
+    document.addEventListener("DOMContentLoaded", function () {
+        const guestInput = document.querySelector(".search-input input[readonly]");
+        guestInput.addEventListener("click", function () {
+            alert("Open guest selection modal!");
+        });
+        // Set Min Date for Check-in & Check-out
+        let today = new Date().toISOString().split('T')[0];
+        document.getElementById("checkin").setAttribute("min", today);
+        document.getElementById("checkout").setAttribute("min", today);
+    
+        // Apply Guest Selection
+        window.applyGuests = function () {
+            let adults = document.getElementById("adults").value;
+            let children = document.getElementById("children").value;
+            let rooms = document.getElementById("rooms").value;
+            document.getElementById("guests").value = `${adults} Adults, ${children} Children, ${rooms} Rooms`;
+        };
+    }); */
+
+    /* const addReviewBtn = document.getElementById('addReviewBtn');
+    const reviewrpopup = document.getElementById('reviewrpopup');
+    const submitReviewBtn = document.getElementById('submitReviewBtn');
+    const closerpopupBtn = document.getElementById('closerpopupBtn');
+    const reviewText = document.getElementById('reviewText');
+    const testimonialsGrid = document.querySelector('.testimonials__grid');
+
+    addReviewBtn.addEventListener('click', () => {
+        reviewrpopup.style.display = 'flex';
+    });
+
+    closerpopupBtn.addEventListener('click', () => {
+        reviewrpopup.style.display = 'none';
+      });
+
+    submitReviewBtn.addEventListener('click', () => {
+        const newReview = document.createElement('div');
+        newReview.classList.add('card');
+        newReview.innerHTML = `
+          <span><i class="ri-double-quotes-l"></i></span>
+          <p>${reviewText.value}</p>
+          <hr />
+          <img src="{% static 'booking/images/bg-img.jpg' %}" alt="user" />
+          <p class="name">New Client</p>
+        `;
+        testimonialsGrid.appendChild(newReview);
+        reviewText.value = '';
+        reviewrpopup.style.display = 'none';
+      }); */
+</script>

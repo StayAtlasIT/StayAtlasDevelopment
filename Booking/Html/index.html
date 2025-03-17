@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="../../Home/Media/stay.PNG" style="border-radius: 100%;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayAtlas</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+    <!--header-->
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stayatlas - Luxury Villa in Panvel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../Css/subhead.css">
+</head>
+<body>
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="header-bcontainer">
+            <div class="logo">StayAtlas</div>
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="#">HOME</a>
+                <div class="dropdown">
+                    <button class="dropbtn">LOCATION</button>
+                    <div class="dropdown-content">
+                        <a href="#">Panvel</a>
+                        <a href="#">Khanavale</a>
+                        <a href="#">Other Locations</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">EXCLUSIVE</button>
+                    <div class="dropdown-content">
+                        <a href="#">Villas</a>
+                        <a href="#">Resorts</a>
+                        <a href="#">Pool Homes</a>
+                    </div>
+                </div>
+                <a href="https://wa.me/918591131447" target="_blank">CONTACT US</a>
+
+            </div>
+        </div>
+    </header>
+    <!-- Villa Header -->
+    <div class="villa-header-wrapper">
+        <div class="villa-header">
+            <h1 class="villa-title">Luxury - 3 BHK - AC - Pool Villa - in Panvel</h1>
+            <div class="action-buttons">
+                <p></p>
+                <button class="action-btn" id="shareBtn">
+                    <i class="fas fa-share"></i> Share
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Section -->
+    <div class="gallery-bcontainer">
+        <div class="gallery-grid">
+            <div class="gallery-main">
+                <img src="../Media/frontv.jpg" alt="Villa Main View" class="gallery-image">
+                <button class="view-photos-btn" id="viewPhotosBtn">
+                    <i class="fas fa-image"></i> View Photos
+                </button>
+            </div>
+            <div class="gallery-sub">
+                <div class="gallery-item">
+                    <img src="../Media/bdroom.jpg" alt="Bedroom" class="gallery-image">
+                </div>
+                <div class="gallery-item">
+                    <img src="../Media/bdroom2.jpg" alt="Pool View" class="gallery-image">
+                    <div class="more-indicator">+25 More</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo Modal -->
+    <div class="modal" id="photoModal">
+        <div class="modal-header">
+            <button class="close-btn" id="closeModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="photo-counter"><span id="currentPhoto">1</span>/<span id="totalPhotos">30</span></div>
+        </div>
+        <div class="modal-content">
+            <button class="image-nav prev-btn" id="prevBtn">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="modal-image-bcontainer">
+                <img src="../Media/outsitv.jpg" alt="Villa View" class="modal-image" id="modalImage">
+            </div>
+            <button class="image-nav next-btn" id="nextBtn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        <div class="image-caption" id="imageCaption">Outside sitting area</div>
+    </div>
+
+<!-- Login Modal -->
+<div class="modal" id="loginModal" style="display:none;">
+    <div class="modal-content">
+        <span class="close" id="closeLoginModal">&times;</span>
+        <div id="loginContent"></div>
+    </div>
+</div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="share-dialog" id="shareDialog">
+        <div class="dialog-header">
+            <h3 class="dialog-title">Share this place</h3>
+            <button class="close-btn" id="closeShareDialog">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="share-preview">
+            <img src="../Media/frontv.jpg" alt="Villa Preview" class="preview-img">
+            <div class="preview-info">
+                <h4>Villa in Khanavale • ★4.93</h4>
+                <p>3 bedrooms • 3 beds • 3 bathrooms</p>
+            </div>
+        </div>
+        <div class="share-options">
+            <div class="share-option" id="shareEmail">
+                <div class="share-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="share-label">Email</div>
+            </div>
+            <div class="share-option" id="shareMessages">
+                <div class="share-icon">
+                    <i class="fas fa-comment"></i>
+                </div>
+                <div class="share-label">Messages</div>
+            </div>
+            <div class="share-option" id="shareWhatsApp">
+                <div class="share-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div class="share-label">WhatsApp</div>
+            </div>
+            <div class="share-option" id="shareFacebook">
+                <div class="share-icon">
+                    <i class="fab fa-facebook"></i>
+                </div>
+                <div class="share-label">Facebook</div>
+            </div>
+        </div>
+    </div>
+    <!--main-->
+    <div class="container">
+        <div class="left-content">
+            <h1>Stayatlas - Highland Villa 8BHK</h1><br>
+            <p1>Panchgani, Maharashtra</p1><br>
+            <br>
+            <div class="location">
+                <span class="location-icon"></span>Post Bhilar Taluka Mahabaleshwar District Satara Landmark: Behind shivnya palace Panchgani Maharashtra - 412805
+            </div>
+            
+            <div class="views">
+                <span class="view-count">5.0 ★</span>
+            </div>
+            
+            <div class="tags">
+                <div class="tag">
+                    <span class="tag-icon"><i class="fa-solid fa-house"></i></span> 8BHK
+                </div>
+                <div class="tag">
+                    <span class="tag-icon"><i class="fa-solid fa-person-walking-luggage"></i></span> 10 MAX GUEST
+                </div>
+                <div class="tag">
+                    <span class="tag-icon"><i class="fa-solid fa-sink"></i></span> 8 BATH
+                </div>
+            </div>
+            
+            <h2>Property Description</h2>
+            <p class="description">
+                This bella is wrapped in the most placid region of Maharashtra. Here we present our 8BHK Highland Villa in Panchgani. You are bound to come across the most stunning views. This luxury villa in Panchgani is eloquently furnished with leisure amenities. Comfortable seating, a lambent pool, a composed patio. An ideal place to host events and relax with friends and family. (bedrooms, lawn, kitchen, king-size beds, pet friendly)
+            </p>
+            
+            <div class="action-buttons">
+                <button class="action-btn" >PROPERTY BROCHURE</button>
+                <button class="action-btn" onclick="window.open('../Media/videoplayback.mp4', '_blank')">PROPERTY VIDEOS</button>
+
+            </div>
+            
+            <h2>Amenities</h2>
+            <div class="amenities-grid">
+                <div class="amenity">
+                    <div class="amenity-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="ac">
+                        <path fill="#e0e1ef" d="M20.79,14.53H3.08a2,2,0,0,1-2-1.8l-.61-6a2,2,0,0,1,2-2.2H21.4a2,2,0,0,1,2,2.2l-.61,6A2,2,0,0,1,20.79,14.53Z"></path>
+                        <line x1="8.11" x2="7.76" y1="17.54" y2="19.51" fill="#e0e1ef"></line>
+                        <line x1="15.76" x2="16.11" y1="17.54" y2="19.51" fill="#e0e1ef"></line>
+                        <line x1="4.28" x2="3.59" y1="17.59" y2="19.46" fill="#e0e1ef"></line>
+                        <line x1="19.59" x2="20.28" y1="17.59" y2="19.46" fill="#e0e1ef"></line>
+                        <path fill="#8b8891" d="M3.83,14.53h0a1.67,1.67,0,0,1,1.64-2H18.4a1.67,1.67,0,0,1,1.64,2h0"></path>
+                        <path d="M8.2,17a.5.5,0,0,0-.58.41l-.35,2a.5.5,0,0,0,.41.58h.09a.5.5,0,0,0,.49-.41l.35-2A.5.5,0,0,0,8.2,17Zm3.74,0a.5.5,0,0,0-.5.5v2a.5.5,0,0,0,1,0v-2A.5.5,0,0,0,11.93,17Zm-7.49.09a.5.5,0,0,0-.64.3l-.68,1.88a.5.5,0,1,0,.94.34l.68-1.88A.5.5,0,0,0,4.45,17.12ZM23.29,4.86A2.56,2.56,0,0,0,21.4,4H2.47a2.55,2.55,0,0,0-1.89.84A2.48,2.48,0,0,0-.05,6.77l.61,6A2.51,2.51,0,0,0,3.08,15h.65A.46.46,0,0,0,4,15H19.83a.43.43,0,0,0,.2,0,.56.56,0,0,0,.22,0h.53a2.52,2.52,0,0,0,2.52-2.25l.61-6A2.48,2.48,0,0,0,23.29,4.86ZM4.32,14a1.15,1.15,0,0,1,1.15-1H18.4a1.15,1.15,0,0,1,1.15,1Zm18-1.35A1.52,1.52,0,0,1,20.79,14h-.23a2.15,2.15,0,0,0-2.15-2H5.47a2.16,2.16,0,0,0-1.68.79A2.12,2.12,0,0,0,3.33,14H3.08a1.52,1.52,0,0,1-1.53-1.35L1.39,11h21.1ZM22.59,10H1.28L.94,6.67a1.46,1.46,0,0,1,.38-1.14A1.55,1.55,0,0,1,2.47,5H21.4a1.55,1.55,0,0,1,1.15.51,1.46,1.46,0,0,1,.38,1.14ZM13.43,8h-3a.5.5,0,0,0,0,1h3a.5.5,0,0,0,0-1Zm2.24,9a.5.5,0,0,0-.41.58l.35,2a.5.5,0,0,0,.49.41h.09a.5.5,0,0,0,.41-.58l-.35-2A.5.5,0,0,0,15.67,17Zm4.39.37a.5.5,0,1,0-.94.34l.68,1.88a.5.5,0,0,0,.94-.34Z"></path>
+                      </svg></div>
+                    <div>Air Conditioner</div>
+                </div>
+                <div class="amenity">
+                    <div class="amenity-icon"><i class="fas fa-parking"></i> <!-- Parking Icon --></div>
+                    <div>Private Parking</div>
+                </div>
+                <div class="amenity">
+                    <div class="amenity-icon"><i class="fas fa-fire"></i> <!-- BBQ Icon -->
+                    </div>
+                    <div>Barbeque (Chargeable)</div>
+                </div>
+                <div class="amenity">
+                    <div class="amenity-icon"><i class="fas fa-burn"></i> <!-- Alternative Heating Icon --></div>
+                    <div>Microwave</div>
+                </div>
+                <div class="amenity">
+                    <div class="amenity-icon"><i class="fas fa-couch"></i> <!-- Sofa Icon --></div>
+                    <div>Sofa</div>
+                </div>
+                <div class="amenity">
+                    <div class="amenity-icon"><i class="fas fa-utensils"></i> <!-- Dining Table Icon --></div>
+                    <div>Dining Table</div>
+                </div>
+                <div class="amenity">
+                    <div class="amenity-icon"><i class="fas fa-tv"></i> <!-- Modern TV Icon --></div>
+                    <div>Flat Screen Tv</div>
+                </div>
+                <div class="amenity">
+                    <div class="amenity-icon"><i class="fas fa-door-closed"></i> <!-- Alternative Wardrobe Icon --></div>
+                    <div>Wardrobe</div>
+                </div>
+                <div class="amenity">
+                    <div class="amenity-icon"><i class="fas fa-snowflake"></i> <!-- Refrigerator Icon --></div>
+                    <div>Refrigerator</div>
+                </div>
+                <div class="amenity">
+                    <div class="amenity-icon"><i class="fas fa-chair"></i> <!-- Outdoor Furniture Icon --></div>
+                    <div>Outdoor Furniture</div>
+                </div>
+                <div class="amenity">
+                    <div class="amenity-icon"><i class="fa-solid fa-wifi"></i></div>
+                    <div>WiFi</div>
+                </div>
+                <div class="amenity">
+                    <div class="amenity-icon"><i class="fas fa-seedling"></i> <!-- Garden Icon --></div>
+                    <div>Garden</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="right-content">
+            <div class="booking-card">
+                <div class="booking-header">
+                    <div class="price">From ₹ / Person</div>
+                </div>
+                
+                <div class="guest-field" id="guestField">
+                    <div class="label">Guests</div>
+                    <div id="guestDisplay">Guest & Pet</div>
+                    
+                    <div class="guest-selector" id="guestSelector">
+                        <div class="guest-type">
+                            <div>Adults</div>
+                            <div class="counter">
+                                <button class="counter-btn">-</button>
+                                <div class="counter-display">1</div>
+                                <button class="counter-btn">+</button>
+                            </div>
+                        </div>
+                        <div class="guest-type">
+                            <div>Pets</div>
+                            <div class="counter">
+                                <button class="counter-btn">-</button>
+                                <div class="counter-display">0</div>
+                                <button class="counter-btn">+</button>
+                            </div>
+                        </div>
+                        <div class="guest-type">
+                            <div>Children Under 6</div>
+                            <div class="counter">
+                                <button class="counter-btn">-</button>
+                                <div class="counter-display">0</div>
+                                <button class="counter-btn">+</button>
+                            </div>
+                        </div>
+                        <div class="guest-actions">
+                            <button class="apply-btn">APPLY</button>
+                            <button class="clear-btn">CLEAR</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="check-date-field" id="checkDateField">
+                    <div>Check in - Check out</div>
+                    <input type="text" id="datePicker" placeholder="Select Dates" readonly>
+                </div>
+                
+                <div class="discount-field">
+                    <div>Have a Discount Coupon?</div>
+                </div>
+                
+                <button class="book-btn">VIEW OFFERS</button>
+                
+                <table class="tariff-table">
+                    <tr>
+                        <td>Tariff</td>
+                        <td style="text-align: right;" id="tariff">₹5000</td>
+                    </tr>
+                    <tr>
+                        <td>Rs. x nights</td>
+                        <td style="text-align: right;" id="perNight">₹20000</td>
+                    </tr>
+                    <tr>
+                        <td>Flat 10% off</td>
+                        <td style="text-align: right;" id="discount">-₹0</td>
+                    </tr>
+                    <tr>
+                        <td>GST (18%)</td>
+                        <td style="text-align: right;" id="gst">+₹0</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td><strong>Total Amount</strong></td>
+                        <td style="text-align: right;"><strong id="totalAmount">₹0</strong></td>
+                    </tr>
+                </table>
+                
+                <div class="small-text">
+                    You will find the best rates on our website. No discounts will be given on phone.
+                </div>
+                
+                <button class="book-btn">BOOK NOW</button>
+                <button class="contact-btn">CONTACT YOUR HOST<br>+91 8591131447 </button>
+            </div>
+        </div>
+    </div>
+    <div class="section__container">
+      <div class="header">
+        <p></p>
+        <h1>What our clients say about us.</h1>
+      </div>
+      <div class="testimonials__grid">
+        <div class="card">
+          <span><i class="ri-double-quotes-l"></i></span>
+          <p>
+            I've been working with these guys for a long time and I can say that
+            my house is in the perfect hands.
+          </p>
+          <hr />
+          <img src="../Media/bbqv.jpg" alt="user" />
+          <p class="name">Allan Collins</p>
+        </div>
+        <div class="card">
+          <span><i class="ri-double-quotes-l"></i></span>
+          <p>
+            Working with Sentry Oak is just great, every problem in my house is
+            solved in a matter of days.
+          </p>
+          <hr />
+          <img src="../Media/bdroom.jpg" alt="user" />
+          <p class="name">Clay Washington</p>
+        </div>
+        <div class="card">
+          <span><i class="ri-double-quotes-l"></i></span>
+          <p>
+            Once a pipe burst in my kitchen and an hour later it was already
+            repaired, thanks to Sentry Oak.
+          </p>
+          <hr />
+          <img src="../Media/bathroomv2.jpg" alt="user" />
+          <p class="name">Tanya Grant</p>
+        </div>
+      </div>
+        <h4>No two homes are alike!</h4>
+        <p>
+          Our Elite network, combined with your personal needs, allows us to
+          create a home plan specifically tailored to you.
+        </p>
+      </div>
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Stayatlas - Footer</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="stylesheet" href="../footer/css/footer.css">
+        <style>
+            .footer {
+                background: linear-gradient(circle,#0e3226, #eeeeee); /* Fixed radial gradient */
+            }
+            .footer a {
+                transition: color 0.3s ease; /* Smooth color transition on hover */
+            }
+            .footer a:hover {
+                color: #ffcc00; /* Change color on hover */
+            }
+        </style>
+    </head>
+    <body>
+    <div class="footer">
+        <div class="fcontainer">
+            <h3>For more Information</h3>
+            <ul>
+                <li><a href="../footer/html/list.html">List your property</a></li>
+                <li><a href="#">Stays</a></li>
+                <li><a href="../footer/html/chat.html">Customer Support</a></li>
+                <li><a href="../footer/html/aboutus.html">About us</a></li>
+                <li><a href="Home\Html\index.html">Home</a></li> <!-- Link to main page -->
+                <li><a href="https://wa.me/918591131447" target="_blank">Contact us</a></li>
+            </ul>
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <p>Address: Malad, Mumbai, 400097</p>
+                <p>Phone: +91 85911 31447</p>
+                <p>Email: <a href="mailto:stayatlasin@gmail.com" style="color: #ffffff;">stayatlasin@gmail.com</a></p>
+            </div>
+            <div class="social-icons">
+                <a href="https://wa.me/918591131447" target="_blank" class="fab fa-whatsapp" aria-label="WhatsApp"></a>
+                <a href="https://www.instagram.com/stayatlas.in?igsh=NXU2NXlhYmRlemJh" target="_blank" class="fab fa-instagram" aria-label="Instagram"></a>
+                <a href="https://www.facebook.com/yourpage" target="_blank" class="fab fa-facebook" aria-label="Facebook"></a>
+            </div>
+            <div class="policies">
+                <h3>Policies</h3>
+                <p>
+                    <a href="../footer/html/term.html" style="color: #ffffff; text-decoration: none;">Terms & Conditions</a> | 
+                    <a href="../footer/html/PrivacyPolicy.html" style="color: #ffffff; text-decoration: none;">Privacy Policy</a> | 
+                    <a href="../footer/html/Cancellation Policy.html" style="color: #ffffff; text-decoration: none;">Cancellation Policy</a>
+                </p>
+            </div>
+            <div class="intro-text">
+                <p>"Whether you want a quaint abode among the woods, a luxurious stay, or a homely vibe for your vacations - we, at Stayatlas & Experiences, strive to provide the best, striking the right balance between luxury and homely convenience."</p>
+            </div>
+            <div class="copyright"> 
+                <p>&copy; 2025 Staysatlas | All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+    </body>
+    </html>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="../Js/script.js"></script>
+<script>
+    document.getElementById('loginBtn').onclick = function() {
+        document.getElementById('loginModal').style.display = 'block';
+        fetch('new2.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('loginContent').innerHTML = data;
+            });
+    };
+
+    document.getElementById('closeLoginModal').onclick = function() {
+        document.getElementById('loginModal').style.display = 'none';
+    };
+
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('loginModal')) {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+    };
+</script>

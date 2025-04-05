@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 {% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,9 +8,30 @@
     <link rel="stylesheet" href="/static/booking/css/home/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/static/booking/css/home/footer.css">
-    <link rel="stylesheet" href="/static/booking/css/home/review.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
     <style>
+        .footer {
+            background: #3d3c3c;
+            color: #ffffff;
+            padding: 40px 0;
+            text-align: center;
+            position: relative;
+            width: 100%; /* Full width */
+        }
+        
+        .footer .fcontainer {
+            width: 80%;
+            margin: auto;
+        }
+        
+        div.fcontainer{
+            color: #ffffff;
+            background: #3d3c3c;
+            padding: 30px;
+            margin: 0px 150px 0px 150px;
+        }
         .footer {
             background: linear-gradient(circle,#0e3226, #eeeeee); /* Fixed radial gradient */
         }
@@ -21,6 +42,202 @@
         .footer a:hover {
             color: #ffcc00; /* Change color on hover */
         }
+
+        /* Send Request Button */
+            button[type="submit"] {
+                width: 100%;
+                background-color: #c9a46d;
+                color: white;
+                padding: 12px;
+                font-size: 16px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            button[type="submit"]:hover {
+                background-color: #b28b5a;
+            }
+
+        /* Amenities Dropdown Container */
+.amenities-dropdown-container {
+    position: relative;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+/* Amenities Dropdown Header */
+.amenities-dropdown-header {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    min-height: 40px;
+    gap: 5px;
+    position: relative;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Amenities Dropdown Menu */
+.amenities-dropdown-menu {
+    display: none;
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    position: relative;
+    width: 90%;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    max-height: 250px;
+    overflow-y: auto;
+    box-shadow: 0px 4px 6px #0000001a;
+}
+
+.amenities-dropdown-menu label {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Ensure proper spacing between checkbox and text */
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px;
+    width: 100%;
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* Force checkboxes to extreme left */
+.amenities-dropdown-menu input[type="checkbox"] {
+    position: absolute;
+    left: 100px; /* Push to extreme left */
+    transform: translateX(0); /* Ensures no accidental shifting */
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    appearance: auto;
+}
+
+/* Ensure icons and text align properly */
+.amenities-dropdown-menu span {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between icon and text */
+    margin-left: 25px; /* Push text and icons right to align properly */
+}
+
+/* Checked state styling */
+.amenities-dropdown-menu input[type="checkbox"]:checked {
+    background-color: #000;
+    border-color: #000;
+}
+
+/* Checkbox tick effect */
+.amenities-dropdown-menu input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Hover effect */
+.amenities-dropdown-menu label:hover {
+    background: #f5f5f5;
+}
+
+/* Selected Amenities */
+.selected-amenities-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding-top: 5px;
+}
+
+/* Amenity Tags */
+.amenity-tag {
+    background: #e0e0e0;
+    color: #333;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    max-width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px solid #bbb;
+}
+
+/* Remove Amenity Button */
+.remove-amenity {
+    background: #000000;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    font-size: 12px;
+    line-height: 1;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 6px;
+}
+
+.close-amenities-dropdown {
+    width: 40px !important;  /* Force width */
+    height: 30px !important; /* Adjust height */
+    padding: 5px ;
+    border: none !important;
+    font-size: 18px;
+    cursor: pointer;  
+    color: #000000;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+}
+
+@media (max-width: 321px) {
+    .close-amenities-dropdown{
+        left: 690px  !important ; 
+    }
+    
+}
+
+/* Align "Other:" label and input field properly */
+.amenity-item {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between "Other:" text and input */
+    width: 100%;
+}
+
+/* Custom Amenity Input Field */
+#custom-amenity {
+    flex-grow: 1; /* Make input take available space */
+    min-width: 200px; /* Ensure a proper width */
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+}
     </style>
 </head>
 <body>
@@ -30,11 +247,11 @@
         <div class="buttons">
             <ul class="nav-links">
                 <li><a href="#">Home</a></li>
-                <li><a href="#">Explore</a></li>
+                <li><a href="{% url 'explore' %}">Explore</a></li>
                 <li><a href="{% url 'exclusive' %}">Exclusive</a></li>
                 <li><a href="#" id="property-btn">List Your Property</a></li>
             </ul>
-            <button class="login" id="login-btn">Login</button>
+            <button class="login" id="login-btn" onclick="location.href='{% url 'login' %}'">Login</button>
             <!--<button class="login" id="login-btn" onclick="window.location.href='{% url 'login' %}'">Login</button>-->
 
         </div>
@@ -43,10 +260,10 @@
     <div class="sidebar" id="sidebar">
         <a href="#" class="closebtn" id="sidebar-closebtn">&times;</a>
         <a href="#"><i class="fas fa-home"></i> Home</a>
-        <a href="#"><i class="fas fa-globe-asia"></i> Explore</a>
+        <a href="{% url 'explore' %}"><i class="fas fa-globe-asia"></i> Explore</a>
         <a href="{% url 'exclusive' %}"><i class="fas fa-star"></i> Exclusive</a>
         <a href="#" id="sidebar-property-btn"><i class="fas fa-building"></i> List Your Property</a>
-        <button class="sidebar-login" id="sidebar-login-btn" onclick="window.location.href='{% url 'login' %}'">Login</button>
+        <button class="sidebar-login" id="sidebar-login-btn" onclick="location.href='{% url 'login' %}'">Login</button>
     </div>
 
     <!-- Slideshow Section -->
@@ -63,6 +280,7 @@
             </div>
         </div>
     </section>
+    
 
     <!-- Property Request Form -->
     <div id="property-form-container" class="hidden">
@@ -74,6 +292,7 @@
                 
                 <input type="text" name="first_name" placeholder="First Name *" required>
                 <input type="text" name="last_name" placeholder="Last Name *" required>
+                <input type="text" name="villa_name" placeholder="Villa Name *" required>
                 <input type="email" name="email" placeholder="Email ID *" required>
                 <input type="tel" name="mobile" placeholder="Mobile Phone *" required>
                 <label for="location">Select Your Property Location *</label>
@@ -127,16 +346,53 @@
                     <option value="15">15</option>
                 </select>
                 <!-- Custom room number input (hidden by default) -->
-                <input type="number" id="customRooms" name="custom_rooms" placeholder="Enter Number of Rooms (5-15)" min="5" max="15" style="display: none;">         
+                <input type="number" id="customRooms" name="custom_rooms" placeholder="Enter Number of Rooms (5-15)" min="5" max="15" style="display: none;">
+                <label for="beds">Beds</label>
+                <input type="number" id="beds" name="beds" min="1" required>
+                
+                <label for="baths">Baths</label>
+                <input type="number" id="baths" name="baths" min="1" required>
+                
+               <!-- Amenities Section (Updated) -->
+                <label for="property-amenities">Select Amenities</label>
+                <div class="amenities-dropdown-container">
+                    <div class="amenities-dropdown-header" onclick="toggleAmenitiesDropdown(event)">
+                        <span>Select Amenities...</span>
+                        <div class="selected-amenities-list" id="selected-amenities-list"></div>
+                        {% comment %} <button class="close-amenities-dropdown" onclick="closeAmenitiesDropdown(event)">☰</button> {% endcomment %}
+                    </div>
+
+                    <div class="amenities-dropdown-menu" id="amenities-dropdown">
+                        {% for amenity in amenities %}
+                            <label class="amenity-item">
+                                {% comment %} <input type="checkbox"  name="selected_amenities" value="{{ amenity.name }}"> {% endcomment %}
+                                <input type="checkbox" class="amenity-checkbox" name="amenities" value="{{ amenity.id }}" data-name="{{ amenity.name }}">
+                                <i class="{{ amenity.icon }}"></i> {{ amenity.name }}
+                            </label>
+                        {% empty %}
+                            <p>No amenities available.</p>
+                        {% endfor %}
+                        {% comment %} <!-- Custom Amenity -->
+                        <label class="amenity-item">Other: <input type="text" id="custom-amenity" placeholder="Add custom"></label>
+                        <button type="button" onclick="addCustomAmenity()">Add</button> {% endcomment %}
+                    </div>
+                </div>
+
+                <label for="price">Price (₹):</label>
+                <input type="number" id="price" name="price" min="10000" max="500000" required>
+
                 <textarea name="description" rows="4" placeholder="Describe Your Property"></textarea>            
                 <label for="photos">Photos (Upload)</label>
                 <input type="file" name="photos" accept="image/*" multiple>
+                <!-- Send Request Button -->
                 <button type="submit">Send Request</button>
             </form>
+            </div>
         </div>
-    </div>
 
-    <!-- Login Form -->
+     
+    <br><br><br>
+    <!-- Trending Villas -->
     <div class="website-container">
         <h2>Trending Villas</h2>
         <button class="scroll-button left" id="scrollLeft">
@@ -298,119 +554,7 @@
             <img src="{% static 'booking/images/s_right_arrow.png' %}" alt="Right Arrow">
         </button>
     </div>
-    <div class="rev-section">
 
-        <h2 class="title1">Our Guests Love Us</h2>
-        <p class="note1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil laboriosam possimus perferendis non error neque.</p>
-        
-        <div class="reviews1">
-        
-        <div class="review1">
-           <div class="head-review1">
-              <img src="{% static 'booking/images/bg-img.jpg' %}" width="250px">
-           </div>
-           <div class="body-review1">
-              <div class="name-review1">Nathan D.</div>
-              <div class="place-review1">Germany</div>
-              <div class="rating1">
-                 <i class="fas fa-star"></i>
-                 <i class="fas fa-star"></i>
-                 <i class="fas fa-star"></i>
-                 <i class="fas fa-star"></i>
-                 <i class="fas fa-star-half"></i>
-              </div>
-              <div class="desc-review1">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Obcaecati eligendi suscipit illum officia ex eos.</div>
-           </div>
-        </div>
-        <div class="review1">
-           <div class="head-review1">
-              <img src="{% static 'booking/images/bg-img.jpg' %}" width="250px">
-           </div>
-           <div class="body-review1">
-              <div class="name-review1">Mary Will</div>
-              <div class="place-review1">Paris</div>
-              <div class="rating1">
-                 <i class="fas fa-star"></i>
-                 <i class="fas fa-star"></i>
-                 <i class="fas fa-star"></i>
-                 <i class="fas fa-star"></i>
-                 <i class="fas fa-star"></i>
-              </div>
-              <div class="desc-review1">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Obcaecati eligendi suscipit illum officia ex eos.</div>
-           </div>
-        </div>
-        <div class="review1">
-            <div class="head-review1">
-               <img src="{% static 'booking/images/bg-img.jpg' %}" width="250px">
-            </div>
-            <div class="body-review1">
-               <div class="name-review1">Mary Will</div>
-               <div class="place-review1">Paris</div>
-               <div class="rating1">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-               </div>
-               <div class="desc-review1">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Obcaecati eligendi suscipit illum officia ex eos.</div>
-            </div>
-         </div>
-         <div class="review1">
-            <div class="head-review1">
-               <img src="{% static 'booking/images/bg-img.jpg' %}" width="250px">
-            </div>
-            <div class="body-review1">
-               <div class="name-review1">Mary Will</div>
-               <div class="place-review1">Paris</div>
-               <div class="rating1">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-               </div>
-               <div class="desc-review1">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Obcaecati eligendi suscipit illum officia ex eos.</div>
-            </div>
-         </div>
-         <div class="review1">
-            <div class="head-review1">
-               <img src="{% static 'booking/images/bg-img.jpg' %}" width="250px">
-            </div>
-            <div class="body-review1">
-               <div class="name-review1">Mary Will</div>
-               <div class="place-review1">Paris</div>
-               <div class="rating1">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-               </div>
-               <div class="desc-review1">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Obcaecati eligendi suscipit illum officia ex eos.</div>
-            </div>
-         </div>
-        <div class="review1">
-           <div class="head-review1">
-              <img src="{% static 'booking/images/bg-img.jpg' %}" width="250px">
-           </div>
-           <div class="body-review1">
-              <div class="name-review1">Kevin Tuck</div>
-              <div class="place-review1">New York</div>
-              <div class="rating1">
-                 <i class="fas fa-star"></i>
-                 <i class="fas fa-star"></i>
-                 <i class="fas fa-star"></i>
-                 <i class="fas fa-star"></i>
-                 <i class="fas fa-star-half"></i>
-              </div>
-              <div class="desc-review1">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Obcaecati eligendi suscipit illum officia ex eos.</div>
-           </div>
-        </div>
-        
-        </div>
-        
-        </div>
     <div class="footer">
         <div class="fcontainer">
             <h3>For more Information</h3>
@@ -462,7 +606,7 @@
     </div>
 {% endif %}
 
-<style>
+<style>    
     .popup {
         position: fixed;
         top: 15%;
@@ -505,4 +649,152 @@
             });
         }
     });
+
+        // Toggle the amenities dropdown menu
+function toggleAmenitiesDropdown(event) {
+    event.stopPropagation(); // Prevent immediate closing when clicking inside
+    const dropdown = document.getElementById("amenities-dropdown");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+
+// Close the dropdown when clicking outside
+document.addEventListener("click", function(event) {
+    const dropdown = document.getElementById("amenities-dropdown");
+    const dropdownHeader = document.querySelector(".amenities-dropdown-header");
+
+    if (dropdown.style.display === "block" && !dropdown.contains(event.target) && !dropdownHeader.contains(event.target)) {
+        dropdown.style.display = "none";
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("Amenities loaded:", document.querySelectorAll(".amenity-checkbox").length);
+});
+
+
+// Update selected amenities list when checkboxes are clicked
+function updateSelectedAmenitiesList() {
+    const selectedContainer = document.getElementById("selected-amenities-list");
+    selectedContainer.innerHTML = ""; // Clear existing list
+
+    const checkboxes = document.querySelectorAll(".amenities-dropdown-menu input[type='checkbox']:checked");
+
+    checkboxes.forEach(checkbox => {
+        const amenityId = checkbox.value;  // Amenity ID
+        const amenityName = checkbox.getAttribute("data-name");  // Amenity Name
+        addAmenityTag(amenityId, amenityName); // Pass both ID and Name
+    });
+
+    adjustAmenitiesDropdownHeader();
+}
+
+// Add a new amenity tag (UI displays Name, Form submits ID)
+function addAmenityTag(amenityId, amenityName) {
+    const selectedContainer = document.getElementById("selected-amenities-list");
+
+    // Check if the amenity already exists
+    const existingAmenities = Array.from(selectedContainer.children).map(item => item.dataset.id);
+    if (!existingAmenities.includes(amenityId)) {
+        const amenityTag = document.createElement("div");
+        amenityTag.classList.add("amenity-tag");
+        amenityTag.dataset.id = amenityId;  // Store ID for reference
+        amenityTag.innerHTML = `${amenityName} <button class="remove-amenity" onclick="removeSelectedAmenity(this, '${amenityId}')">✕</button>`;
+
+        selectedContainer.appendChild(amenityTag);
+    }
+}
+
+// Remove selected amenity from UI & uncheck checkbox
+function removeSelectedAmenity(button, amenityId) {
+    button.parentElement.remove(); // Remove the tag from UI
+
+    // Uncheck the corresponding checkbox
+    const checkbox = document.querySelector(`.amenities-dropdown-menu input[value="${amenityId}"]`);
+    if (checkbox) checkbox.checked = false;
+
+    adjustAmenitiesDropdownHeader();
+}
+
+// Add a custom amenity from text input
+function addCustomAmenity() {
+    const input = document.getElementById("custom-amenity");
+    const value = input.value.trim();
+
+    if (value) {
+        addAmenityTag(value); // Add custom amenity to the list
+        input.value = ""; // Clear input field
+    }
+}
+
+// Adjust the dropdown header height dynamically
+function adjustAmenitiesDropdownHeader() {
+    const dropdownHeader = document.querySelector(".amenities-dropdown-header");
+    dropdownHeader.style.height = "auto"; // Expand if needed
+}
+
+// Attach event listeners to checkboxes for updating the selected amenities list
+document.querySelectorAll(".amenities-dropdown-menu input[type='checkbox']").forEach(input => {
+    input.addEventListener("change", updateSelectedAmenitiesList);
+});
+
+// Listen for "Enter" key in input field to add a custom amenity
+document.getElementById("custom-amenity").addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Prevent default form submission
+        addCustomAmenity(); // Add the entered amenity
+    }
+});
+
+$(document).ready(function() {
+    $("#popupPropertyForm").submit(function(event) {
+        event.preventDefault();
+
+        var formData = new FormData(this);
+
+        // Collect all selected amenities
+        let amenities = [];
+        $("input[name='amenities']:checked").each(function() {
+            amenities.push($(this).val());
+        });
+
+        formData.append("amenities", amenities); // Ensure amenities are included
+
+        $.ajax({
+            url: "{% url 'popup_property_request' %}",  // Ensure this is the correct Django URL
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            headers: { "X-CSRFToken": "{{ csrf_token }}" },  // CSRF protection
+            success: function(response) {
+                alert("Property request submitted successfully!");
+                $("#listPropertyModal").modal("hide");  // Close modal on success
+                location.reload();  // Optional: Refresh to reflect changes
+            },
+            error: function(response) {
+                alert("Error submitting form. Please check your details.");
+            }
+        });
+    });
+});
+
+    /*
+    document.addEventListener("DOMContentLoaded", function () {
+        const guestInput = document.querySelector(".search-input input[readonly]");
+        guestInput.addEventListener("click", function () {
+            alert("Open guest selection modal!");
+        });
+        // Set Min Date for Check-in & Check-out
+        let today = new Date().toISOString().split('T')[0];
+        document.getElementById("checkin").setAttribute("min", today);
+        document.getElementById("checkout").setAttribute("min", today);
+    
+        // Apply Guest Selection
+        window.applyGuests = function () {
+            let adults = document.getElementById("adults").value;
+            let children = document.getElementById("children").value;
+            let rooms = document.getElementById("rooms").value;
+            document.getElementById("guests").value = `${adults} Adults, ${children} Children, ${rooms} Rooms`;
+        };
+    }); */
 </script>

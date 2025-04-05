@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Villa Booking Registration</title>
+        <!-- <link rel="stylesheet" href="registrations.css">
+    <script defer src="registrations.js"></script> -->
+    </head>
+    <body>
+        <style>
+    /* General Styles */ 
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7fc;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* Container */
+.container {
+    background: white;
+    width: 80%;
+    max-width: 900px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    margin: 40px auto;
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input, select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Buttons */
+button {
+    background: #007BFF;
+    color: white;
+    padding: 10px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+    width: 100%;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+/* Table */
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    overflow-x: auto;
+    display: block;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    white-space: nowrap;
+}
+
+th {
+    background: #007BFF;
+    color: white;
+}
+
+/* Edit & Delete Buttons */
+td button {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.edit {
+    background: #ffc107;
+    color: white;
+}
+
+.delete {
+    background: #dc3545;
+    color: white;
+}
+
+td button:hover {
+    opacity: 0.8;
+}
+
+/* Back Button */
+.back-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    background: #007BFF;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+    display: block;
+    width: 95%;
+}
+
+.back-btn:hover {
+    background: #0056b3;
+}
+
+/* RESPONSIVE DESIGN */
+
+/* 📱 Mobile */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    table {
+        font-size: 12px;
+        width: 100%;
+    }
+
+    th, td {
+        padding: 8px;
+        width: 100%;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 8px;
+    }
+}
+
+/* 🖥️ Large Screens */
+@media screen and (min-width: 1024px) {
+    .container {
+        width: 70%;
+        max-width: 1000px;
+    }
+}
+
+    </style>
+
+        <div class="container">
+            <h1>Villa Booking Registration</h1>
+            <form id="registration-form">
+
+                <label for="customer-name">Customer Name:</label>
+                <input type="text" id="customer-name" required>
+
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" required>
+
+                <label for="villa">Select Villa:</label>
+                <select id="villa" required>
+                    <option value="luxury">Luxury Villa</option>
+                    <option value="hilltop">Hilltop Bungalow</option>
+                    <option value="seaside">Seaside Resort</option>
+                    <option value="mountain">Mountain Retreat</option>
+                    <option value="penthouse">Urban Penthouse</option>
+                </select>
+
+                <label for="people">Number of People:</label>
+                <input type="number" id="people" min="1" required>
+
+                <label>Booking Dates:</label>
+                <input type="date" id="checkin-date" required>
+                <input type="date" id="checkout-date" required>
+
+                <button type="submit">Register Booking</button>
+            </form>
+
+            <h2>Bookings List</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Phone</th>
+                        <th>Villa</th>
+                        <th>People</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="bookings-table">
+                    <!-- Registered bookings will be added dynamically -->
+                </tbody>
+            </table>
+            <br><br>
+            <a href="{% url 'custom_admin' %}" class="back-btn">Go Back</a>
+        </div>
+
+        <script>document.addEventListener("DOMContentLoaded", function () {
+        const registrationForm = document.getElementById("registration-form");
+        const bookingsTable = document.getElementById("bookings-table");
+        const checkinDate = document.getElementById("checkin-date");
+        const checkoutDate = document.getElementById("checkout-date");
+        const villaSelect = document.getElementById("villa");
+    
+        let bookings = JSON.parse(localStorage.getItem("villaBookings")) || [];
+    
+        // Function to render bookings in table
+        function renderBookings() {
+            bookingsTable.innerHTML = "";
+            bookings.forEach((booking, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${booking.customer}</td>
+                    <td>${booking.phone}</td>
+                    <td>${booking.villa}</td>
+                    <td>${booking.people}</td>
+                    <td>${booking.checkin}</td>
+                    <td>${booking.checkout}</td>
+                    <td>
+                        <button class="edit" onclick="editBooking(${index})">Edit</button>
+                        <button class="delete" onclick="deleteBooking(${index})">Delete</button>
+                    </td>
+                `;
+                bookingsTable.appendChild(row);
+            });
+            localStorage.setItem("villaBookings", JSON.stringify(bookings));
+        }
+    
+        // Disable past dates and mark booked dates (ONLY for selected villa)
+        function disableDates() {
+            let today = new Date();
+            today.setHours(0, 0, 0, 0);
+            let todayFormatted = today.toISOString().split("T")[0];
+    
+            checkinDate.min = todayFormatted;
+            checkoutDate.min = todayFormatted;
+    
+            let selectedVilla = villaSelect.value;
+    
+            // ❌ FIX: Get booked dates ONLY for the selected villa
+            let bookedDatesForVilla = bookings
+                .filter(booking => booking.villa === selectedVilla) // Check only same villa
+                .flatMap(booking => getDatesBetween(booking.checkin, booking.checkout));
+    
+            checkinDate.addEventListener("focus", function () {
+                updateCalendarUI(bookedDatesForVilla);
+            });
+    
+            checkinDate.addEventListener("input", function () {
+                let selectedCheckin = this.value;
+                if (bookedDatesForVilla.includes(selectedCheckin)) {
+                    alert("This villa is already booked on this date! Choose another date.");
+                    this.value = "";
+                    return;
+                }
+    
+                let minCheckout = new Date(selectedCheckin);
+                minCheckout.setDate(minCheckout.getDate() + 1);
+                checkoutDate.min = minCheckout.toISOString().split("T")[0];
+            });
+    
+            checkoutDate.addEventListener("input", function () {
+                if (new Date(this.value) <= new Date(checkinDate.value)) {
+                    alert("Checkout date must be after check-in date!");
+                    this.value = "";
+                }
+            });
+        }
+    
+        // Function to visually mark booked dates with ❌ in the calendar
+        function updateCalendarUI(bookedDatesForVilla) {
+            setTimeout(() => {
+                document.querySelectorAll('td[data-date]').forEach(td => {
+                    let date = td.getAttribute('data-date');
+                    if (bookedDatesForVilla.includes(date)) {
+                        td.style.color = "red";
+                        td.style.textDecoration = "line-through";
+                        td.textContent += " ❌";
+                    }
+                });
+            }, 100);
+        }
+    
+        // Get all dates between check-in and check-out
+        function getDatesBetween(start, end) {
+            let dateArray = [];
+            let currentDate = new Date(start);
+            let endDate = new Date(end);
+            while (currentDate <= endDate) {
+                dateArray.push(currentDate.toISOString().split("T")[0]);
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            return dateArray;
+        }
+    
+        // Handle Form Submission
+        registrationForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+    
+            const customer = document.getElementById("customer-name").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+            const villa = villaSelect.value;
+            const people = document.getElementById("people").value;
+            const checkin = checkinDate.value;
+            const checkout = checkoutDate.value;
+    
+            if (!customer || !phone || !villa || !people || !checkin || !checkout) {
+                alert("All fields are required!");
+                return;
+            }
+    
+            if (new Date(checkout) <= new Date(checkin)) {
+                alert("Checkout date must be after check-in date!");
+                return;
+            }
+    
+            // ❌ FIX: Ensure only the same villa is checked for conflicts
+            let isOverlapping = bookings.some(booking => {
+                if (booking.villa !== villa) return false; // ✅ Allow different villas to be booked on same dates
+                let bookedDates = getDatesBetween(booking.checkin, booking.checkout);
+                let selectedDates = getDatesBetween(checkin, checkout);
+                return bookedDates.some(date => selectedDates.includes(date));
+            });
+    
+            if (isOverlapping) {
+                alert(`This villa is already booked between ${checkin} - ${checkout}. Choose a different date or villa.`);
+                return;
+            }
+    
+            bookings.push({ customer, phone, villa, people, checkin, checkout });
+            renderBookings();
+            registrationForm.reset();
+            disableDates();
+        });
+    
+        // Edit Booking
+        window.editBooking = function (index) {
+            let booking = bookings[index];
+            document.getElementById("customer-name").value = booking.customer;
+            document.getElementById("phone").value = booking.phone;
+            villaSelect.value = booking.villa;
+            document.getElementById("people").value = booking.people;
+            checkinDate.value = booking.checkin;
+            checkoutDate.value = booking.checkout;
+    
+            bookings.splice(index, 1);
+            renderBookings();
+            disableDates();
+        };
+    
+        // Delete Booking
+        window.deleteBooking = function (index) {
+            bookings.splice(index, 1);
+            renderBookings();
+            disableDates();
+        };
+    
+        villaSelect.addEventListener("change", disableDates);
+        renderBookings();
+        disableDates();
+    });
+    </script>
+    </body>
+</html>

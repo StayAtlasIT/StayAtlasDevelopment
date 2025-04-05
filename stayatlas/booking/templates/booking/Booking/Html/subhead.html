@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="../../Home/Media/stay.PNG" style="border-radius: 100%;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EKOSTAY - Luxury Villa in Panvel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="subhead.css">
+</head>
+<body>
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="header-bcontainer">
+            <div class="logo">EKOSTAY</div>
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="#">HOME</a>
+                <div class="dropdown">
+                    <button class="dropbtn">LOCATION</button>
+                    <div class="dropdown-content">
+                        <a href="#">Panvel</a>
+                        <a href="#">Khanavale</a>
+                        <a href="#">Other Locations</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">LUXURY</button>
+                    <div class="dropdown-content">
+                        <a href="#">Villas</a>
+                        <a href="#">Resorts</a>
+                        <a href="#">Pool Homes</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">ABOUT US</button>
+                    <div class="dropdown-content">
+                        <a href="#">Our Story</a>
+                        <a href="#">Team</a>
+                        <a href="#">Testimonials</a>
+                    </div>
+                </div>
+                <a href="#">PARTNER WITH US</a>
+                <a href="#">CONTACT US</a>
+                <a href="#">MEMBERSHIP</a>
+                <a href="#">LOGIN</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Villa Header -->
+    <div class="villa-header-wrapper">
+        <div class="villa-header">
+            <h1 class="villa-title">Luxury - 3 BR - AC - Pool Villa - in Panvel</h1>
+            <div class="action-buttons">
+                <button class="action-btn" id="shareBtn">
+                    <i class="fas fa-share"></i> Share
+                </button>
+                <button class="action-btn" id="saveBtn">
+                    <i class="far fa-heart"></i> Save
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Section -->
+    <div class="gallery-bcontainer">
+        <div class="gallery-grid">
+            <div class="gallery-main">
+                <img src="vmages/frontv.jpg" alt="Villa Main View" class="gallery-image">
+                <button class="view-photos-btn" id="viewPhotosBtn">
+                    <i class="fas fa-image"></i> View Photos
+                </button>
+            </div>
+            <div class="gallery-sub">
+                <div class="gallery-item">
+                    <img src="vmages/bdroom.jpg" alt="Bedroom" class="gallery-image">
+                </div>
+                <div class="gallery-item">
+                    <img src="vmages/bdroom2.jpg" alt="Pool View" class="gallery-image">
+                    <div class="more-indicator">+25 More</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo Modal -->
+    <div class="modal" id="photoModal">
+        <div class="modal-header">
+            <button class="close-btn" id="closeModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="photo-counter"><span id="currentPhoto">1</span>/<span id="totalPhotos">30</span></div>
+        </div>
+        <div class="modal-content">
+            <button class="image-nav prev-btn" id="prevBtn">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="modal-image-bcontainer">
+                <img src="vmages/outsitv.jpg" alt="Villa View" class="modal-image" id="modalImage">
+            </div>
+            <button class="image-nav next-btn" id="nextBtn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        <div class="image-caption" id="imageCaption">Outside sitting area</div>
+    </div>
+
+    <!-- Share Dialog -->
+    <div class="overlay" id="overlay"></div>
+    <div class="share-dialog" id="shareDialog">
+        <div class="dialog-header">
+            <h3 class="dialog-title">Share this place</h3>
+            <button class="close-btn" id="closeShareDialog">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="share-preview">
+            <img src="vmages/frontv.jpg" alt="Villa Preview" class="preview-img">
+            <div class="preview-info">
+                <h4>Villa in Khanavale • ★4.93</h4>
+                <p>3 bedrooms • 3 beds • 3 bathrooms</p>
+            </div>
+        </div>
+        <div class="share-options">
+            <div class="share-option" id="copyLink">
+                <div class="share-icon">
+                    <i class="fas fa-link"></i>
+                </div>
+                <div class="share-label">Copy Link</div>
+            </div>
+            <div class="share-option" id="shareEmail">
+                <div class="share-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="share-label">Email</div>
+            </div>
+            <div class="share-option" id="shareMessages">
+                <div class="share-icon">
+                    <i class="fas fa-comment"></i>
+                </div>
+                <div class="share-label">Messages</div>
+            </div>
+            <div class="share-option" id="shareWhatsApp">
+                <div class="share-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div class="share-label">WhatsApp</div>
+            </div>
+            <div class="share-option" id="shareMessenger">
+                <div class="share-icon">
+                    <i class="fab fa-facebook-messenger"></i>
+                </div>
+                <div class="share-label">Messenger</div>
+            </div>
+            <div class="share-option" id="shareFacebook">
+                <div class="share-icon">
+                    <i class="fab fa-facebook"></i>
+                </div>
+                <div class="share-label">Facebook</div>
+            </div>
+            <div class="share-option" id="shareTwitter">
+                <div class="share-icon">
+                    <i class="fab fa-twitter"></i>
+                </div>
+                <div class="share-label">Twitter</div>
+            </div>
+            <div class="share-option" id="shareEmbed">
+                <div class="share-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="share-label">Embed</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="subhead.js"></script>
+</body>
+</html>

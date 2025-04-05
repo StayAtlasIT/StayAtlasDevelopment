@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Villa Details</title>
+        <!-- <link rel="stylesheet" href="admin.css"> -->
+    </head>
+    <body>
+        <style>
+    /* General Styles */
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fc;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Form Container */
+.container-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    padding: 20px; /* Ensures top part is never clipped */
+    box-sizing: border-box;
+    margin-top: 350px;
+}
+
+/* The actual container */
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    box-sizing: border-box;
+}
+
+
+/* Title */
+h1 {
+    font-size: 24px;
+    color: #000000;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: left;
+}
+
+input, textarea, select {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* File Upload */
+input[type="file"] {
+    padding: 8px;
+    border: none;
+}
+
+/* Submit Button */
+button {
+    background: #011d05;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+    transition: background 0.3s ease-in-out;
+}
+
+button:hover {
+    background: #0c502b;
+}
+
+/* Responsive Design */
+@media (max-width: 320px) {
+    .container {
+        width: 90%;
+        padding: 20px;
+        margin-top: 200px;
+    }
+}
+@media (max-width: 375px) {
+    .container {
+        width: 90%;
+        padding: 20px;
+        margin-top: 100px;
+    }
+}
+@media (max-width: 425px) {
+    .container {
+        width: 90%;
+        padding: 20px;
+        margin-top: 80px;
+    }
+}
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 20px;
+        margin-top: 70px;
+    }
+}
+@media (max-width: 1024px) {
+    .container {
+        width: 90%;
+        padding: 20px;
+        margin-top: 70px;
+    }
+}
+@media (max-width: 1440px) {
+    .container {
+        width: 90%;
+        padding: 20px;
+        margin-top: 70px;
+    }
+}
+
+
+.amenities-dropdown-container {
+    position: relative;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+/* Amenities Dropdown Header */
+.amenities-dropdown-header {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    min-height: 40px;
+    gap: 5px;
+    position: relative;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Amenities Dropdown Menu */
+.amenities-dropdown-menu {
+    display: none;
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    position: relative;
+    width: 90%;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    max-height: 250px;
+    overflow-y: auto;
+    box-shadow: 0px 4px 6px #0000001a;
+}
+
+.amenities-dropdown-menu label {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Ensure proper spacing between checkbox and text */
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px;
+    width: 100%;
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* Force checkboxes to extreme left */
+.amenities-dropdown-menu input[type="checkbox"] {
+    position: absolute;
+    left: 80%; /* Push to extreme left */
+    transform: translateX(0); /* Ensures no accidental shifting */
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    appearance: auto;
+}
+
+/* Ensure icons and text align properly */
+.amenities-dropdown-menu span {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between icon and text */
+    margin-left: 25px; /* Push text and icons right to align properly */
+}
+
+/* Checked state styling */
+.amenities-dropdown-menu input[type="checkbox"]:checked {
+    background-color: #000;
+    border-color: #000;
+}
+
+/* Checkbox tick effect */
+.amenities-dropdown-menu input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    
+    top: 1px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Hover effect */
+.amenities-dropdown-menu label:hover {
+    background: #f5f5f5;
+}
+
+/* Selected Amenities */
+.selected-amenities-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding-top: 5px;
+}
+
+/* Amenity Tags */
+.amenity-tag {
+    background: #e0e0e0;
+    color: #333;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    max-width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px solid #bbb;
+}
+
+/* Remove Amenity Button */
+.remove-amenity {
+    background: #000000;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    font-size: 12px;
+    line-height: 1;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 6px;
+}
+
+.close-amenities-dropdown {
+    width: 40px !important;  /* Force width */
+    height: 30px !important; /* Adjust height */
+    padding: 5px ;
+    border: none !important;
+    font-size: 18px;
+    cursor: pointer;  
+    color: #000000;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+}
+
+@media (max-width: 321px) {
+    .close-amenities-dropdown{
+        left: 690px  !important ; 
+    }
+    
+}
+
+/* Align "Other:" label and input field properly */
+.amenity-item {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between "Other:" text and input */
+    width: 100%;
+}
+
+/* Custom Amenity Input Field */
+#custom-amenity {
+    flex-grow: 1; /* Make input take available space */
+    min-width: 200px; /* Ensure a proper width */
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+}
+
+
+
+
+    </style>
+    <div class="container-wrapper">
+        <div class="container">
+            <h1 id="villa-title">Add Exclusive Villa</h1>
+
+            <form id="villaForm" method="POST" action="{% url 'addexclusive' %}">
+                {% csrf_token %}
+            
+
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first_name">First Name:</label>
+                        <input type="text" id="first_name" name="first_name"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="last_name">Last Name:</label>
+                        <input type="text" id="last_name" name="last_name"
+                            required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mobile">Mobile:</label>
+                        <input type="text" id="mobile" name="mobile" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="location">Location:</label>
+                        <input type="text" id="location" name="location"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="property_type">Property Type:</label>
+                        <input type="text" id="property_type"
+                            name="property_type" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="rooms">Rooms:</label>
+                        <input type="number" id="rooms" name="rooms" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="beds">Beds:</label>
+                        <input type="number" id="beds" name="beds" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bath">Bathrooms:</label>
+                        <input type="number" id="bath" name="bath" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price:</label>
+                    <input type="number" id="price" name="price" required>
+                </div>
+
+                <label for="property-amenities">Select Amenities</label>
+                <div class="amenities-dropdown-container">
+                    <div class="amenities-dropdown-header" onclick="toggleAmenitiesDropdown(event)">
+                        <span>Select Amenities...</span>
+                        <div class="selected-amenities-list" id="selected-amenities-list"></div>
+                        {% comment %} <button class="close-amenities-dropdown" onclick="closeAmenitiesDropdown(event)">☰</button> {% endcomment %}
+                    </div>
+
+                    <div class="amenities-dropdown-menu" id="amenities-dropdown">
+                        {% for amenity in amenities %}
+                            <label class="amenity-item">
+                                <input type="checkbox" class="amenity-checkbox" name="amenities" value="{{ amenity.id }}" data-name="{{ amenity.name }}">
+                                <i class="{{ amenity.icon }}"></i> {{ amenity.name }}
+                            </label>
+                        {% empty %}
+                            <p>No amenities available.</p>
+                        {% endfor %}
+                        {% comment %} <!-- Custom Amenity -->
+                        <label class="amenity-item">Other: <input type="text" id="custom-amenity" placeholder="Add custom"></label>
+                        <button type="button" onclick="addCustomAmenity()">Add</button> {% endcomment %}
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description"
+                        required></textarea>
+                </div>
+
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="file" name="photos[]" multiple required>
+                    <button type="submit">Upload</button>
+                </form>
+                
+
+                <div class="image-preview" id="imagePreview"></div>
+                <!-- Image Preview Section -->
+
+            </form>
+
+            <div class="button-group">
+                
+                    <form action="{% url 'custom_admin' %}">
+                        <button type="submit" class="btn details">Back</button>
+                    </form>
+                    
+            </div>
+        </div>
+    </div>
+
+        <script>
+        document.addEventListener("DOMContentLoaded", function () {
+           
+        
+            // Editable Fields - Toggle Edit Mode
+            let isEditing = false;
+            const editableFields = document.querySelectorAll('.editable-field');
+            const editBtn = document.querySelector('.edit-btn');
+            const saveBtn = document.querySelector('.save-btn');
+        
+            function toggleEdit() {
+                isEditing = !isEditing;
+        
+                editableFields.forEach(field => {
+                    field.contentEditable = isEditing;
+                    field.classList.toggle('editing', isEditing);
+                });
+        
+                if (editBtn && saveBtn) {
+                    editBtn.style.display = isEditing ? 'none' : 'inline-block';
+                    saveBtn.style.display = isEditing ? 'inline-block' : 'none';
+                }
+            }
+        
+            function saveChanges() {
+                const updatedData = {};
+                editableFields.forEach(field => {
+                    updatedData[field.dataset.field] = field.textContent.trim();
+                });
+        
+                fetch(`/update-property/${propertyId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify(updatedData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        toggleEdit();
+                        alert('Changes saved successfully!');
+                    } else {
+                        alert('Error saving changes.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        
+            // Field Validation
+            editableFields.forEach(field => {
+                field.addEventListener('input', function () {
+                    const fieldName = this.dataset.field;
+                    if (fieldName === 'email') {
+                        this.style.borderColor = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.textContent.trim()) ? '#007bff' : 'red';
+                    } else if (fieldName === 'mobile') {
+                        this.style.borderColor = /^\d{10}$/.test(this.textContent.trim()) ? '#007bff' : 'red';
+                    } else if (fieldName === 'rooms' && isNaN(this.textContent.trim())) {
+                        this.style.borderColor = 'red';
+                    } else {
+                        this.style.borderColor = '#007bff';
+                    }
+                });
+            });
+        
+            // Handle Form Submission
+            let villaForm = document.getElementById("villaForm");
+            if (villaForm) {
+                villaForm.addEventListener("submit", function (e) {
+                    e.preventDefault();
+        
+                    let formData = new FormData(villaForm);
+        
+                    fetch("{% url 'addexclusive' %}", {
+                        method: "POST",
+                        body: formData,
+                        headers: {
+                            "X-CSRFToken": getCookie("csrftoken") // CSRF protection
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Villa added successfully!");
+                            window.location.href = "{% url 'exclusivebookings' %}"; 
+                        } else {
+                            alert("Error: " + data.message);
+                        }
+                    })
+                    .catch(error => console.error("Error:", error));
+                });
+            }
+        });
+        
+        // CSRF Token Helper Function
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                let cookies = document.cookie.split(";");
+                for (let i = 0; i < cookies.length; i++) {
+                    let cookie = cookies[i].trim();
+                    if (cookie.startsWith(name + "=")) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function toggleAmenitiesDropdown(event) {
+    event.stopPropagation(); // Prevent immediate closing when clicking inside
+    const dropdown = document.getElementById("amenities-dropdown");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+
+// Close the dropdown when clicking outside
+document.addEventListener("click", function(event) {
+    const dropdown = document.getElementById("amenities-dropdown");
+    const dropdownHeader = document.querySelector(".amenities-dropdown-header");
+
+    if (dropdown.style.display === "block" && !dropdown.contains(event.target) && !dropdownHeader.contains(event.target)) {
+        dropdown.style.display = "none";
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("Amenities loaded:", document.querySelectorAll(".amenity-checkbox").length);
+});
+
+
+// Update selected amenities list when checkboxes are clicked
+function updateSelectedAmenitiesList() {
+    const selectedContainer = document.getElementById("selected-amenities-list");
+    selectedContainer.innerHTML = ""; // Clear existing list
+
+    const checkboxes = document.querySelectorAll(".amenities-dropdown-menu input[type='checkbox']:checked");
+    checkboxes.forEach(checkbox => {
+        addAmenityTag(checkbox.value); // Add checkbox-selected amenity
+    });
+
+    adjustAmenitiesDropdownHeader();
+}
+
+// Add a new amenity tag (for both checkboxes and custom input)
+function addAmenityTag(value) {
+    const selectedContainer = document.getElementById("selected-amenities-list");
+
+    // Check if the amenity already exists
+    const existingAmenities = Array.from(selectedContainer.children).map(item => item.textContent.trim().replace("✕", "").trim());
+    if (!existingAmenities.includes(value.trim())) {
+        const amenityTag = document.createElement("div");
+        amenityTag.classList.add("amenity-tag");
+        amenityTag.innerHTML = `${value} <button class="remove-amenity" onclick="removeSelectedAmenity(this, '${value}')">✕</button>`;
+        selectedContainer.appendChild(amenityTag);
+    }
+}
+
+// Remove selected amenity when clicking "✕"
+function removeSelectedAmenity(button, value) {
+    button.parentElement.remove();
+    
+    // Uncheck the corresponding checkbox if it exists
+    const checkbox = document.querySelector(`.amenities-dropdown-menu input[value="${value}"]`);
+    if (checkbox) checkbox.checked = false;
+
+    adjustAmenitiesDropdownHeader();
+}
+
+// Add a custom amenity from text input
+function addCustomAmenity() {
+    const input = document.getElementById("custom-amenity");
+    const value = input.value.trim();
+
+    if (value) {
+        addAmenityTag(value); // Add custom amenity to the list
+        input.value = ""; // Clear input field
+    }
+}
+
+// Adjust the dropdown header height dynamically
+function adjustAmenitiesDropdownHeader() {
+    const dropdownHeader = document.querySelector(".amenities-dropdown-header");
+    dropdownHeader.style.height = "auto"; // Expand if needed
+}
+
+// Attach event listeners to checkboxes for updating the selected amenities list
+document.querySelectorAll(".amenities-dropdown-menu input[type='checkbox']").forEach(input => {
+    input.addEventListener("change", updateSelectedAmenitiesList);
+});
+
+// Listen for "Enter" key in input field to add a custom amenity
+document.getElementById("custom-amenity").addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Prevent default form submission
+        addCustomAmenity(); // Add the entered amenity
+    }
+});
+
+$(document).ready(function() {
+    $("#popupPropertyForm").submit(function(event) {
+        event.preventDefault();
+
+        var formData = new FormData(this);
+
+        // Collect all selected amenities
+        let amenities = [];
+        $("input[name='amenities']:checked").each(function() {
+            amenities.push($(this).val());
+        });
+
+        formData.append("amenities", amenities); // Ensure amenities are included
+
+        $.ajax({
+            url: "{% url 'popup_property_request' %}",  // Ensure this is the correct Django URL
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            headers: { "X-CSRFToken": "{{ csrf_token }}" },  // CSRF protection
+            success: function(response) {
+                alert("Property request submitted successfully!");
+                $("#listPropertyModal").modal("hide");  // Close modal on success
+                location.reload();  // Optional: Refresh to reflect changes
+            },
+            error: function(response) {
+                alert("Error submitting form. Please check your details.");
+            }
+        });
+    });
+});
+        
+
+    </script>
+    </body>
+</html>

@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin Panel - Property Management</title>
+    </head>
+    <body>
+        <style>
+        /* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fc;
+    color: #333;
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+}
+
+.filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+}
+.filter input {
+    padding: 10px;
+    width: 48%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+/* Improved Sidebar */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    color: white;
+    padding: 20px;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensure sidebar is on top */
+}
+
+
+.sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+
+
+/* Sidebar Toggle Button with Arrow */
+#sidebar-toggle {
+          position: absolute;
+          left: 260px;
+          top: 6%;
+          transform: translateY(-50%);
+          cursor: pointer;
+          font-size: 24px;
+          background: #34495e;
+          color: white;
+          padding: 10px 15px;
+          border: none;
+          border-radius: 5px;
+          transition: left 0.3s ease-in-out, background 0.3s ease-in-out;
+          z-index: 1001;
+      }
+      #sidebar-toggle:hover {
+          background: #2c3e50;
+      }
+      .sidebar.hidden + #sidebar-toggle {
+          left: 10px;
+
+      }
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+.sidebar ul li {
+    padding: 15px 10px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+    
+}
+.sidebar ul li:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+.sidebar ul li a {
+    color: white; /* Change text color to white */
+    text-decoration: none; /* Remove underline */
+}
+
+@media screen and (max-width: 768px) {
+    .sidebar {
+        transform: translateX(0); /* Sidebar is visible by default */
+    }
+
+    .sidebar.hidden {
+        transform: translateX(-100%); /* Hides sidebar when toggled */
+    }
+
+    /* Adjust main content width */
+    .sidebar.hidden ~ .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+
+
+/* Main Content Area */
+.main-content {
+    margin-left: 300px;
+    width: calc(100% - 250px);
+    padding: 20px;
+    transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+
+.sidebar.hidden ~ .main-content {
+    margin-left: 0;
+    width: 100%;
+}
+
+/* Title */
+.title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #007BFF;
+    text-shadow: 2px 2px 5px rgba(0, 123, 255, 0.2);
+    margin-bottom: 20px;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+.nav-btn {
+    padding: 12px 18px;
+    border: none;
+    background: #007BFF;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.3s;
+    font-weight: bold;
+    display: inline-block;
+}
+.nav-btn.active, .nav-btn:hover {
+    background: #0056b3;
+}
+
+/* Filters */
+.filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+}
+.filters input {
+    padding: 10px;
+    width: 48%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Sections */
+.section {
+    display: none;
+}
+.section.active {
+    display: block;
+}
+
+/* Property Cards */
+.property-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+.property-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 300px;
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.property-card:hover {
+    transform: scale(1.05);
+    box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.2);
+}
+.property-info h3 {
+    margin-bottom: 5px;
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;
+}
+.property-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+
+/* Responsive Navbar */
+
+@media screen and (max-width: 320px) {
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .nav-btn {
+        width: 80%; /* Make buttons full width */
+        text-align: center;
+    }
+
+    .property-list {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .property-card {
+        width: 80% !important; /* Make the cards smaller */
+        padding: 10px;
+        
+    }
+    .filter {
+        display: flex;
+        flex-direction: column; /* Stack elements vertically */
+        align-items: flex-start; /* Align to the left */
+        gap: 10px; /* Add spacing between inputs */
+        margin-bottom: 20px;
+        padding: 15px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+        width: 90%; /* Take full width */
+        max-width: 400px; /* Limit width for better UI */
+    }
+    
+    .filter label {
+        font-size: 14px;
+        font-weight: bold;
+    }
+    
+    .filter input {
+        padding: 10px;
+        width: 90%; /* Inputs take full width */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+   
+    
+    .sidebar.hidden ~ .main-content {
+    margin-left: 0;
+    width: 100%;
+}
+
+/* Move the sidebar toggle button when sidebar is hidden */
+.sidebar.hidden ~ #sidebar-toggle {
+    top: 11% !important;
+}
+
+}
+
+
+
+
+@media screen and (max-width: 750px) {
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .nav-btn {
+        width: 80%; /* Make buttons full width */
+        text-align: center;
+    }
+
+    .filter {
+        display: flex;
+        flex-direction: column; /* Stack elements vertically */
+        align-items: flex-start; /* Align to the left */
+        gap: 10px; /* Add spacing between inputs */
+        margin-bottom: 20px;
+        padding: 15px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+        width: 90%; /* Take full width */
+        max-width: 400px; /* Limit width for better UI */
+    }
+    
+    .filter label {
+        font-size: 14px;
+        font-weight: bold;
+    }
+    
+    .filter input {
+        padding: 10px;
+        width: 90%; /* Inputs take full width */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+
+     /* Space between From Date and To Date */
+     .filter .date-container {
+        display: flex;
+        gap: 20px; /* Adds space between date inputs */
+        width: 100%;
+    }
+
+    .filter .date-container input {
+        flex: 1; /* Makes them equal width */
+    }
+    }
+}
+
+/* Responsive Property Cards */
+@media screen and (max-width: 768px) {
+    .property-list {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .property-card {
+        width: 90%; /* Make property cards take most of the screen */
+        padding: 15px;
+    }
+
+    /* Group Approve and Reject buttons closer together */
+    .card-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    /* Reduce spacing between Approve and Reject buttons */
+    .accept, .reject {
+        margin: 0 3px; /* Minimal spacing */
+        padding: 8px 14px; /* Keep button sizes consistent */
+    }
+
+    /* Keep View Details separate */
+    .details {
+        margin-left: auto; /* Push it to the right */
+    }
+}
+
+
+
+
+/* Card Actions */
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+.btn {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 8px;
+    transition: 0.3s;
+    font-weight: bold;
+    display: inline-block;
+}
+.accept {
+    background: #28a745;
+    color: white;
+    border: none;
+}
+.reject {
+    background: #dc3545;
+    color: white;
+    border: none;
+}
+.details {
+    background: #007BFF;
+    color: white;
+    text-decoration: none;
+    border: none;
+}
+.btn:hover {
+    opacity: 0.85;
+}
+
+/* Details Page Styles */
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 50%;
+    margin: auto;
+}
+
+/* Title */
+h1 {
+    font-size: 26px;
+    color: #007BFF;
+    margin-bottom: 20px;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    font-size: 16px;
+}
+
+table td:first-child {
+    font-weight: bold;
+    color: #555;
+}
+
+/* Image */
+img {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 5px;
+    margin-top: 10px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Back Button */
+.back-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    background: #007BFF;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: #0056b3;
+}
+
+/* Clear List Buttons */
+.clear-btn {
+    display: block;
+    margin: 10px auto;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    background: #ff4d4d;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.clear-btn:hover {
+    background: #cc0000;
+}
+
+@media (max-width: 320px) {
+    .container {
+        width: 85%;  /* Reduce width */
+        padding: 15px; /* Less padding */
+    }
+
+    h1 {
+        font-size: 20px; /* Make title smaller */
+    position: relative; /* Ensure it moves relative to its normal position */
+    top: -10px; /* Move it higher (reduce value to shift up) */
+    left: 0px;
+    }
+
+    table td {
+        font-size: 13px; /* Adjust text size */
+        padding: 6px;
+    }
+
+    img {
+        max-width: 250px; /* Ensure image fits */
+    }
+
+    .back-btn {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .sidebar.hidden ~ .main-content {
+    margin-left: 0;
+    width: 100%;
+}
+
+.sidebar.hidden ~ #sidebar-toggle {
+    top: 11%;
+}
+
+#sidebar-toggle {
+    font-size: 18px; /* Reduce text/icon size */
+    padding: 5px 10px; /* Reduce button padding */
+    width: 35px; /* Set a smaller width */
+    height: 35px; /* Set a smaller height */
+}
+
+}
+
+.accept, .reject {
+    margin-right: 3px; /* Reduce spacing between them */
+}
+
+.details {
+    margin-left: 40px; /* Keep "View Details" farther away */
+}
+@media (max-width: 375px) {
+    .container {
+        width: 85%;  /* Reduce width */
+        padding: 15px; /* Less padding */
+    }
+
+    h1 {
+        font-size: 20px; /* Make title smaller */
+    }
+
+    table td {
+        font-size: 13px; /* Adjust text size */
+        padding: 6px;
+    }
+
+    img {
+        max-width: 250px; /* Ensure image fits */
+    }
+
+    .back-btn {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    #sidebar-toggle {
+    width: 35px; /* Set a smaller width */
+    height: 35px; /* Set a smaller height */
+}
+
+h1 {
+    
+    left: 30px;
+}
+
+.btn {
+    width: 65px;
+    height: 45px;
+    font-size: 14px; /* Reduce text/icon size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1px; /* Reduce space between buttons */
+}
+ .btn.details{
+    height: 30px ;
+    width: 100px ; 
+ }
+
+ .details {
+    margin-left: 70px; /* Keep "View Details" farther away */
+}
+
+
+}
+
+@media (max-width: 425px) {
+    .container {
+        width: 85%;  /* Reduce width */
+        padding: 15px; /* Less padding */
+    }
+
+    h1 {
+        font-size: 20px; /* Make title smaller */
+    }
+
+    table td {
+        font-size: 13px; /* Adjust text size */
+        padding: 6px;
+    }
+
+    img {
+        max-width: 250px; /* Ensure image fits */
+    }
+
+    .back-btn {
+        font-size: 12px;
+        padding: 8px;
+    }
+    #sidebar-toggle {
+    
+    font-size: 18px; /* Reduce text/icon size */
+    padding: 5px 10px; /* Reduce button padding */
+    width: 45px; /* Set a smaller width */
+    height: 45px; /* Set a smaller height */
+}
+.accept, .reject {
+    margin-right: 2px; /* Reduce spacing between them */
+}
+
+.details {
+    margin-left: 90px; /* Keep "View Details" farther away */
+}
+}
+
+
+
+
+/* bookings */ 
+
+
+
+.filters {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    
+}
+
+.filters input {
+    padding: 12px;
+    width: 100%;
+    max-width: 800px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.filters input:focus {
+    box-shadow: 0px 0px 10px rgba(0, 123, 255, 0.3);
+    outline: none;
+}
+
+/* Property Card Styling */
+.prop-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 320px;
+    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    top:50%;
+    position: relative;
+    overflow: hidden;
+}
+
+.prop-card:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 4px 4px 25px rgba(0, 0, 0, 0.25);
+}
+
+.prop-info h3 {
+    margin-bottom: 10px;
+    font-size: 22px;
+    color: #222;
+    font-weight: bold;
+    text-align: center;
+}
+
+.prop-info p {
+    margin: 8px 0;
+    font-size: 15px;
+    color: #555;
+    text-align: center;
+}
+
+/* Property List Container */
+.prop-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+    
+}
+
+.card-act {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.details {
+    background: #007BFF;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.3s ease-in-out;
+}
+
+.details:hover {
+    background: #0056b3;
+}
+
+
+.main {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+.sidebar.hidden ~ .main {
+    margin-left: 0px;
+    width: 90%;
+}
+.sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+
+@media screen and (max-width: 320px) {
+    .prop-card {
+        width: 80%; /* Make the cards smaller */
+        padding: 10px;
+        
+    }
+
+    .sidebar{
+        z-index: 1000; /* Ensure sidebar is on top */
+    }
+
+    
+    .btn {
+    width: 65px;
+    height: 45px;
+    font-size: 14px;  /* Reduce text/icon size */
+    padding: 5px;  /* Adjust internal spacing */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn.details{
+    width: 600px;
+    height: 35px;
+    font-size: 14px;  /* Reduce text/icon size */    
+}
+
+.details {
+    margin-left: 70px; /* Keep "View Details" farther away */
+}
+
+}
+
+
+/* Rejection Modal Styles */
+.rejection-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.rejection-modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+}
+
+.rejection-modal h2 {
+    margin-top: 0;
+    color: #dc3545;
+}
+
+.rejection-modal textarea {
+    width: 100%;
+    height: 100px;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.rejection-modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.rejection-modal-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.rejection-modal-buttons .cancel-btn {
+    background-color: #6c757d;
+    color: white;
+}
+
+.rejection-modal-buttons .confirm-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.rejection-modal-buttons button:hover {
+    opacity: 0.9;
+}
+
+/* Notification styles */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border-radius: 4px;
+    color: white;
+    z-index: 1000;
+    animation: slideIn 0.5s ease-out;
+}
+
+.notification.success {
+    background-color: #28a745;
+}
+
+.notification.error {
+    background-color: #dc3545;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+            </style>
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Admin Dashboard</h2>
+
+            <ul>
+                <li><a href="{% url 'custom_admin' %}">Dashboard</a></li>
+                <li><a href="{% url 'bookings' %}">Bookings</a></li>
+                <li><a href="{% url 'registrations' %}">Registrations</a></li>
+                <li><a href="{% url 'addexclusive' %}">Add Exclusive</a></li>
+
+                <li><a href="{% url 'exclusivebookings' %}">exclusive bookings</a></li>
+                
+                <li>Settings</li>
+                <a href="{% url 'logout' %}"><button>Logout</button></a>
+            </ul>
+        </div>
+        <!-- Sidebar Toggle Button -->
+        <button id="sidebar-toggle">☰</button>
+        <!-- Main Content -->
+<div class="main-content">
+    <h1 class="title">Admin Dashboard - Property Approvals</h1>
+
+    {% if messages %}
+    <div class="alert alert-info">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Internal Navbar -->
+    <div class="navbar">
+        <button class="nav-btn active" data-section="pending">Pending</button>
+        <button class="nav-btn" data-section="accepted">Accepted</button>
+        <button class="nav-btn" data-section="rejected">Rejected</button>
+    </div>
+
+    <!-- Filter Options -->
+    <div class="filter">
+        <input type="text" id="search"
+            placeholder="Search by Location, Type, Firstname...">
+        <label for="from-date">From Date:</label>
+        <input type="date" id="from-date">
+        <label for="to-date">To Date:</label>
+        <input type="date" id="to-date">
+    </div>
+            <!-- Pending Section -->
+            {% if pending_properties %}
+            <div id="pending" class="section active">
+                <h2>Pending Approvals</h2>
+                <div class="property-list">
+                    {% for property in pending_properties %}
+                    <div class="property-card" data-id="{{ property.id }}">
+                        <img class="property-image" src="{{ property.property_images.first.image.url }}" alt="{{ property.title }}">
+                        <div class="property-info">
+                            <h3>{{ property.title }}</h3>
+                            <p class="property-firstname"><strong>First Name:</strong> {{ property.first_name }}</p>
+                            <p class="property-lastname"><strong>Last Name:</strong> {{ property.last_name }}</p>
+                            <p class="property-name"><strong>villa_name:</strong> {{ property.villa_name }}</p>
+                            <p><strong>Email:</strong> {{ property.email }}</p>
+                            <p><strong>Mobile:</strong> {{ property.mobile }}</p>
+                            <p class="property-location"><strong>Location:</strong> {{ property.location }}</p>
+                            <p class="property-type"><strong>Type:</strong> {{ property.property_type }}</p>
+                            <p><strong>Rooms:</strong> {{ property.rooms }}</p>
+                            <p><strong>beds:</strong> {{ property.beds }}</p>
+                            <p><strong>baths:</strong> {{ property.baths }}</p>
+                            <p><strong>Price:</strong> {{ property.price }}</p>
+                            <p><strong>Description:</strong> {{ property.description }}</p>
+                            <p><strong>Property Amenities:</strong> 
+                                <td>
+                                    {% if property.amenities.all %}
+                                        <ul>
+                                            {% for amenity in property.amenities.all %}
+                                                <li>
+                                                    <i class="{{ amenity.icon }}"></i> {{ amenity.name }}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <p>No amenities available.</p>
+                                    {% endif %}
+                                </td>
+                            <p><strong>Status:</strong> <span class="badge badge-warning">Pending</span></p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn accept" onclick="updatePropertyStatus('{{ property.id }}', 'Approved', this)">Approve</button>
+                            <button class="btn reject" onclick="updatePropertyStatus('{{ property.id }}', 'Rejected', this)">Reject</button>
+                            <a href="{% url 'details' property.id %}" class="btn details">View Details</a>
+                            
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% else %}
+            <p class="text-center text-muted mt-4">No pending properties for approval.</p>
+            {% endif %}
+            
+            <div id="accepted" class="section">
+                <h2>Accepted Properties</h2>
+                <!-- <button id="clear-accepted" class="clear-btn">Clear Accepted</button> -->
+                <div class="property-list" id="accepted-list">
+                    {% for property in accepted_properties %}
+                    <div class="property-card" data-id="{{ property.id }}">
+                        <img class="property-image" src="{{ property.property_images.first.image.url }}" alt="{{ property.title }}">
+                        <div class="property-info">
+                            <h3>{{ property.title }}</h3>
+                            <p class="property-firstname"><strong>First Name:</strong> {{ property.first_name }}</p>
+                            <p class="property-lastname"><strong>Last Name:</strong> {{ property.last_name }}</p>
+                            <p class="property-name"><strong>villa_name:</strong> {{ property.villa_name }}</p>
+                            <p><strong>Email:</strong> {{ property.email }}</p>
+                            <p><strong>Mobile:</strong> {{ property.mobile }}</p>
+                            <p class="property-location"><strong>Location:</strong> {{ property.location }}</p>
+                            <p class="property-type"><strong>Type:</strong> {{ property.property_type }}</p>
+                            <p><strong>Rooms:</strong> {{ property.rooms }}</p>
+                            <p><strong>beds:</strong> {{ property.beds }}</p>
+                            <p><strong>baths:</strong> {{ property.baths }}</p>
+                            <p><strong>Price:</strong> {{ property.price }}</p>
+                            <p><strong>Description:</strong> {{ property.description }}</p>
+                            <p><strong>Property Amenities:</strong> {{ property.amenities }}</p>
+                            
+                            <p><strong>Status:</strong> <span class="badge badge-success">Approved</span></p>
+
+                            <p><strong>Property Amenities:</strong> 
+                                <td>
+                                    {% if property.amenities.all %}
+                                        <ul>
+                                            {% for amenity in property.amenities.all %}
+                                                <li>
+                                                    <i class="{{ amenity.icon }}"></i> {{ amenity.name }}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <p>No amenities available.</p>
+                                    {% endif %}
+                                </td></p>
+                        </div>
+                        <div class="card-actions">
+                            <a href="{% url 'editproperty' property.id %}" class="btn details">View Details</a>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-center text-muted mt-4">No approved properties.</p>
+                    {% endfor %}
+                    
+                </div>
+            </div>
+            
+            <!-- Rejected Section -->
+            <div id="rejected" class="section">
+                <h2>Rejected Properties</h2>
+                <!-- <button id="clear-rejected" class="clear-btn">Clear Rejected</button> -->
+                <div class="property-list" id="rejected-list">
+                    {% for property in rejected_properties %}
+                    <div class="property-card" data-id="{{ property.id }}">
+                        <img class="property-image" src="{{ property.property_images.first.image.url }}" alt="{{ property.title }}">
+                        <div class="property-info">
+                            <!-- <h3>{{ property.title }}</h3> -->
+                            <p class="property-firstname"><strong>First Name:</strong> {{ property.first_name }}</p>
+                            <p class="property-lastname"><strong>Last Name:</strong> {{ property.last_name }}</p>
+                            <p class="property-name"><strong>villa_name:</strong> {{ property.villa_name }}</p>
+                            <p><strong>Email:</strong> {{ property.email }}</p>
+                            <p><strong>Mobile:</strong> {{ property.mobile }}</p>
+                            <p class="property-location"><strong>Location:</strong> {{ property.location }}</p>
+                            <p class="property-type"><strong>Type:</strong> {{ property.property_type }}</p>
+                            <p><strong>Rooms:</strong> {{ property.rooms }}</p>
+                            <p><strong>beds:</strong> {{ property.beds }}</p>
+                            <p><strong>baths:</strong> {{ property.baths }}</p>
+                            <p><strong>Price:</strong> {{ property.price }}</p>
+                            <p><strong>Description:</strong> {{ property.description }}</p>
+                            <p><strong>Property Amenities:</strong> 
+                                <td>
+                                    {% if property.amenities.all %}
+                                        <ul>
+                                            {% for amenity in property.amenities.all %}
+                                                <li>
+                                                    <i class="{{ amenity.icon }}"></i> {{ amenity.name }}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <p>No amenities available.</p>
+                                    {% endif %}
+                                </td></p>
+                            <p><strong>Status:</strong> <span class="badge badge-danger">Rejected</span></p>
+                            <p><strong>Reason:</strong> {{ property.rejection_reason }}</p>
+
+                        </div>
+                        <div class="card-actions">
+                            <a href="{% url 'rejectprop' property.id %}" class="btn details">View Details</a>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-center text-muted mt-4">No rejected properties.</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const sidebar = document.querySelector(".sidebar");
+    const mainContent = document.querySelector(".main-content");
+    const toggleButton = document.getElementById("sidebar-toggle");
+    const sidebarItems = document.querySelectorAll(".sidebar li"); // Select ALL sidebar items (li elements)
+    const navButtons = document.querySelectorAll(".nav-btn");
+    const pendingList = document.getElementById("pending-list");
+    const acceptedList = document.getElementById("accepted-list");
+    const rejectedList = document.getElementById("rejected-list");
+    const searchInput = document.getElementById("search");
+    const fromDateInput = document.getElementById("from-date");
+    const toDateInput = document.getElementById("to-date");
+    const sidebarLinks = document.querySelectorAll(".sidebar ul li a");
+
+
+    // Add click event listeners to sidebar links
+    sidebarLinks.forEach(link => {
+                        link.addEventListener("click", function(e) {
+                            e.preventDefault();
+                            const href = this.getAttribute('href');
+                            
+                            // Close sidebar and update layout
+                            sidebar.classList.add("hidden");
+                            mainContent.style.marginLeft = "0";
+                            mainContent.style.width = "100%";
+                            toggleButton.style.left = "10px";
+                            toggleButton.innerHTML = "☰";
+                            
+                            // Store sidebar state in localStorage
+                            localStorage.setItem('sidebarHidden', 'true');
+                            
+                            // Navigate to the new page
+                            window.location.href = href;
+                        });
+                    });
+
+                    // Check localStorage on page load
+                    if (localStorage.getItem('sidebarHidden') === 'true') {
+                        sidebar.classList.add("hidden");
+                        mainContent.style.marginLeft = "0";
+                        mainContent.style.width = "100%";
+                        toggleButton.style.left = "10px";
+                        toggleButton.innerHTML = "☰";
+                    }
+
+    
+                    // Toggle Sidebar
+                    toggleButton.addEventListener("click", function () {
+                        sidebar.classList.toggle("hidden");
+                        if (sidebar.classList.contains("hidden")) {
+                            mainContent.style.marginLeft = "0";
+                            mainContent.style.width = "100%";
+                            toggleButton.style.left = "10px";
+                            toggleButton.innerHTML = "☰";
+                            localStorage.setItem('sidebarHidden', 'true');
+                        } else {
+                            mainContent.style.marginLeft = "250px";
+                            mainContent.style.width = "calc(100% - 250px)";
+                            toggleButton.style.left = "260px";
+                            toggleButton.innerHTML = "☰";
+                            localStorage.setItem('sidebarHidden', 'false');
+                        }
+                    });
+
+     // Click outside to close sidebar
+     document.addEventListener("click", function(event) {
+                        if (!sidebar.contains(event.target) && !toggleButton.contains(event.target)) {
+                            sidebar.classList.add("hidden");
+                            mainContent.style.marginLeft = "0";
+                            mainContent.style.width = "100%";
+                            toggleButton.style.left = "10px";
+                            toggleButton.innerHTML = "☰";
+                            localStorage.setItem('sidebarHidden', 'true');
+                        }
+                    });
+
+    // Close Sidebar When Clicking Any Sidebar Item (Links & List Items)
+    sidebarItems.forEach(item => {
+        item.addEventListener("click", function (event) {
+            sidebar.classList.add("hidden");
+            mainContent.style.marginLeft = "0";
+
+            // If item has a link, navigate after closing
+            const link = item.querySelector("a");
+            if (link) {
+                setTimeout(() => {
+                    window.location.href = link.href;
+                }, 100);
+            }
+        });
+    });
+
+    // Navbar Button Click Event
+    navButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            navButtons.forEach(btn => btn.classList.remove("active"));
+            this.classList.add("active");
+
+            document.querySelectorAll(".section").forEach(section => section.classList.remove("active"));
+            document.getElementById(this.dataset.section).classList.add("active");
+        });
+    });
+
+    // Function to Update Property Status in Django and Move the Card
+    function updatePropertyStatus(propertyId, status, button) {
+        fetch(`/update-property-status/${propertyId}/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            body: JSON.stringify({ status: status })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                const card = button.closest(".property-card");
+
+                // Move the card to the correct section **before removing it**
+                if (status === "Approved") {
+                    acceptedList.appendChild(card);
+                    card.querySelector(".badge").classList.replace("badge-warning", "badge-success");
+                    card.querySelector(".badge").innerText = "Approved";
+                } else if (status === "Rejected") {
+                    rejectedList.appendChild(card);
+                    card.querySelector(".badge").classList.replace("badge-warning", "badge-danger");
+                    card.querySelector(".badge").innerText = "Rejected";
+                }
+
+                // Remove Approve & Reject buttons after moving
+                card.querySelector(".accept")?.remove();
+                card.querySelector(".reject")?.remove();
+            } else {
+                alert("Error updating property status");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    }
+
+
+
+
+    // Function to Update Property Status in Django and Move the Card
+    function updatePropertyStatus(propertyId, status, button) {
+                        if (status === "Rejected") {
+                            showRejectionModal(propertyId);
+                            return;
+                        }
+
+                        const csrftoken = getCookie('csrftoken');
+                        
+                        fetch(`/update-property-status/${propertyId}/`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRFToken": csrftoken
+                            },
+                            body: JSON.stringify({ status: status })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                const card = button.closest(".property-card");
+                                if (status === "Approved") {
+                                    moveCardToApproved(card);
+                                }
+                                showNotification(`Property ${status.toLowerCase()} successfully`, 'success');
+                            } else {
+                                showNotification(`Error ${status.toLowerCase()}ing property`, 'error');
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                            showNotification(`Error ${status.toLowerCase()}ing property`, 'error');
+                        });
+                    }
+
+
+    // Event Delegation: Apply Click Events on Approve/Reject Buttons
+    document.addEventListener("click", function (event) {
+        if (event.target.classList.contains("accept")) {
+            const card = event.target.closest(".property-card");
+            const propertyId = card.dataset.id;
+            updatePropertyStatus(propertyId, "Approved", event.target);
+        }
+
+        if (event.target.classList.contains("reject")) {
+            const card = event.target.closest(".property-card");
+            const propertyId = card.dataset.id;
+            updatePropertyStatus(propertyId, "Rejected", event.target);
+        }
+    });
+
+    // Filter Properties (Search & Date Range)
+    function filterProperties() {
+        const searchQuery = document.getElementById("search").value.toLowerCase();
+        const fromDate = document.getElementById("from-date").value ? new Date(document.getElementById("from-date").value).setHours(0, 0, 0, 0) : null;
+        const toDate = document.getElementById("to-date").value ? new Date(document.getElementById("to-date").value).setHours(23, 59, 59, 999) : null;
+
+        // Select all property cards from Pending, Accepted, and Rejected lists
+        const allPropertyLists = document.querySelectorAll(".property-list .property-card");
+
+        allPropertyLists.forEach(card => {
+            // Extract property details
+            const title = card.querySelector("h3").textContent.toLowerCase();
+            const firstName = card.querySelector(".property-firstname")?.textContent.split(":")[1]?.trim().toLowerCase() || "";
+            const lastName = card.querySelector(".property-lastname")?.textContent.split(":")[1]?.trim().toLowerCase() || "";
+            const Name = card.querySelector(".property-name")?.textContent.split(":")[1]?.trim().toLowerCase() || "";
+            const location = card.querySelector(".property-location")?.textContent.split(":")[1]?.trim().toLowerCase() || "";
+            const type = card.querySelector(".property-type")?.textContent.split(":")[1]?.trim().toLowerCase() || "";
+            const dateText = card.querySelector(".property-date")?.textContent.trim();
+            const propertyDate = dateText ? new Date(dateText).setHours(12, 0, 0, 0) : null;
+
+            // Normalize spaces in search query
+            const normalizedQuery = searchQuery.replace(/\s+/g, ' ').trim();
+
+            // Combine all searchable fields into one string
+            const combinedText = `${title} ${firstName} ${lastName} ${location} ${type} ${mobile} ${email}`.replace(/\s+/g, ' ').trim();
+
+            // Split search query into words
+            const searchWords = normalizedQuery.split(" ");
+
+            // Check if ALL search words are present in the combined text
+            let matchesSearch = searchWords.every(word => combinedText.includes(word));
+
+            console.log("Query:", searchWords);
+            console.log("Combined:", combinedText);
+            console.log("Match:", matchesSearch);
+
+
+
+            let matchesDateRange = (!fromDate || propertyDate >= fromDate) && (!toDate || propertyDate <= toDate);
+
+            // Show or hide the property card based on filters
+            card.style.display = matchesSearch && matchesDateRange ? "block" : "none";
+            });
+            }
+
+    // Attach event listeners for real-time filtering
+    document.getElementById("search").addEventListener("input", filterProperties);
+    document.getElementById("from-date").addEventListener("change", filterProperties);
+    document.getElementById("to-date").addEventListener("change", filterProperties);
+
+    searchInput.addEventListener("input", filterProperties);
+    fromDateInput.addEventListener("change", filterProperties);
+    toDateInput.addEventListener("change", filterProperties);
+
+    // Function to Get CSRF Token from Cookies
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+            const cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + "=")) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+
+
+let currentRejectionPropertyId = null;
+
+// Function to Show the Rejection Modal
+function showRejectionModal(propertyId) {
+    currentRejectionPropertyId = propertyId;
+    const modal = document.getElementById('rejectionModal');
+    if (modal) {
+        modal.style.display = 'block';
+    } else {
+        console.error("Rejection modal not found!");
+    }
+}
+
+// Function to Close the Rejection Modal
+function closeRejectionModal() {
+    const modal = document.getElementById('rejectionModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.getElementById('rejectionReason').value = '';  // Clear input
+        currentRejectionPropertyId = null;
+    }
+}
+
+// Function to Confirm Rejection
+function confirmRejection() {
+    const reason = document.getElementById('rejectionReason').value.trim();
+    
+    if (!reason) {
+        alert('Please provide a reason for rejection.');
+        return;
+    }
+
+    fetch(`/update-property-status/${currentRejectionPropertyId}/`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie('csrftoken')
+        },
+        body: JSON.stringify({ 
+            status: "Rejected",
+            rejection_reason: reason 
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            movePropertyToRejectedList(currentRejectionPropertyId, reason);
+            closeRejectionModal();
+            showNotification('Property rejected successfully', 'success');
+        } else {
+            showNotification('Error rejecting property', 'error');
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        showNotification('Error rejecting property', 'error');
+    });
+}
+
+
+function movePropertyToRejectedList(propertyId, reason) {
+    const card = document.querySelector(`.property-card[data-id="${propertyId}"]`);
+    if (!card) return;
+
+    // Update status badge to "Rejected"
+    const statusBadge = card.querySelector(".badge");
+    if (statusBadge) {
+        statusBadge.className = "badge badge-danger";
+        statusBadge.textContent = "Rejected";
+    }
+
+    // Remove Approve & Reject buttons
+    const actionButtons = card.querySelectorAll(".accept, .reject");
+    actionButtons.forEach(button => button.remove());
+
+    // Add rejection reason below the description
+    let reasonElement = card.querySelector(".rejection-reason");
+    if (!reasonElement) {
+        reasonElement = document.createElement("p");
+        reasonElement.classList.add("rejection-reason");
+        card.querySelector(".property-info").appendChild(reasonElement);
+    }
+    reasonElement.innerHTML = `<strong>Rejection Reason:</strong> ${reason}`;
+
+    // Move card to Rejected List
+    const rejectedList = document.querySelector("#rejected .property-list");
+    if (rejectedList) {
+        rejectedList.appendChild(card);
+    } else {
+        console.error("Rejected list container not found.");
+    }
+
+    // Switch to Rejected Tab
+    const rejectedTab = document.querySelector('[data-section="rejected"]');
+    if (rejectedTab) {
+        rejectedTab.click();
+    } else {
+        console.error("Rejected tab not found.");
+    }
+}
+
+
+function moveCardToRejected(card, reason) {
+    // Update badge status
+    const statusBadge = card.querySelector(".badge");
+    if (statusBadge) {
+        statusBadge.className = "badge badge-danger";
+        statusBadge.textContent = "Rejected";
+    }
+
+    // Add rejection reason
+    const propertyInfo = card.querySelector(".property-info");
+    if (propertyInfo) {
+        // Check if rejection reason already exists
+        let rejectionP = propertyInfo.querySelector('p strong:contains("Rejection Reason:")');
+        if (!rejectionP) {
+            // Create new rejection reason element
+            const rejectionElement = document.createElement('p');
+            rejectionElement.innerHTML = `<strong>Rejection Reason:</strong> ${reason}`;
+            // Insert before the last paragraph (usually the date)
+            const lastP = propertyInfo.querySelector('p:last-child');
+            propertyInfo.insertBefore(rejectionElement, lastP);
+        }
+    }
+
+    // Remove Approve & Reject buttons
+    const actionButtons = card.querySelectorAll(".accept, .reject");
+    actionButtons.forEach(button => button.remove());
+
+    // Move card to Rejected List
+    const rejectedList = document.querySelector("#rejected .property-list");
+    if (rejectedList) {
+        rejectedList.appendChild(card);
+    }
+
+    // Switch to Rejected Tab
+    document.querySelector('[data-section="rejected"]').click();
+}
+
+// Function to Show Notifications
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+// Event Listeners
+document.addEventListener('DOMContentLoaded', function () {
+    // Event listener for the confirm rejection button
+    const confirmButton = document.getElementById('confirmRejection');
+    if (confirmButton) {
+        confirmButton.addEventListener('click', confirmRejection);
+    } else {
+        console.error("Confirm rejection button not found.");
+    }
+
+    // Event listener for the cancel button
+    const cancelButton = document.getElementById('cancelRejection');
+    if (cancelButton) {
+        cancelButton.addEventListener('click', closeRejectionModal);
+    }
+
+    // Close modal when clicking outside
+    const modal = document.getElementById('rejectionModal');
+    if (modal) {
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeRejectionModal();
+            }
+        };
+    }
+});
+
+// Notification Styles
+const style = document.createElement('style');
+style.textContent = `
+    .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 25px;
+        border-radius: 4px;
+        color: white;
+        z-index: 1000;
+        animation: slideIn 0.5s ease-out;
+    }
+    
+    .notification.success {
+        background-color: #28a745;
+    }
+    
+    .notification.error {
+        background-color: #dc3545;
+    }
+    
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.startsWith(name + "=")) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Function to Move Card to Approved List
+function moveCardToApproved(card) {
+    // Update badge status
+    const statusBadge = card.querySelector(".badge");
+    if (statusBadge) {
+        statusBadge.className = "badge badge-success";
+        statusBadge.textContent = "Approved";
+    }
+
+    // Remove Approve & Reject buttons
+    const actionButtons = card.querySelectorAll(".accept, .reject");
+    actionButtons.forEach(button => button.remove());
+
+    // Update View Details button to be the only action
+    const cardActions = card.querySelector(".card-actions");
+    if (cardActions) {
+        const detailsButton = card.querySelector(".details");
+        if (detailsButton) {
+            // Update href to use editproperty URL instead
+            detailsButton.href = detailsButton.href.replace('details', 'editproperty');
+        }
+    }
+
+    // Move card to Approved List
+    const acceptedList = document.querySelector("#accepted .property-list");
+    if (acceptedList) {
+        acceptedList.appendChild(card);
+    }
+
+    // Switch to Accepted Tab
+    document.querySelector('[data-section="accepted"]').click();
+}
+
+
+
+            </script>
+
+
+</div>
+</div>
+<!-- Add this before the closing body tag -->
+<div id="rejectionModal" class="rejection-modal">
+    <div class="rejection-modal-content">
+        <h2>Reject Property</h2>
+        <p>Please provide a reason for rejecting this property:</p>
+        <textarea id="rejectionReason" placeholder="Enter rejection reason..."></textarea>
+        <div class="rejection-modal-buttons">
+            <button type="button" id="cancelRejection" class="cancel-btn">Cancel</button>
+            <button type="button" id="confirmRejection" class="confirm-btn">Confirm Rejection</button>
+        </div>
+    </div>
+        </div>
+    </body>
+</html>

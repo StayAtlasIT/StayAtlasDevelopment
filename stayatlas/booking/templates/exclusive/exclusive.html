@@ -1,0 +1,161 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="../../Home/Media/stay.PNG" style="border-radius: 100%;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayAtlas-Exclusive</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'booking/css/exclusive/exclusive.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<body>
+    <div class="container">
+<header>
+    <div class="logo">Atlas Exclusive</div>
+    <div class="login-container">
+<a href="../../Explore/Html/login.html" id="login-btn"><i class="fas fa-user"></i></a>
+
+    </div>
+        </header>
+        
+            <!-- Property Card 1 -->
+            <div class="property-grid">
+                {% for booking in exclusive_bookings %}
+                <div class="property-card" data-id="{{ booking.id }}">
+                    <div class="property-ribbon">Stay <span
+                            class="luxury-text">Exclusive</span></div>
+                            {% if booking.property_images.all %}
+                            <!-- First image for the property card -->
+                            <img class="property-image" 
+                                 src="{{ booking.property_images.first.image.url }}" 
+                                 alt="{{ booking.villa_name }}" >
+                                 {% endif %}
+                    <div class="property-details">
+                        <div class="property-title">{{ booking.title }}</div>
+                        <div class="property-firstname">
+                            {{booking.first_name}}</div>
+                        <div class="property-lastname">
+                            {{booking.last_name}}</div>
+                        <div class="property-aloction">
+                            <i class="fas fa-map-marker-alt location-icon"></i>
+                            <span style="align-items: center;">{{ booking.location }}</span>
+                        </div>
+
+                        <div class="property-amenities">
+                            {{ booking.rooms }} rooms | {{ booking.beds }} beds
+                            | {{ booking.bath }} bath
+                        </div>
+
+                        <p><strong>Description:</strong>
+                            {{ booking.description}}</p>
+
+                        <div
+                            style=" justify-content: space-between; margin-top: 10px;">
+                            <div class="property-price">
+                                <span class="price-amount">
+                                    ₹ {{ booking.price}}</span>
+                                <span class="price-period">per night</span>
+                            </div>
+                            <a href="{% url 'exclusivebooking_detail' booking.id %}">
+                                <button class="cta-button">Enquire Now</button>
+                            </a>
+                        <br>
+                       
+                    </div>
+                    </div>
+                    </div>
+                
+                {% endfor %} <!-- ✅ Closing the for loop correctly -->
+        <!--<div class="pagination">
+            <div class="page-item page-nav">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="page-item active">1</div>
+            <div class="page-item active">2</div>
+            <div class="page-item active">3</div>
+            <div class="page-item page-nav">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>-->
+        <!-- Login Popup -->
+<!-- <div id="login-popup">
+    <div class="popup-content">
+        <span id="close-popup">&times;</span>
+        <iframe src="{% url 'exclusive_new' %}"></iframe>
+"></iframe>
+    </div>
+</div> -->
+{% load static %}
+<script src="{% static 'booking/js/exclusive/exclusive.js' %}"></script>
+
+</div>
+    
+
+
+<!-- Footer Section -->
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Atlasatlas - Footer</title>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+            {% load static %}
+    <link rel="stylesheet" href="{% static 'booking/css/exclusive/footer.css' %}">
+            <style>
+                .footer {
+                    background-color: #0e3226; /* Solid green background */
+                    display: flex;
+                }
+                
+                .footer a {
+                    transition: color 0.3s ease; /* Smooth color transition on hover */
+                }
+                .footer a:hover {
+                    color: #ffcc00; /* Change color on hover */
+                }
+            </style>
+        </head>
+        <body>
+            <div class="footer">
+                <div class="container">
+                    <h3>For more Information</h3>
+                    <ul>
+                       <li><a href="../footer/html/list.html">List your property</a></li>
+                       <li><a href="#">Stays</a></li>
+                       <li><a href="../footer/html/chat.html">Customer Support</a></li>
+                       <li><a href="../footer/aboutus.html">About us</a></li>
+                       <li><a href="../../Home/Html/index.html">Home</a></li>
+                       <li><a href="https://wa.me/message/AYZVA4A3E6GFG1" target="_blank">Contact us</a></li>
+                   </ul>
+                   <div class="contact-info">
+                       <h3>Contact Information</h3>
+                       <p>Address: Malad, Mumbai, 400097</p>
+                       <p>Phone: +91 85911 31447</p>
+                       <p>Email: <a href="mailto:stayatlasin@gmail.com" style="color: #ffffff;">stayatlasin@gmail.com</a></p>
+                   </div>
+                   <div class="social-icons">
+                       <a href="https://wa.me/message/AYZVA4A3E6GFG1" target="_blank" class="fab fa-whatsapp" aria-label="WhatsApp"></a>
+                       <a href="https://www.instagram.com/stayatlas.in?igsh=NXU2NXlhYmRlemJh" target="_blank" class="fab fa-instagram" aria-label="Instagram"></a>
+                       <a href="https://www.facebook.com/yourpage" target="_blank" class="fab fa-facebook" aria-label="Facebook"></a>
+                   </div>
+                   <div class="policies">
+                       <h3>Policies</h3>
+                       <p>
+                           <a href="../footer/html/term.html" style="color: #ffffff; text-decoration: none;">Terms & Conditions</a> | 
+                           <a href="../footer/html/PrivacyPolicy.html" style="color: #ffffff; text-decoration: none;">Privacy Policy</a> | 
+                           <a href="../footer/html/Cancellation Policy.html" style="color: #ffffff; text-decoration: none;">Cancellation Policy</a>
+                       </p>
+                   </div>
+                   <div class="intro-text">
+                       <p>"Whether you want a quaint abode among the woods, a luxurious stay, or a homely vibe for your vacations - we, at Stayatlas & Experiences, strive to provide the best, striking the right balance between luxury and homely convenience."</p>
+                   </div>
+                   <div class="copyright"> 
+                       <p>&copy; 2025 Staysatlas | All rights reserved.</p>
+                   </div>
+               </div>
+           </div>
+       </body>
+       </html>
+       </body>
+       </html>

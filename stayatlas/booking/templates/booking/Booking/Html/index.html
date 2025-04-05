@@ -1,0 +1,1195 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="{% static 'Home/Media/stay.PNG' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayAtlas</title>
+    <link rel="stylesheet" href="{% static 'booking/css/booking/style.css' %}">
+    <link rel="stylesheet" href="{% static 'booking/css/booking/subhead.css' %}">
+    <link rel="stylesheet" href="{% static 'booking/css/explore/footer.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="header-bcontainer">
+            <div class="logo">StayAtlas</div>
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="#">HOME</a>
+                <div class="dropdown">
+                    <button class="dropbtn">LOCATION</button>
+                    <div class="dropdown-content">
+                        <a href="#">Panvel</a>
+                        <a href="#">Khanavale</a>
+                        <a href="#">Other Locations</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">EXCLUSIVE</button>
+                    <div class="dropdown-content">
+                        <a href="#">Villas</a>
+                        <a href="#">Resorts</a>
+                        <a href="#">Pool Homes</a>
+                    </div>
+                </div>
+                <a href="https://wa.me/918591131447" target="_blank">CONTACT US</a>
+
+            </div>
+        </div>
+    </header>
+    <!-- Villa Header -->
+    <!-- <div class="villa-header-wrapper">
+        <div class="villa-header">
+            <h1 class="villa-title"><div class="property-details">
+                <div class="property-title">{{ property.villa_name }}</div></h1>
+            <div class="action-buttons">
+                <p></p>
+                <button class="action-btn" id="shareBtn">
+                    <i class="fas fa-share"></i> Share
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Section --
+    <div class="gallery-bcontainer">
+        <div class="gallery-grid">
+            <div class="gallery-main">
+                {% if property.property_images.all %}
+                    <img src="{{ property.property_images.first.image.url }}" id="main-image" alt="Villa Main View" class="gallery-image">
+                {% else %}
+                    <img src="../Media/default.jpg" id="main-image" alt="Villa Main View" class="gallery-image">
+                {% endif %}
+                <button class="view-photos-btn" id="viewPhotosBtn">
+                    <i class="fas fa-image"></i> View Photos
+                </button>
+            </div>
+            <div class="gallery-sub">
+                <div class="gallery-item">
+                    <img src="../Media/bdroom.jpg" alt="Bedroom" class="gallery-image">
+                </div>
+                <div class="gallery-item">
+                    <img src="../Media/bdroom2.jpg" alt="Pool View" class="gallery-image">
+                    <div class="more-indicator">+25 More</div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    
+    <h1 class="villa-title">{{ property.villa_name }}</h1>
+    <div class="container">
+        <div class="image-gallery">
+            <div class="main-image-container">
+                <img class="main-image" src="{{ property.property_images.first.image.url }}" alt="{{ property.villa_name }}">
+                {% if property.property_images.count > 3 %}
+                    <button class="show-more-btn" onclick="showAllPhotos()">Show more photos</button>
+                {% endif %}
+            </div>
+            <div class="thumbnail-images">
+                {% for image in property.property_images.all|slice:"1:3" %}
+                    <img src="{{ image.image.url }}" alt="Thumbnail" onclick="openModal('{{ image.image.url }}')">
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <style>
+        /* General Styling */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+        }
+    
+        .image-gallery {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+    
+        /* Main Image */
+        .main-image-container {
+            position: relative;
+            display: inline-block;
+        }
+    
+        .main-image {
+            width: 780px;
+            height: 530px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+    
+        .show-more-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+    
+        .show-more-btn:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+    
+        /* Thumbnail Images */
+        .thumbnail-images {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+    
+        .thumbnail-images img {
+            width: 370px;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+    
+        .thumbnail-images img:hover {
+            transform: scale(1.05);
+        }
+    
+        /* Villa Title */
+        .villa-title {
+            text-align: center;
+            font-size: 70px;
+            font-weight: 100;
+            font-family: 'PT Serif', serif;
+            margin-bottom: 20px;
+        }
+    
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .image-gallery {
+                flex-direction: column;
+                align-items: center;
+            }
+    
+            .main-image {
+                width: 100%;
+                height: auto;
+            }
+    
+            .thumbnail-images {
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 5px;
+                width: 100%;
+            }
+    
+            .thumbnail-images img {
+                width: 48%;
+                height: auto;
+            }
+        }
+    </style><script>
+    // Open individual photos when clicked
+document.querySelectorAll('.image-gallery').forEach((img, index) => {
+    img.addEventListener('click', () => {
+        openPhotoModal(index);
+    });
+});
+
+function openPhotoModal(index) {
+    currentIndex = index;
+    updateModalImage();
+    photoModal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+} </script>
+
+    
+    
+
+<!-- Modal for showing all photos -->
+<div id="photosModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="all-photos-grid">
+            {% for image in property.property_images.all %}
+                <img src="{{ image.image.url }}" alt="Property photo" onclick="openImageModal('{{ image.image.url }}')">
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+     /* Modal styles */
+     .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.9);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 2% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 40vw;  /* Increase width for better spacing */
+        height: auto; /* Allow height to adjust */
+        max-height: 95vh; /* Prevent excessive height */
+        overflow-y: auto; /* Enable scrolling if needed */
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #333;
+    }
+
+ /* Grid Layout */
+ .all-photos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(600px, 1fr)); 
+    gap: 10px;
+    justify-content: center;
+}
+
+
+
+/* Image Styling */
+.all-photos-grid img {
+    width: 600px;
+    height: 600px;
+    object-fit: cover;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+/* Hover Effect */
+.all-photos-grid img:hover {
+    transform: scale(0.99);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .all-photos-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .all-photos-grid {
+        grid-template-columns: repeat(1, 1fr); /* 1 column for mobile screens */
+    }
+}
+
+</style>
+
+
+<script>
+    function showAllPhotos() {
+        document.getElementById('photosModal').style.display = 'block';
+    }
+    
+    function closeModal() {
+        document.getElementById('photosModal').style.display = 'none';
+    }
+    
+    function openImageModal(imageUrl) {
+        document.getElementById('modalImage').src = imageUrl;
+        document.getElementById('imageModal').style.display = 'block';
+    }
+    
+    function closeImageModal() {
+        document.getElementById('imageModal').style.display = 'none';
+    }
+    
+    function openModal(imageUrl) {
+        document.getElementById('modalImage').src = imageUrl;
+        document.getElementById('imageModal').style.display = 'block';
+    }
+    
+    // Close modals when clicking outside the content
+    window.onclick = function(event) {
+        if (event.target.className === 'modal') {
+            event.target.style.display = 'none';
+        }
+    }
+</script>
+
+    
+    
+
+    <!-- Photo Modal 
+    <div class="modal" id="photoModal">
+        <div class="modal-header">
+            <button class="close-btn" id="closeModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="photo-counter"><span id="currentPhoto">1</span>/<span id="totalPhotos">30</span></div>
+        </div>
+        <div class="modal-content">
+            <button class="image-nav prev-btn" id="prevBtn">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="modal-image-bcontainer">
+                <img src="../Media/outsitv.jpg" alt="Villa View" class="modal-image" id="modalImage">
+            </div>
+            <button class="image-nav next-btn" id="nextBtn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        <div class="image-caption" id="imageCaption">Outside sitting area</div>
+    </div>-->
+
+<!-- Login Modal -->
+<div class="modal" id="loginModal" style="display:none;">
+    <div class="modal-content">
+        <span class="close" id="closeLoginModal">&times;</span>
+        <div id="loginContent"></div>
+    </div>
+</div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="share-dialog" id="shareDialog">
+        <div class="dialog-header">
+            <h3 class="dialog-title">Share this place</h3>
+            <button class="close-btn" id="closeShareDialog">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="share-preview">
+            <img src="../Media/frontv.jpg" alt="Villa Preview" class="preview-img">
+            <div class="preview-info">
+                <h4>Villa in Khanavale • ★4.93</h4>
+                <p> {{ property.baths }} Baths • {{ property.beds }} Beds • {{ property.rooms }} room</p>
+            </div>
+        </div>
+        <div class="share-options">
+            <div class="share-option" id="shareEmail">
+                <div class="share-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="share-label">Email</div>
+            </div>
+            <div class="share-option" id="shareMessages">
+                <div class="share-icon">
+                    <i class="fas fa-comment"></i>
+                </div>
+                <div class="share-label">Messages</div>
+            </div>
+            <div class="share-option" id="shareWhatsApp">
+                <div class="share-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div class="share-label">WhatsApp</div>
+            </div>
+            <div class="share-option" id="shareFacebook">
+                <div class="share-icon">
+                    <i class="fab fa-facebook"></i>
+                </div>
+                <div class="share-label">Facebook</div>
+            </div>
+        </div>
+    </div>
+    <!--main-->
+    <div class="container">
+        <div class="left-content">
+            <!-- {{ property }} -->
+            <div class="container">
+                <div class="left-content">
+                    <h1><span class="property-title">{{ property.villa_name }}</span></h1><br>
+            
+                    <div class="property-location">
+                        <i class="fas fa-map-marker-alt"></i> {{ property.location }}
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="views">
+                <span class="view-count">5.0 ★</span>
+            </div>
+            
+            <div class="tags">
+                <div class="tag">
+                    <span class="tag-icon">🏠</span>
+                        {{ property.beds }} Beds 
+                </div>
+                <div class="tag">
+                    <span class="tag-icon">👥</span>  {{ property.rooms }} room
+                </div>
+                <div class="tag">
+                    <span class="tag-icon">🛁</span> {{ property.baths }} Baths
+                </div>
+            </div>
+            
+            <h2>Property Description</h2>
+            <p class="description">{{ property.description }}</p>
+            
+            <div class="action-buttons">
+                <button class="action-btn">PROPERTY BROCHURE</button>
+                <button class="action-btn" onclick="window.open('../Media/videoplayback.mp4', '_blank')">PROPERTY VIDEOS</button>
+
+            </div>
+            
+            <h2>Amenities</h2>
+            <div class="amenities-grid">
+                {% if property.amenities.all %}
+                    {% for amenity in property.amenities.all %}
+                        <div class="amenity">
+                            <i class="{{ amenity.icon }}"></i> {{ amenity.name }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No amenities available.</p>
+                {% endif %}
+            </div>
+            
+            <style>
+                .amenities-grid {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+                    gap: 10px; /* Reduced gap */
+                    margin-top: 10px; /* Adjusted margin */
+                }
+                
+                .amenity {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px; /* Reduced space between icon and text */
+                    padding: 5px;
+                }
+                
+            </style>
+        </div>
+
+            
+        
+        <div class="right-content">
+            <div class="booking-card">
+                <div class="booking-header">
+                    <div class="price">From ₹ / Person</div>
+                </div>
+                
+                <div class="guest-field" id="guestField">
+                    <div class="label">Guests</div>
+                    <div id="guestDisplay">Guest & Pet</div>
+                    
+                    <div class="guest-selector" id="guestSelector">
+                        <div class="guest-type">
+                            <div>Adults</div>
+                            <div class="counter">
+                                <button class="counter-btn">-</button>
+                                <div class="counter-display">1</div>
+                                <button class="counter-btn">+</button>
+                            </div>
+                        </div>
+                        <div class="guest-type">
+                            <div>Pets</div>
+                            <div class="counter">
+                                <button class="counter-btn">-</button>
+                                <div class="counter-display">0</div>
+                                <button class="counter-btn">+</button>
+                            </div>
+                        </div>
+                        <div class="guest-type">
+                            <div>Children Under 6</div>
+                            <div class="counter">
+                                <button class="counter-btn">-</button>
+                                <div class="counter-display">0</div>
+                                <button class="counter-btn">+</button>
+                            </div>
+                        </div>
+                        <div class="guest-actions">
+                            <button class="apply-btn">APPLY</button>
+                            <button class="clear-btn">CLEAR</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="check-date-field" id="checkDateField">
+                    <div>Check in - Check out</div>
+                    <input type="text" id="datePicker" placeholder="Select Dates" readonly>
+                </div>
+
+                
+                <button class="book-btn">VIEW OFFERS</button>
+                
+                <table class="tariff-table">
+                    <tr>
+                        <td>Tariff</td>
+                        <td style="text-align: right;" id="tariff">₹5000</td>
+                    </tr>
+                    <tr><td>Villa price</td>
+                        <td style="text-align: right;"id="perNight" data-price="{{ property.price }}">
+                            <div class="property-price">
+                                <span class="price-amount">₹ {{ property.price }}</span>
+                                <span class="price-period">per night</span>
+                            </div>
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>Flat 10% off</td>
+                        <td style="text-align: right;" id="discount">-₹0</td>
+                    </tr>
+                    <tr>
+                        <td>GST (18%)</td>
+                        <td style="text-align: right;" id="gst">+₹0</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td><strong>Total Amount</strong></td>
+                        <td style="text-align: right;"><strong id="totalAmount">₹0</strong></td>
+                    </tr>
+                </table>
+                
+                <div class="small-text">
+                    You will find the best rates on our website. No discounts will be given on phone.
+                </div>
+                
+                <button class="book-btn">BOOK NOW</button>
+                <button class="contact-btn">CONTACT YOUR HOST<br>+91 8591131447 </button>
+            </div>
+        </div>
+    </div>
+    <script>document.addEventListener("DOMContentLoaded", function () {
+        const applyButton = document.querySelector(".apply-btn");
+        const datePicker = document.querySelector("#datePicker");
+        const totalAmountElement = document.querySelector(".total-amount");
+    
+        let guestsSelected = false;
+        let datesSelected = false;
+    
+        // Initialize Flatpickr for date selection
+        flatpickr("#datePicker", {
+            mode: "range",
+            minDate: "today",
+            dateFormat: "Y-m-d",
+            disableMobile: true,
+            onClose: function (selectedDates) {
+                if (selectedDates.length === 2) {
+                    datesSelected = true;
+                    checkConditionsAndCalculatePrice();
+                }
+            }
+        });
+        let perNightElement = document.getElementById("perNight");
+let perNightCharge = parseFloat(perNightElement.getAttribute("data-price")) || 20000;
+
+    
+        // Guest Selector Logic
+        const guestField = document.getElementById("guestField");
+        const guestSelector = document.getElementById("guestSelector");
+        const guestDisplay = document.getElementById("guestDisplay");
+        const counterDisplays = document.querySelectorAll(".counter-display");
+        const counterBtns = document.querySelectorAll(".counter-btn");
+    
+        guestField.addEventListener("click", function (event) {
+            event.stopPropagation();
+            guestSelector.style.display = guestSelector.style.display === "block" ? "none" : "block";
+        });
+    
+        function updateCounter(counterDisplay, increment) {
+            let currentValue = parseInt(counterDisplay.textContent);
+            currentValue = increment ? currentValue + 1 : Math.max(0, currentValue - 1);
+            counterDisplay.textContent = currentValue;
+        }
+    
+        counterBtns.forEach((btn, index) => {
+            btn.addEventListener("click", function (event) {
+                event.stopPropagation();
+                const isIncrement = btn.textContent === "+";
+                const counterDisplay = counterDisplays[Math.floor(index / 2)];
+                updateCounter(counterDisplay, isIncrement);
+            });
+        });
+    
+        applyButton.addEventListener("click", function (event) {
+            event.stopPropagation();
+            const adults = parseInt(counterDisplays[0].textContent);
+            const pets = parseInt(counterDisplays[1].textContent);
+            const children = parseInt(counterDisplays[2].textContent);
+    
+            if (adults === 0) {
+                alert("At least one adult must be selected.");
+                return;
+            }
+    
+            guestDisplay.textContent = `${adults} Adults, ${pets} Pets, ${children} Children`;
+            guestSelector.style.display = "none";
+            guestsSelected = true;
+            checkConditionsAndCalculatePrice();
+        });
+    
+        window.addEventListener("click", function (event) {
+            if (guestSelector.style.display === "block") {
+                guestSelector.style.display = "none";
+            }
+        });
+    
+        function checkConditionsAndCalculatePrice() {
+            if (guestsSelected && datesSelected) {
+                calculateTotalAmount();
+                totalAmountElement.style.display = "block";
+            } else {
+                totalAmountElement.style.display = "none";
+            }
+        }
+    
+        function calculateTotalAmount() {
+            let basePrice = 23000;
+            let nights = calculateNights(datePicker.value);
+            let guests = parseInt(counterDisplays[0].textContent) || 1;
+            let children = parseInt(counterDisplays[2].textContent) || 0;
+            let pets = parseInt(counterDisplays[1].textContent) || 0;
+    
+            let totalPrice = basePrice * guests * nights;
+            let discount = totalPrice * 0.26;
+            let petCharge = pets * 1000 * nights;
+            let finalAmount = totalPrice - discount + petCharge;
+    
+            totalAmountElement.textContent = `Total Amount: ₹${finalAmount.toFixed(2)}`;
+        }
+    
+        function calculateNights(dateRange) {
+            let dates = dateRange.split(" to ");
+            if (dates.length !== 2) return 1;
+    
+            let checkinDate = new Date(dates[0]);
+            let checkoutDate = new Date(dates[1]);
+            let diffTime = checkoutDate - checkinDate;
+            return Math.max(1, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+        }
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        const guestDisplay = document.getElementById("guestDisplay");
+        const guestSelector = document.getElementById("guestSelector");
+        const applyButton = document.querySelector(".apply-btn");
+        const viewOffersBtn = document.querySelector(".book-btn");
+        const totalAmountElement = document.querySelector(".total-amount");
+        const tariffElement = document.getElementById("tariff");
+        const perNightElement = document.getElementById("perNight");
+        const discountElement = document.getElementById("discount");
+        const gstElement = document.getElementById("gst");
+        const totalAmountFinal = document.getElementById("totalAmount");
+        const datePicker = document.getElementById("datePicker");
+        
+        const baseTariff = 5000; // Base tariff per room
+        const perNightCharge = 20000; // Fixed per-night charge
+        const extraGuestCharge = 1500; // Charge per extra guest per night
+        const discountRate = 0.10; // 10% discount
+        const gstRate = 0.18; // 18% GST
+        let totalGuests = 2; // Default guests
+        let nights = 1; // Default nights
+        
+        function updateGuestDisplay() {
+            guestDisplay.textContent = `${totalGuests} Guest${totalGuests > 1 ? 's' : ''}`;
+        }
+        
+        function calculateNights(dateRange) {
+            let dates = dateRange.split(" to ");
+            if (dates.length !== 2) return 1;
+    
+            let checkinDate = new Date(dates[0]);
+            let checkoutDate = new Date(dates[1]);
+            let diffTime = checkoutDate - checkinDate;
+            return Math.max(1, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+        }
+    
+        applyButton.addEventListener("click", function () {
+            let guests = parseInt(document.querySelector(".counter-display").textContent) || 2;
+            totalGuests = guests;
+            updateGuestDisplay();
+            guestSelector.style.display = "none";
+        });
+    
+        function calculatePrice() {
+            nights = calculateNights(datePicker.value);
+            let extraGuests = Math.max(0, totalGuests - 2);
+            let extraGuestCost = extraGuests * extraGuestCharge * nights;
+    
+            let totalTariff = (baseTariff * nights) + extraGuestCost;
+            let totalBeforeDiscount = totalTariff + (perNightCharge * nights);
+            let discountAmount = totalBeforeDiscount * discountRate;
+            let discountedTotal = totalBeforeDiscount - discountAmount;
+            let gstAmount = discountedTotal * gstRate;
+            let finalTotal = discountedTotal + gstAmount;
+    
+            tariffElement.textContent = `₹${totalTariff}`;
+            perNightElement.textContent = `₹${perNightCharge * nights}`;
+            discountElement.textContent = `-₹${discountAmount.toFixed(2)}`;
+            gstElement.textContent = `+₹${gstAmount.toFixed(2)}`;
+            totalAmountFinal.textContent = `₹${finalTotal.toFixed(2)}`;
+        }
+    
+        viewOffersBtn.addEventListener("click", function () {
+            calculatePrice();
+            totalAmountElement.style.display = "block";
+        });
+    
+        datePicker.addEventListener("change", function () {
+            calculatePrice();
+        });
+        
+        updateGuestDisplay(); // Set initial guest display
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        const guestDisplay = document.getElementById("guestDisplay");
+        const guestSelector = document.getElementById("guestSelector");
+        const applyButton = document.querySelector(".apply-btn");
+        const viewOffersBtn = document.querySelector(".book-btn");
+        const totalAmountElement = document.getElementById("priceDetails");
+        const tariffElement = document.getElementById("tariff");
+        const perNightElement = document.getElementById("perNight");
+        const discountElement = document.getElementById("discount");
+        const gstElement = document.getElementById("gst");
+        const totalAmountFinal = document.getElementById("totalAmount");
+        const datePicker = document.getElementById("datePicker");
+        
+        const baseTariff = 5000; // Base tariff per room
+        const perNightCharge = {{ property.price }}; // Fixed per-night charge
+        const extraGuestCharge = 1500; // Charge per extra guest per night
+        const discountRate = 0.10; // 10% discount
+        const gstRate = 0.18; // 18% GST
+        let totalGuests = 2; // Default guests
+        let nights = 1; // Default nights
+        
+        function updateGuestDisplay() {
+            guestDisplay.textContent = `${totalGuests} Guest${totalGuests > 1 ? 's' : ''}`;
+        }
+        
+        function calculateNights(dateRange) {
+            let dates = dateRange.split(" to ");
+            if (dates.length !== 2) return 1;
+    
+            let checkinDate = new Date(dates[0]);
+            let checkoutDate = new Date(dates[1]);
+            let diffTime = checkoutDate - checkinDate;
+            return Math.max(1, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+        }
+    
+        applyButton.addEventListener("click", function () {
+            let guests = parseInt(document.querySelector(".counter-display").textContent) || 2;
+            totalGuests = guests;
+            updateGuestDisplay();
+            guestSelector.style.display = "none";
+        });
+    
+        function calculatePrice() {
+            nights = calculateNights(datePicker.value);
+            let extraGuests = Math.max(0, totalGuests - 2);
+            let extraGuestCost = extraGuests * extraGuestCharge * nights;
+    
+            let totalTariff = (baseTariff * nights) + extraGuestCost;
+            let totalBeforeDiscount = totalTariff + (perNightCharge * nights);
+            let discountAmount = totalBeforeDiscount * discountRate;
+            let discountedTotal = totalBeforeDiscount - discountAmount;
+            let gstAmount = discountedTotal * gstRate;
+            let finalTotal = discountedTotal + gstAmount;
+    
+            tariffElement.textContent = `₹${totalTariff}`;
+            perNightElement.textContent = `₹${perNightCharge * nights}`;
+            discountElement.textContent = `-₹${discountAmount.toFixed(2)}`;
+            gstElement.textContent = `+₹${gstAmount.toFixed(2)}`;
+            totalAmountFinal.textContent = `₹${finalTotal.toFixed(2)}`;
+        }
+    
+        viewOffersBtn.addEventListener("click", function () {
+            calculatePrice();
+            totalAmountElement.style.display = "block";
+        });
+    
+        datePicker.addEventListener("change", function () {
+            calculatePrice();
+        });
+        
+        updateGuestDisplay(); // Set initial guest display
+    });
+    
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.main-header') && navLinks.classList.contains('show')) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('show');
+            dropdowns.forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+        }
+    });
+    
+    // Resize event handler
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768 && navLinks.classList.contains('show')) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('show');
+            dropdowns.forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+        }
+    });
+    
+    // Open Photo Modal
+    viewPhotosBtn.addEventListener('click', () => {
+        openPhotoModal(0);
+    });
+    
+    // Open individual photos when clicked
+    document.querySelectorAll('.gallery-image').forEach((img, index) => {
+        img.addEventListener('click', () => {
+            openPhotoModal(index);
+        });
+    });
+    
+    function openPhotoModal(index) {
+        currentIndex = index;
+        updateModalImage();
+        photoModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+    
+    // Close Photo Modal
+    closeModalBtn.addEventListener('click', () => {
+        photoModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    });
+    
+    // Navigation buttons
+    prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+        updateModalImage();
+    });
+    
+    nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % galleryImages.length;
+        updateModalImage();
+    });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (photoModal.style.display === 'block') {
+            if (e.key === 'ArrowLeft') {
+                currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+                updateModalImage();
+            } else if (e.key === 'ArrowRight') {
+                currentIndex = (currentIndex + 1) % galleryImages.length;
+                updateModalImage();
+            } else if (e.key === 'Escape') {
+                photoModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+    });
+    
+    // Touch swipe for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    photoModal.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+    
+    photoModal.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+    
+    function handleSwipe() {
+        if (touchEndX < touchStartX) {
+            // Swipe left - next image
+            currentIndex = (currentIndex + 1) % galleryImages.length;
+            updateModalImage();
+        } else if (touchEndX > touchStartX) {
+            // Swipe right - previous image
+            currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+            updateModalImage();
+        }
+    }
+    
+    // Update modal image and caption
+    function updateModalImage() {
+        modalImage.src = galleryImages[currentIndex].src;
+        imageCaption.textContent = galleryImages[currentIndex].caption;
+        currentPhotoEl.textContent = currentIndex + 1;
+    }
+    
+    // Share Button
+    shareBtn.addEventListener('click', () => {
+        shareDialog.style.display = 'block';
+        overlay.style.display = 'block';
+    });
+    
+    // Close Share Dialog
+    closeShareDialog.addEventListener('click', () => {
+        shareDialog.style.display = 'none';
+        overlay.style.display = 'none';
+    });
+    
+    overlay.addEventListener('click', () => {
+        shareDialog.style.display = 'none';
+        overlay.style.display = 'none';
+    });
+    
+    // Share options functionality
+    document.getElementById('copyLink').addEventListener('click', () => {
+        // Copy URL to clipboard
+        navigator.clipboard.writeText(window.location.href)
+            .then(() => {
+                alert('Link copied to clipboard!');
+                shareDialog.style.display = 'none';
+                overlay.style.display = 'none';
+            });
+    });
+    
+    document.getElementById('shareEmail').addEventListener('click', () => {
+        window.location.href = `mailto:?subject=Check out this Villa&body=I found this amazing villa on EKOSTAY: ${window.location.href}`;
+    });
+    
+    document.getElementById('shareWhatsApp').addEventListener('click', () => {
+        window.open(`https://wa.me/?text=Check out this amazing villa on EKOSTAY: ${window.location.href}`);
+    });
+    
+    document.getElementById('shareFacebook').addEventListener('click', () => {
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`);
+    });
+    
+    document.getElementById('shareTwitter').addEventListener('click', () => {
+        window.open(`https://twitter.com/intent/tweet?text=Check out this amazing villa on EKOSTAY&url=${encodeURIComponent(window.location.href)}`);
+    });
+    
+    document.getElementById('shareMessenger').addEventListener('click', () => {
+        window.open(`https://www.facebook.com/dialog/send?link=${encodeURIComponent(window.location.href)}&app_id=123456789`);
+    });
+    
+    document.getElementById('shareMessages').addEventListener('click', () => {
+        window.location.href = `sms:?&body=Check out this amazing villa on EKOSTAY: ${window.location.href}`;
+    });
+    
+    // Toggle save button
+    saveBtn.addEventListener('click', () => {
+        if (saveBtn.innerHTML.includes('far')) {
+            saveBtn.innerHTML = '<i class="fas fa-heart"></i> Saved';
+        } else {
+            saveBtn.innerHTML = '<i class="far fa-heart"></i> Save';
+        }
+    });
+    
+    // Modal share button functionality
+    document.querySelector('.modal-actions .action-btn').addEventListener('click', () => {
+        shareDialog.style.display = 'block';
+        overlay.style.display = 'block';
+    });
+    
+    // Modal save button functionality
+    document.querySelectorAll('.modal-actions .action-btn')[1].addEventListener('click', () => {
+        const icon = document.querySelectorAll('.modal-actions .action-btn')[1].querySelector('i');
+        if (icon.classList.contains('far')) {
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+        } else {
+            icon.classList.remove('fas');
+            icon.classList.add('far');
+        }
+    });
+    
+        // Open modal when clicking LOGIN
+        document.getElementById("openLoginModal").addEventListener("click", function() {
+            document.getElementById("loginModal").style.display = "block";
+        });
+    
+        // Close modal when clicking X button
+        document.querySelector(".close").addEventListener("click", function() {
+            document.getElementById("loginModal").style.display = "none";
+        });
+    
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            let modal = document.getElementById("loginModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+        
+    
+    
+    </script>
+    <div class="section__container">
+      <div class="header">
+        <p></p>
+        <h1>What our clients say about us.</h1>
+      </div>
+      <div class="testimonials__grid">
+        <div class="card">
+          <span><i class="ri-double-quotes-l"></i></span>
+          <p>
+            I've been working with these guys for a long time and I can say that
+            my house is in the perfect hands.
+          </p>
+          <hr />
+          <img src="../Media/bbqv.jpg" alt="user" />
+          <p class="name">Allan Collins</p>
+        </div>
+        <div class="card">
+          <span><i class="ri-double-quotes-l"></i></span>
+          <p>
+            Working with Sentry Oak is just great, every problem in my house is
+            solved in a matter of days.
+          </p>
+          <hr />
+          <img src="../Media/bdroom.jpg" alt="user" />
+          <p class="name">Clay Washington</p>
+        </div>
+        <div class="card">
+          <span><i class="ri-double-quotes-l"></i></span>
+          <p>
+            Once a pipe burst in my kitchen and an hour later it was already
+            repaired, thanks to Sentry Oak.
+          </p>
+          <hr />
+          <img src="../Media/bathroomv2.jpg" alt="user" />
+          <p class="name">Tanya Grant</p>
+        </div>
+      </div>
+        <h4>No two homes are alike!</h4>
+        <p>
+          Our Elite network, combined with your personal needs, allows us to
+          create a home plan specifically tailored to you.
+        </p>
+      </div>
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Stayatlas - Footer</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="stylesheet" href="../footer/css/footer.css">
+        <style>
+            .footer {
+                background: linear-gradient(circle,#0e3226, #eeeeee); /* Fixed radial gradient */
+            }
+            .footer a {
+                transition: color 0.3s ease; /* Smooth color transition on hover */
+            }
+            .footer a:hover {
+                color: #ffcc00; /* Change color on hover */
+            }
+        </style>
+    </head>
+    <body>
+    <div class="footer">
+        <div class="fcontainer">
+            <h3>For more Information</h3>
+            <ul>
+                <li><a href="{% url 'list_property' %}">List your property</a></li>
+                <li><a href="#">Stays</a></li>
+                <li><a href="{% url 'customer_support' %}">Customer Support</a></li>
+                <li><a href="{% url 'about_us' %}">About us</a></li>
+                <li><a href="https://wa.me/918591131447" target="_blank">Contact us</a></li>
+            </ul>
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <p style="color: #ffffff;">Address: Malad, Mumbai, 400097 </p>
+                <p style="color: #ffffff;">Phone: +91 85911 31447</p>
+                <p style="color: #ffffff;">Email: <a href="mailto:stayatlasin@gmail.com" style="color: #ffffff;">stayatlasin@gmail.com</a></p>
+            </div>
+            <div class="social-icons">
+                <a href="https://wa.me/918591131447" target="_blank" class="fab fa-whatsapp" aria-label="WhatsApp"></a>
+                <a href="https://www.instagram.com/stayatlas.in?igsh=NXU2NXlhYmRlemJh" target="_blank" class="fab fa-instagram" aria-label="Instagram"></a>
+                <a href="https://www.facebook.com/yourpage" target="_blank" class="fab fa-facebook" aria-label="Facebook"></a>
+            </div>
+            <div class="policies">
+                <h3>Policies</h3>
+                <p>
+                    <a href="{% url 'terms' %}" style="color: #ffffff; text-decoration: none;">Terms & Conditions</a> | 
+                    <a href="{% url 'privacy_policy' %}" style="color: #ffffff; text-decoration: none;">Privacy Policy</a> | 
+                    <a href="{% url 'privacy_policy' %}" style="color: #ffffff; text-decoration: none;">Cancellation Policy</a>
+                </p>
+            </div>
+            <div class="intro-text">
+                <p style="color: #ffffff;">"Whether you want a quaint abode among the woods, a luxurious stay, or a homely vibe for your vacations - we, at Stayatlas & Experiences, strive to provide the best, striking the right balance between luxury and homely convenience."</p>
+            </div>
+            <div class="copyright"> 
+                <p style="color: #ffffff;">&copy; 2025 Staysatlas | All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+    </body>
+    {% load static %}
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.js"></script>
+    <script src="{% static 'js/booking/script.js' %}"></script>
+    </html>
+
+<script>
+        
+        function goBack() {
+            window.history.back();
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const villaDetails = {
+            };
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const villa = urlParams.get("villa");
+
+            if (villa && villaDetails[villa]) {
+                document.getElementById("villa-name").innerText = villaDetails[villa].name;
+                document.getElementById("location").innerText = villaDetails[villa].location;
+                document.getElementById("type").innerText = villaDetails[villa].type;
+                document.getElementById("rooms").innerText = villaDetails[villa].rooms;
+                document.getElementById("description").innerText = villaDetails[villa].description;
+                document.getElementById("villa-image").src = villaDetails[villa].image;
+            }
+        });
+    
+
+
+
+
+    document.getElementById('loginBtn').onclick = function() {
+        document.getElementById('loginModal').style.display = 'block';
+        fetch('new2.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('loginContent').innerHTML = data;
+            });
+    };
+
+    document.getElementById('closeLoginModal').onclick = function() {
+        document.getElementById('loginModal').style.display = 'none';
+    };
+
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('loginModal')) {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+    };
+    
+</script>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Request Form</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(to right, #d4af75, #0e3226);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            border: 2px solid #d4af75;
+        }
+        .container:hover {
+            transform: translateY(-5px);
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            height: 40px; /* Uniform height */
+            padding: 8px; /* Consistent padding */
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box; /* Ensure padding is included in height */
+        }
+        textarea {
+            height: 100px; /* Slightly taller for textarea */
+            resize: vertical;
+        }
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #096b4a;
+            outline: none;
+        }
+        button {
+            background-color: #d4af75;
+            color: white;
+            padding: 15px;
+            border: 2px solid #0e3226;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        button:hover {
+            background-color: #0e3226;
+            transform: scale(1.05);
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+                max-width: 100%;
+            }
+            h2 {
+                font-size: 24px;
+            }
+            label {
+                font-size: 16px;
+            }
+            input[type="text"],
+            input[type="email"],
+            input[type="tel"],
+            select,
+            textarea {
+                height: 36px; /* Adjusted height for mobile */
+                padding: 6px; /* Adjusted padding for mobile */
+                font-size: 16px;
+            }
+            textarea {
+                height: 80px; /* Adjusted height for mobile */
+            }
+            button {
+                padding: 12px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Property Request Form</h2>
+        <form>
+            <label for="firstName">First Name *</label>
+            <input type="text" id="firstName" name="firstName" required>
+
+            <label for="lastName">Last Name *</label>
+            <input type="text" id="lastName" name="lastName" required>
+
+            <label for="email">Email ID *</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="mobile">Mobile Phone *</label>
+            <input type="tel" id="mobile" name="mobile" required>
+
+            <label for="location">Select Your Property Location *</label>
+            <select id="location" name="location" required>
+                <option value="">Select Location</option>
+                <option value="aurangabad">Aurangabad</option>
+                <option value="lonavala">Lonavala</option>
+                <option value="karjat">Karjat</option>
+                <option value="kasauli">Kasauli</option>
+                <option value="ooty">Ooty</option>
+                <option value="mussoorie">Mussoorie</option>
+                <option value="panchgani">Panchgani</option>
+                <option value="udaipur">Udaipur</option>
+                <option value="nainital">Nainital</option>
+                <option value="goa">Goa</option>
+                <option value="alibaug">Alibaug</option>
+                <option value="manali">Manali</option>
+                <option value="coorg">Coorg</option>
+                <option value="nashik">Nashik</option>
+                <option value="jaipur">Jaipur</option>
+                <option value="alleppey">Alleppey</option>
+                <option value="wayanad">Wayanad</option>
+            </select>
+
+            <label for="propertyType">What Type of Property? *</label>
+            <select id="propertyType" name="propertyType" required>
+                <option value="">Select Property Type</option>
+                <option value="apartment">Apartment</option>
+                <option value="villa">Villa</option>
+                <option value="land">Land</option>
+                <option value="commercial">Commercial</option>
+            </select>
+
+            <label for="rooms">How Many Rooms? *</label>
+            <select id="rooms" name="rooms" required>
+                <option value="">Select Number of Rooms</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5+</option>
+            </select>
+
+            <label for="photos">Photos (Upload)</label>
+            <input type="file" id="photos" name="photos" accept="image/*" multiple>
+
+            <label for="description">Describe Your Property</label>
+            <textarea id="description" name="description" rows="4" placeholder="Provide a brief description of your property..."></textarea>
+
+            <button type="submit">Send Request</button>
+        </form>
+    </div>
+</body>
+</html>

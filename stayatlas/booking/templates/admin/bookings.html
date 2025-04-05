@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Villa Bookings</title>
+    <!-- <link rel="stylesheet" href="admin.css">
+    <script defer src="bookings.js"></script> -->
+  </head>
+  <body>
+    <style>
+      /* General Styles */
+      body {
+          font-family: 'Poppins', sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #f4f7fc;
+          color: #333;
+          display: flex;
+          flex-direction: row;
+          min-height: 100vh;
+      }
+      .filter {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 20px;
+          padding: 10px;
+          background: white;
+          border-radius: 10px;
+          box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .filter input[type="text"] {
+          padding: 10px;
+          width: 30%; /* Make search bar smaller */
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          font-size: 14px;
+      }
+      .filter input[type="date"] {
+          padding: 10px;
+          width: 20%; /* Adjust date input width */
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          font-size: 14px;
+      }
+      .filter label {
+          font-size: 14px;
+          font-weight: 500;
+          color: #555;
+      }
+      /* Improved Sidebar */
+      .sidebar {
+          width: 250px;
+          height: 100vh;
+          position: fixed;
+          background: linear-gradient(135deg, #2c3e50, #34495e);
+          color: white;
+          padding: 20px;
+          transition: transform 0.3s ease-in-out;
+          box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+      .sidebar.hidden {
+          transform: translateX(-100%);
+      }
+      /* Sidebar Toggle Button with Arrow */
+      #sidebar-toggle {
+          position: absolute;
+          left: 260px;
+          top: 6%;
+          transform: translateY(-50%);
+          cursor: pointer;
+          font-size: 24px;
+          background: #34495e;
+          color: white;
+          padding: 10px 15px;
+          border: none;
+          border-radius: 5px;
+          transition: left 0.3s ease-in-out, background 0.3s ease-in-out;
+          z-index: 1001;
+      }
+      #sidebar-toggle:hover {
+          background: #2c3e50;
+      }
+      .sidebar.hidden + #sidebar-toggle {
+          left: 10px;
+      }
+      .sidebar h2 {
+          text-align: center;
+          font-size: 22px;
+          margin-bottom: 20px;
+          font-weight: 600;
+          letter-spacing: 1px;
+      }
+      .sidebar ul {
+          list-style: none;
+          padding: 0;
+      }
+      .sidebar ul li {
+          padding: 15px 10px;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 5px;
+          transition: 0.3s;
+      }
+      .sidebar ul li:hover {
+          background: rgba(255, 255, 255, 0.2);
+      }
+      .sidebar ul li a {
+          color: white; /* Change text color to white */
+          text-decoration: none; /* Remove underline */
+      }
+      /* Main Content Area */
+      .main-content {
+          margin-left: 300px;
+          width: calc(100% - 250px);
+          padding: 20px;
+          transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+      }
+      .sidebar.hidden ~ .main-content {
+          margin-left: 0;
+          width: 100%;
+      }
+      /* Title */
+      .title {
+          text-align: center;
+          font-size: 32px;
+          font-weight: bold;
+          color: #007BFF;
+          text-shadow: 2px 2px 5px rgba(0, 123, 255, 0.2);
+          margin-bottom: 20px;
+      }
+      /* Navbar */
+      .navbar {
+          display: flex;
+          justify-content: center;
+          gap: 15px;
+          margin-bottom: 20px;
+      }
+      .nav-btn {
+          padding: 12px 18px;
+          border: none;
+          background: #007BFF;
+          color: white;
+          font-size: 16px;
+          cursor: pointer;
+          border-radius: 10px;
+          transition: 0.3s;
+          font-weight: bold;
+          display: inline-block;
+      }
+      .nav-btn.active, .nav-btn:hover {
+          background: #0056b3;
+      }
+      /* Filters */
+      .filters {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 20px;
+          padding: 10px;
+          background: white;
+          border-radius: 10px;
+          box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+      }
+      .filters input {
+          padding: 10px;
+          width: 48%;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          font-size: 14px;
+      }
+      /* Sections */
+      .section {
+          display: none;
+      }
+      .section.active {
+          display: block;
+      }
+      /* Property Cards */
+      .property-list {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 20px;
+          justify-content: center;
+      }
+      .property-card {
+          background: white;
+          padding: 20px;
+          border-radius: 12px;
+          width: 300px;
+          box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.15);
+          transition: transform 0.3s, box-shadow 0.3s;
+      }
+      .property-card:hover {
+          transform: scale(1.05);
+          box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.2);
+      }
+      .property-info h3 {
+          margin-bottom: 5px;
+          font-size: 20px;
+          color: #333;
+          font-weight: bold;
+      }
+      .property-info p {
+          margin: 5px 0;
+          font-size: 14px;
+          color: #666;
+      }
+      /* Card Actions */
+      .card-actions {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 15px;
+      }
+      .btn {
+          padding: 10px;
+          cursor: pointer;
+          font-size: 14px;
+          border-radius: 8px;
+          transition: 0.3s;
+          font-weight: bold;
+          display: inline-block;
+      }
+      .accept {
+          background: #28a745;
+          color: white;
+          border: none;
+      }
+      .reject {
+          background: #dc3545;
+          color: white;
+          border: none;
+      }
+      .details {
+          background: #007BFF;
+          color: white;
+          text-decoration: none;
+          border: none;
+      }
+      .btn:hover {
+          opacity: 0.85;
+      }
+      /* Details Page Styles */
+      .container {
+          background: white;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+          text-align: center;
+          width: 50%;
+          margin: auto;
+      }
+      /* Title */
+      h1 {
+          font-size: 26px;
+          color: #007BFF;
+          margin-bottom: 20px;
+          
+      }
+      /* Table */
+      table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 10px;
+      }
+      table td {
+          padding: 10px;
+          border-bottom: 1px solid #ddd;
+          text-align: left;
+          font-size: 16px;
+      }
+      table td:first-child {
+          font-weight: bold;
+          color: #555;
+      }
+      /* Image */
+      img {
+          width: 100%;
+          max-width: 300px;
+          border-radius: 5px;
+          margin-top: 10px;
+          box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      /* Back Button */
+      .back-btn {
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: none;
+        background: #007BFF;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: 0.3s;
+      }
+      .back-btn:hover {
+          background: #0056b3;
+      }
+      /* Clear List Buttons */
+      .clear-btn {
+          display: block;
+          margin: 10px auto;
+          padding: 8px 15px;
+          font-size: 14px;
+          font-weight: bold;
+          color: white;
+          background: #ff4d4d;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background 0.3s ease-in-out;
+      }
+      .clear-btn:hover {
+          background: #cc0000;
+      }
+      .filters {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 20px;
+      }
+      .filters input {
+          padding: 12px;
+          width: 100%;
+          max-width: 800px;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          font-size: 16px;
+          transition: box-shadow 0.3s ease-in-out;
+      }
+      .filters input:focus {
+          box-shadow: 0px 0px 10px rgba(0, 123, 255, 0.3);
+          outline: none;
+      }
+      /* Property Card Styling */
+      .prop-card {
+          background: white;
+          padding: 20px;
+          border-radius: 12px;
+          width: 320px;
+          box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.2);
+          transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+          top:50%;
+          position: relative;
+          overflow: hidden;
+      }
+      .prop-card:hover {
+          transform: translateY(-5px) scale(1.05);
+          box-shadow: 4px 4px 25px rgba(0, 0, 0, 0.25);
+      }
+      .prop-info h3 {
+          margin-bottom: 10px;
+          font-size: 22px;
+          color: #222;
+          font-weight: bold;
+          text-align: center;
+      }
+      .prop-info p {
+          margin: 8px 0;
+          font-size: 15px;
+          color: #555;
+          text-align: center;
+      }
+      /* Property List Container */
+      .prop-list {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 24px;
+          justify-content: center;
+      }
+      .card-act {
+          display: flex;
+          justify-content: center;
+          gap: 10px;
+          margin-top: 15px;
+      }
+      .details {
+          background: #007BFF;
+          color: white;
+          padding: 8px 15px;
+          border-radius: 8px;
+          text-decoration: none;
+          font-size: 14px;
+          transition: background 0.3s ease-in-out;
+      }
+      .details:hover {
+          background: #0056b3;
+      }
+      
+      .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            height: 100vh;
+            background: #2c3e50;
+            color: white;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000; /* Ensure it's always on top */
+        }
+
+        .sidebar.hidden ~ .main {
+          margin-left: 0px;
+          width: 90%;
+      }
+      .sidebar.hidden {
+          transform: translateX(-100%);
+      }
+
+        .main {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            transition: margin-left 0.3s ease-in-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sidebar.hidden ~ .main {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        @media screen and (max-width: 320px) {
+            .main h1 {
+                margin-left: 60px; /* Adjust this value as needed */
+            }
+
+            .sidebar.hidden ~ .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            #sidebar-toggle {
+                font-size: 18px; /* Reduce text/icon size */
+                padding: 5px 10px; /* Reduce button padding */
+                width: 35px; /* Set a smaller width */
+                height: 35px; /* Set a smaller height */
+            }
+        }
+
+        
+@media screen and (max-width: 768px) {
+    .filter {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 20px;
+        padding: 15px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 400px;
+    }
+    
+    .filter label {
+        font-size: 14px;
+        font-weight: bold;
+    }
+    
+    .filter input {
+        padding: 10px;
+        width: 90%;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+}
+
+    </style>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h2>Admin Dashboard</h2>
+      <ul>
+        <li><a href="{% url 'custom_admin' %}">Dashboard</a></li>
+        <li><a href="{% url 'bookings' %}">Bookings</a></li>
+        <li><a href="{% url 'registrations' %}">Registrations</a></li>
+        <li><a href="{% url 'addexclusive' %}">Exclusive</a></li>
+        <li><a href="{% url 'exclusivebookings' %}">Registrations</a></li>
+        <li>Settings</li>
+        <li><a href="{% url 'logout' %}"><button>Logout</button></a></li>
+      </ul>
+    </div>
+
+    <!-- Sidebar Toggle Button -->
+    <button id="sidebar-toggle">☰</button>
+
+    <!-- Main Content -->
+    <div class="main">
+      <h1 class="title">Your Bookings</h1>
+
+      <div class="prop-list" id="villa-booking-list">
+        {% if bookings %}
+        {% for booking in bookings %}
+        <div class="prop-card">
+          <img class="property-image" src="{{ booking.property.image_url }}"
+            alt="{{ booking.property.title }}">
+          <div class="prop-info">
+            <!-- <h3>{{ booking.property.title }}</h3> -->
+            <p><strong>Property:</strong> {{ booking.property }}</p>
+            <p><strong>Phone:</strong> {{ booking.property.phone }}</p>
+            <p><strong>Check-in:</strong> {{ booking.check_in_date }}</p>
+            <p><strong>Check-out:</strong> {{ booking.check_out_date }}</p>
+            <p><strong>People:</strong> {{ booking.People }}</p>
+          </div>
+            <div class="card-act">
+                <button class="btn accept" onclick="updatePropertyStatus('{{ booking.property.id }}', 'Approved', this)">Approve</button>
+                <button class="btn reject" onclick="updatePropertyStatus('{{ booking.property.id }}', 'Rejected', this)">Reject</button>
+
+                <a href="{% url 'villabooking' booking.id %}" class="btn details">View Details</a>
+
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>You have no bookings.</p>
+        {% endif %}
+      </div>
+
+    </div> <!-- End of Main -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const sidebar = document.querySelector(".sidebar");
+        const mainContent = document.querySelector(".main");
+        const toggleButton = document.getElementById("sidebar-toggle");
+        const searchInput = document.getElementById("search");
+        const propList = document.querySelector(".prop-list");
+        const sidebarLinks = document.querySelectorAll(".sidebar ul li a");
+
+
+         // Add click event listeners to sidebar links
+         sidebarLinks.forEach(link => {
+            link.addEventListener("click", function(e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                
+                // Close sidebar and update layout
+                sidebar.classList.add("hidden");
+                mainContent.style.marginLeft = "0";
+                mainContent.style.width = "100%";
+                toggleButton.style.left = "10px";
+                toggleButton.innerHTML = "☰";
+                
+                // Store sidebar state in localStorage
+                localStorage.setItem('sidebarHidden', 'true');
+                
+                // Navigate to the new page
+                window.location.href = href;
+            });
+        });
+
+        // Check localStorage on page load
+        if (localStorage.getItem('sidebarHidden') === 'true') {
+            sidebar.classList.add("hidden");
+            mainContent.style.marginLeft = "0";
+            mainContent.style.width = "100%";
+            toggleButton.style.left = "10px";
+            toggleButton.innerHTML = "☰";
+        }
+
+        // Click outside to close sidebar
+        document.addEventListener("click", function(event) {
+            if (!sidebar.contains(event.target) && !toggleButton.contains(event.target)) {
+                sidebar.classList.add("hidden");
+                mainContent.style.marginLeft = "0";
+                mainContent.style.width = "100%";
+                toggleButton.style.left = "10px";
+                toggleButton.innerHTML = "☰";
+                localStorage.setItem('sidebarHidden', 'true');
+            }
+        });
+
+
+
+        // Sidebar Toggle Functionality
+        toggleButton.addEventListener("click", function () {
+            sidebar.classList.toggle("hidden");
+
+            if (sidebar.classList.contains("hidden")) {
+                mainContent.style.marginLeft = "0";
+                mainContent.style.width = "100%";
+                toggleButton.style.left = "10px";
+                toggleButton.innerHTML = "☰";
+                localStorage.setItem('sidebarHidden', 'true');
+                
+            } else {
+                mainContent.style.marginLeft = "250px";
+                mainContent.style.width = "calc(100% - 250px)";
+                toggleButton.style.left = "260px";
+                toggleButton.innerHTML = "☰";
+                localStorage.setItem('sidebarHidden', 'false');
+            }
+        });
+
+
+        // Function to Update Property Status in Django and Move the Card
+        function updatePropertyStatus(propertyId, status, button) {
+            fetch(`/update-property-status/${propertyId}/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")
+                },
+                body: JSON.stringify({ status: status })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    const card = button.closest(".prop-card");
+                    card.remove(); // Remove the card after successful update
+                } else {
+                    alert("Error updating property status");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        // Function to Get CSRF Token from Cookies
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                const cookies = document.cookie.split(";");
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.startsWith(name + "=")) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Search Filter Functionality
+        searchInput.addEventListener("input", function () {
+            const filterValue = searchInput.value.toLowerCase();
+            const allCards = document.querySelectorAll(".prop-card");
+
+            allCards.forEach(card => {
+                const villaName = card.querySelector("h3").innerText.toLowerCase();
+                if (villaName.includes(filterValue)) {
+                    card.style.display = "block";
+                    card.style.position = "relative"; // Ensures visibility
+                } else {
+                    card.style.display = "none";
+                }
+            });
+
+            // Ensuring that cards align correctly even when filtering
+            propList.style.justifyContent = "center";
+        });
+      });
+    </script>
+  </body>
+</html>

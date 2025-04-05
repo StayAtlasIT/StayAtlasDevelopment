@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Villa Booking Details</title>
+        <!-- <link rel="stylesheet" href="villa_booking_details.css">
+        <script defer src="villa_booking_details.js"></script> -->
+    </head>
+    <body>
+        <style>
+    /* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fc;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container */
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 60%;
+}
+
+/* Title */
+h1 {
+    font-size: 26px;
+    color: #007BFF;
+    margin-bottom: 20px;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background: white;
+}
+
+table th, table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 16px;
+}
+
+table th {
+    background-color: #007BFF;
+    color: white;
+}
+
+/* No Bookings Message */
+.no-bookings {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #555;
+}
+
+/* Back Button */
+.back-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    background: #007BFF;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: #0056b3;
+}
+
+    </style>
+        <div class="container">
+            <h1 id="villa-title">Villa Booking Details</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer Name</th>
+                        <th>Phone</th>
+                        <th>Check-in Date</th>
+                        <th>Check-out Date</th>
+                        <th>No. of People</th>
+                    </tr>
+                </thead>
+                <tbody id="booking-details-table">
+                    <!-- Two customers for each villa -->
+                    <tr class="luxury">
+                        <td>John Doe</td>
+                        <td>+91 98765 43210</td>
+                        <td>2024-03-10</td>
+                        <td>2024-03-15</td>
+                        <td>Adults: 2 Child: 1</td>
+                    </tr>
+                    <tr class="luxury">
+                        <td>Alice Smith</td>
+                        <td>+91 98765 67890</td>
+                        <td>2024-03-18</td>
+                        <td>2024-03-22</td>
+                        <td>Adults: 3 Child: 2</td>
+                    </tr>
+                    <tr class="hilltop">
+                        <td>Robert Brown</td>
+                        <td>+91 87654 32109</td>
+                        <td>2024-02-12</td>
+                        <td>2024-02-18</td>
+                        <td>Adults: 2 Child: 0</td>
+                    </tr>
+                    <tr class="hilltop">
+                        <td>Sarah Johnson</td>
+                        <td>+91 99887 77665</td>
+                        <td>2024-02-20</td>
+                        <td>2024-02-25</td>
+                        <td>Adults: 4 Child: 1</td>
+                    </tr>
+                    <tr class="seaside">
+                        <td>Emily White</td>
+                        <td>+91 76543 21098</td>
+                        <td>2024-01-25</td>
+                        <td>2024-01-30</td>
+                        <td>Adults: 3 Child: 0</td>
+                    </tr>
+                    <tr class="seaside">
+                        <td>Michael Lee</td>
+                        <td>+91 66554 33221</td>
+                        <td>2024-02-01</td>
+                        <td>2024-02-05</td>
+                        <td>Adults: 2 Child: 2</td>
+                    </tr>
+                    <tr class="mountain">
+                        <td>Sophia Wilson</td>
+                        <td>+91 65432 10987</td>
+                        <td>2024-02-05</td>
+                        <td>2024-02-12</td>
+                        <td>Adults: 1 Child: 0</td>
+                    </tr>
+                    <tr class="mountain">
+                        <td>James Brown</td>
+                        <td>+91 44556 77889</td>
+                        <td>2024-02-15</td>
+                        <td>2024-02-20</td>
+                        <td>Adults: 3 Child: 1</td>
+                    </tr>
+                    <tr class="penthouse">
+                        <td>David Johnson</td>
+                        <td>+91 54321 09876</td>
+                        <td>2024-01-10</td>
+                        <td>2024-01-15</td>
+                        <td>Adults: 2 Child: 1</td>
+                    </tr>
+                    <tr class="penthouse">
+                        <td>Linda Clark</td>
+                        <td>+91 33445 66778</td>
+                        <td>2024-01-18</td>
+                        <td>2024-01-23</td>
+                        <td>Adults: 4 Child: 2</td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="back-btn" onclick="goBack()">Back</button>
+        </div>
+        <script>document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const villaName = urlParams.get("villa");
+        document.getElementById("villa-title").innerText = `Bookings for ${villaName}`;
+    
+        const bookingTable = document.getElementById("booking-details-table");
+        const allRows = bookingTable.getElementsByTagName("tr");
+    
+        let hasBookings = false;
+        for (let row of allRows) {
+            if (!row.classList.contains(villaName)) {
+                row.style.display = "none";
+            } else {
+                hasBookings = true;
+            }
+        }
+    
+        if (!hasBookings) {
+            bookingTable.innerHTML = `<tr><td colspan="4" class="no-bookings">No bookings available</td></tr>`;
+        }
+    });
+    
+    function goBack() {
+        window.history.back();
+    }
+    
+    function searchVillas() {
+        const searchInput = document.getElementById("search-bar").value.toLowerCase();
+        const rows = document.getElementById("booking-details-table").getElementsByTagName("tr");
+        
+        for (let row of rows) {
+            const villaClass = row.className.toLowerCase();
+            if (villaClass.includes(searchInput)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        }
+    }
+    </script>
+    </body>
+</html>

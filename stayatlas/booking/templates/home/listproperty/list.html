@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <title>Property Request Form</title>
     <style>
         body {
@@ -107,6 +109,186 @@
                 font-size: 16px;
             }
         }
+        
+        /* Amenities Dropdown Container */
+.amenities-dropdown-container {
+    position: relative;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+/* Amenities Dropdown Header */
+.amenities-dropdown-header {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    min-height: 40px;
+    gap: 5px;
+    position: relative;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Amenities Dropdown Menu */
+.amenities-dropdown-menu {
+    display: none;
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    position: relative;
+    width: 90%;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    max-height: 250px;
+    overflow-y: auto;
+    box-shadow: 0px 4px 6px #0000001a;
+}
+
+.amenities-dropdown-menu label {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Ensure proper spacing between checkbox and text */
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px;
+    width: 100%;
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* Force checkboxes to extreme left */
+.amenities-dropdown-menu input[type="checkbox"] {
+    position: absolute;
+    left: 380px; /* Push to extreme left */
+    transform: translateX(0); /* Ensures no accidental shifting */
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    appearance: auto;
+}
+
+/* Ensure icons and text align properly */
+.amenities-dropdown-menu span {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between icon and text */
+    margin-left: 25px; /* Push text and icons right to align properly */
+}
+
+/* Checked state styling */
+.amenities-dropdown-menu input[type="checkbox"]:checked {
+    background-color: #000;
+    border-color: #000;
+}
+
+/* Checkbox tick effect */
+.amenities-dropdown-menu input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Hover effect */
+.amenities-dropdown-menu label:hover {
+    background: #f5f5f5;
+}
+
+/* Selected Amenities */
+.selected-amenities-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding-top: 5px;
+}
+
+/* Amenity Tags */
+.amenity-tag {
+    background: #e0e0e0;
+    color: #333;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    max-width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px solid #bbb;
+}
+
+/* Remove Amenity Button */
+.remove-amenity {
+    background: #000000;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    font-size: 12px;
+    line-height: 1;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 6px;
+}
+
+.close-amenities-dropdown {
+    width: 40px !important;  /* Force width */
+    height: 30px !important; /* Adjust height */
+    padding: 5px ;
+    border: none !important;
+    font-size: 18px;
+    cursor: pointer;  
+    color: #000000;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+}
+
+@media (max-width: 321px) {
+    .close-amenities-dropdown{
+        left: 690px  !important ; 
+    }
+    
+}
+
+/* Align "Other:" label and input field properly */
+.amenity-item {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between "Other:" text and input */
+    width: 100%;
+}
+
+/* Custom Amenity Input Field */
+#custom-amenity {
+    flex-grow: 1; /* Make input take available space */
+    min-width: 200px; /* Ensure a proper width */
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+}
     </style>
 
     <script>
@@ -153,6 +335,147 @@
                 locationInput.removeAttribute('required');
             }
         }
+
+        
+        // Toggle the amenities dropdown menu
+function toggleAmenitiesDropdown(event) {
+    event.stopPropagation(); // Prevent immediate closing when clicking inside
+    const dropdown = document.getElementById("amenities-dropdown");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+
+// Close the dropdown when clicking outside
+document.addEventListener("click", function(event) {
+    const dropdown = document.getElementById("amenities-dropdown");
+    const dropdownHeader = document.querySelector(".amenities-dropdown-header");
+
+    if (dropdown.style.display === "block" && !dropdown.contains(event.target) && !dropdownHeader.contains(event.target)) {
+        dropdown.style.display = "none";
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("Amenities loaded:", document.querySelectorAll(".amenity-checkbox").length);
+
+    // Prepopulate selected amenities if any
+    updateSelectedAmenitiesList();
+
+    // Attach event listeners to checkboxes
+    document.querySelectorAll(".amenities-dropdown-menu input[type='checkbox']").forEach(input => {
+        input.addEventListener("change", updateSelectedAmenitiesList);
+    });
+});
+
+
+// Update selected amenities list when checkboxes are clicked
+function updateSelectedAmenitiesList() {
+    const selectedContainer = document.getElementById("selected-amenities-list");
+    selectedContainer.innerHTML = ""; // Clear existing list
+
+    const checkboxes = document.querySelectorAll(".amenities-dropdown-menu input[type='checkbox']:checked");
+
+    if (checkboxes.length === 0) {
+        return;
+    }
+
+    checkboxes.forEach(checkbox => {
+        const amenityId = checkbox.value;
+        const amenityName = checkbox.getAttribute("data-name");
+        addAmenityTag(amenityId, amenityName);
+    });
+
+    adjustAmenitiesDropdownHeader();
+}
+
+// Add a new amenity tag (UI displays Name, Form submits ID)
+function addAmenityTag(amenityId, amenityName) {
+    const selectedContainer = document.getElementById("selected-amenities-list");
+
+    // Check if the amenity already exists
+    const existingAmenities = Array.from(selectedContainer.children).map(item => item.dataset.id);
+    if (!existingAmenities.includes(amenityId)) {
+        const amenityTag = document.createElement("div");
+        amenityTag.classList.add("amenity-tag");
+        amenityTag.dataset.id = amenityId;  // Store ID for reference
+        amenityTag.innerHTML = `${amenityName} <button class="remove-amenity" onclick="removeSelectedAmenity(this, '${amenityId}')">✕</button>`;
+
+        selectedContainer.appendChild(amenityTag);
+    }
+}
+
+// Remove selected amenity from UI & uncheck checkbox
+function removeSelectedAmenity(button, amenityId) {
+    button.parentElement.remove(); // Remove the tag from UI
+
+    // Uncheck the corresponding checkbox
+    const checkbox = document.querySelector(`.amenities-dropdown-menu input[value="${amenityId}"]`);
+    if (checkbox) checkbox.checked = false;
+
+    adjustAmenitiesDropdownHeader();
+}
+
+// Add a custom amenity from text input
+function addCustomAmenity() {
+    const input = document.getElementById("custom-amenity");
+    const value = input.value.trim();
+
+    if (value) {
+        addAmenityTag(value); // Add custom amenity to the list
+        input.value = ""; // Clear input field
+    }
+}
+
+// Adjust the dropdown header height dynamically
+function adjustAmenitiesDropdownHeader() {
+    const dropdownHeader = document.querySelector(".amenities-dropdown-header");
+    dropdownHeader.style.height = "auto"; // Expand if needed
+}
+
+// Attach event listeners to checkboxes for updating the selected amenities list
+document.querySelectorAll(".amenities-dropdown-menu input[type='checkbox']").forEach(input => {
+    input.addEventListener("change", updateSelectedAmenitiesList);
+});
+
+// Listen for "Enter" key in input field to add a custom amenity
+document.getElementById("custom-amenity").addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Prevent default form submission
+        addCustomAmenity(); // Add the entered amenity
+    }
+});
+
+$(document).ready(function() {
+    $("#popupPropertyForm").submit(function(event) {
+        event.preventDefault();
+
+        var formData = new FormData(this);
+
+        // Collect all selected amenities
+        let amenities = [];
+        $("input[name='amenities']:checked").each(function() {
+            amenities.push($(this).val());
+        });
+
+        formData.append("amenities", amenities); // Ensure amenities are included
+
+        $.ajax({
+            url: "{% url 'popup_property_request' %}",  // Ensure this is the correct Django URL
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            headers: { "X-CSRFToken": "{{ csrf_token }}" },  // CSRF protection
+            success: function(response) {
+                alert("Property request submitted successfully!");
+                $("#listPropertyModal").modal("hide");  // Close modal on success
+                location.reload();  // Optional: Refresh to reflect changes
+            },
+            error: function(response) {
+                alert("Error submitting form. Please check your details.");
+            }
+        });
+    });
+});
     </script>
 </head>
 <body>
@@ -206,131 +529,49 @@
             </select>
             <input type="number" id="roomInput" name="custom_rooms" style="display:none;" placeholder="Enter Number of Rooms" min="1" max="15" />
 
-            <label for="description">Describe Your Property</label>
-            <textarea id="description" name="description" rows="4" placeholder="Provide a brief description of your property..."></textarea>
+            <label for="beds">Beds</label>
+            <input type="number" id="beds" name="beds" min="1" required>
+                
+            <label for="baths">Baths</label>
+            <input type="number" id="baths" name="baths" min="1" required>
 
-            <label for="photos">Photos (Upload)</label>
-            <input type="file" id="photos" name="photos" accept="image/jpeg, image/jpg, image/png" multiple onchange="validateFiles(this)" required>
-            <!--
-            {{ form.first_name.label_tag }} {{ form.first_name }}
-            {{ form.last_name.label_tag }} {{ form.last_name }}
-            {{ form.email.label_tag }} {{ form.email }}
-            {{ form.mobile.label_tag }} {{ form.mobile }}
-    
-            <label for="location">Select Your Property Location *</label>
-            <select id="location" name="location" onchange="toggleLocationInput(this)" required>
-                <option value="">Select Location</option>
-                <option value="aurangabad">Aurangabad</option>
-                <option value="lonavala">Lonavala</option>
-                <option value="karjat">Karjat</option>
-                <option value="kasauli">Kasauli</option>
-                <option value="ooty">Ooty</option>
-                <option value="mussoorie">Mussoorie</option>
-                <option value="panchgani">Panchgani</option>
-                <option value="udaipur">Udaipur</option>
-                <option value="nainital">Nainital</option>
-                <option value="goa">Goa</option>
-                <option value="alibaug">Alibaug</option>
-                <option value="manali">Manali</option>
-                <option value="coorg">Coorg</option>
-                <option value="nashik">Nashik</option>
-                <option value="jaipur">Jaipur</option>
-                <option value="alleppey">Alleppey</option>
-                <option value="wayanad">Wayanad</option>
-                <option value="other">Other Location</option>
-            </select>
-            <input type="text" id="locationInput" name="custom_location" style="display:none;" placeholder="Enter Location" pattern="[a-zA-Z\s]+"/>
-    
-            <label for="propertyType">What Type of Property? *</label>
-            <select id="propertyType" name="propertyType" onchange="toggleLocationInput(this)" required>
-                <option value="">Select Property Type</option>
-                <option value="apartment">Apartment</option>
-                <option value="villa">Villa</option>
-                <option value="land">Land</option>
-                <option value="commercial">Commercial</option>
-            </select>
-    
-            <label for="rooms">How Many Rooms? *</label>
-            <select id="rooms" name="rooms" onchange="toggleRoomInput(this)" required>
-                <option value="">Select Number of Rooms</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5+">5+</option>
-            </select>
-            <input type="number" id="roomInput" name="custom_rooms" style="display:none;" placeholder="Enter Number of Rooms" min="1" max="15" />
-    
-            {{ form.description.label_tag }} {{ form.description }}
-            <label for="Photos">Photos (Upload)</label>
-            <input type="file" id="Photos" name="Photos" accept="image/*" multiple>-->
+            <label for="price">Price (₹):</label>
+            <input type="number" id="price" name="price" min="10000" max="500000" required>
+            
+            <!-- Amenities Section (Updated) -->
+            <label for="property-amenities">Select Amenities</label>
+            <div class="amenities-dropdown-container">
+                <div class="amenities-dropdown-header" onclick="toggleAmenitiesDropdown(event)">
+                    <span>Select Amenities...</span>
+                    <div class="selected-amenities-list" id="selected-amenities-list"></div>
+                    {% comment %} <button class="close-amenities-dropdown" onclick="closeAmenitiesDropdown(event)">☰</button> {% endcomment %}
+                </div>
 
+                <div class="amenities-dropdown-menu" id="amenities-dropdown">
+                    {% for amenity in amenities %}
+                    <label class="amenity-item">
+                        <input type="checkbox" class="amenity-checkbox" name="amenities" value="{{ amenity.id }}" data-name="{{ amenity.name }}"
+                        {% if amenity.id in selected_amenities %}checked{% endif %}>
+                        <i class="{{ amenity.icon }}"></i> {{ amenity.name }}
+                    </label>
+                {% empty %}
+                    <p>No amenities available.</p>
+                {% endfor %}
 
-            <!--
-            <label for="firstName">First Name *</label>
-            <input type="text" id="firstName" name="firstName" required>
+                </div>
+            </div>
+ 
+            {% comment %} <!-- Hidden input to store selected amenities -->
+            <input type="hidden" id="hidden-amenities" name="selected_amenities" value=""> {% endcomment %}
+                            
+                        <label for="description">Describe Your Property</label>
+                        <textarea id="description" name="description" rows="4" placeholder="Provide a brief description of your property..."></textarea>
 
-            <label for="lastName">Last Name *</label>
-            <input type="text" id="lastName" name="lastName" required>
-
-            <label for="email">Email ID *</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="mobile">Mobile Phone *</label>
-            <input type="tel" id="mobile" name="mobile" required>
-
-            <label for="location">Select Your Property Location *</label>
-            <select id="location" name="location" required>
-                <option value="">Select Location</option>
-                <option value="aurangabad">Aurangabad</option>
-                <option value="lonavala">Lonavala</option>
-                <option value="karjat">Karjat</option>
-                <option value="kasauli">Kasauli</option>
-                <option value="ooty">Ooty</option>
-                <option value="mussoorie">Mussoorie</option>
-                <option value="panchgani">Panchgani</option>
-                <option value="udaipur">Udaipur</option>
-                <option value="nainital">Nainital</option>
-                <option value="goa">Goa</option>
-                <option value="alibaug">Alibaug</option>
-                <option value="manali">Manali</option>
-                <option value="coorg">Coorg</option>
-                <option value="nashik">Nashik</option>
-                <option value="jaipur">Jaipur</option>
-                <option value="alleppey">Alleppey</option>
-                <option value="wayanad">Wayanad</option>
-            </select>
-
-            <label for="propertyType">What Type of Property? *</label>
-            <select id="propertyType" name="propertyType" required>
-                <option value="">Select Property Type</option>
-                <option value="apartment">Apartment</option>
-                <option value="villa">Villa</option>
-                <option value="land">Land</option>
-                <option value="commercial">Commercial</option>
-            </select>
-
-            <label for="rooms">How Many Rooms? *</label>
-            <select id="rooms" name="rooms" required>
-                <option value="">Select Number of Rooms</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5+</option>
-            </select>
-
-            <label for="photos">Photos (Upload)</label>
-            <input type="file" id="photos" name="photos" accept="image/*" multiple>
-
-            <label for="description">Describe Your Property</label>
-            <textarea id="description" name="description" rows="4" placeholder="Provide a brief description of your property..."></textarea>
-
-            <button type="submit">Send Request</button>
-        -->
-            <br><br>        
-            <button type="submit">Submit</button>
-        </form>
-    </div>
+                        <label for="photos">Photos (Upload)</label>
+                        <input type="file" id="photos" name="photos" accept="image/jpeg, image/jpg, image/png, video/mp4" multiple onchange="validateFiles(this)" required>
+                        <br><br>        
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
 </body>
 </html>

@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="icon" type="image/png" href="../../Home/Media/stay.PNG"
+      style="border-radius: 100%;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayAtlas</title>
+    <!-- <link rel="stylesheet" href="../css/style.css"> -->
+    <link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  </head>
+  <body>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'pt serrif';
+    }
+    
+    body {
+        background-color: #f8f8f8;
+    }
+    /* Popup Styles */
+    #login-popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .popup-content {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 400px;
+        height: 760px;
+        position: relative;
+    }
+    
+    .popup-content iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+    
+    #close-popup {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    
+    .left-content {
+        flex: 2;
+        min-width: 300px;
+    }
+    
+    .right-content {
+        flex: 1;
+        min-width: 300px;
+        max-width: 400px;
+    }
+    
+    h1 {
+        font-size: 27px;
+        margin-bottom: 5px;
+    }
+    p {
+        font-size: 20px;
+        color: #000000;
+    }
+    
+    h2 {
+        font-size: 22px;
+        margin: 30px 0 15px 0;
+    }
+    
+    .location {
+        margin-bottom: 23px;
+        color: #555;
+    }
+    
+    .location-icon {
+        margin-right: 5px;
+    }
+    
+    .tags {
+        display: flex;
+        gap: 10px;
+        margin: 20px 0;
+        flex-wrap: wrap;
+    }
+    
+    .tag {
+        padding: 8px 15px;
+        border: 1px solid #ccc;
+        border-radius: 30px;
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+    }
+    
+    .tag.purple {
+        background-color: #d345e2;
+        color: white;
+        border: none;
+    }
+    
+    .tag-icon {
+        margin-right: 8px;
+    }
+    
+    .description {
+        line-height: 2;
+        color: #333;
+        margin-bottom: 15px;
+    }
+    
+    .show-more-btn {
+        background: none;
+        border: 1px solid #ccc;
+        padding: 8px 15px;
+        border-radius: 30px;
+        cursor: pointer;
+        margin: 10px 0 20px;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+        margin: 20px 0;
+        flex-wrap: wrap;
+    }
+    
+    .action-btn {
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        color: #d345e2;
+    }
+    
+    .amenities-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-top: 20px;
+    }
+    
+    .amenity {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .amenity-icon {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .booking-card {
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .booking-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+    }
+    
+    .price {
+        font-size: 18px;
+        font-weight: bold;
+    }
+    
+    .guest-field, .check-date-field, .discount-field {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+        position: relative;
+        cursor: pointer;
+    }
+    
+    .label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    
+    .tariff-table {
+        width: 100%;
+        margin: 15px 0;
+    }
+    
+    .tariff-table tr {
+        height: 35px;
+    }
+    
+    .tariff-table td {
+        padding: 5px 0;
+    }
+    
+    .tariff-table .discount {
+        background-color: #e2cd59;
+        padding: 5px;
+    }
+    
+    .total-row {
+        border-top: 1px dashed #ccc;
+        padding-top: 10px;
+    }
+    
+    .book-btn, .contact-btn {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 5px;
+        margin-top: 15px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    
+    .book-btn {
+        background-color: #222;
+        color: white;
+    }
+    
+    .contact-btn {
+        background-color: white;
+        border: 1px solid #222;
+    }
+    
+    .small-text {
+        font-size: 12px;
+        color: #666;
+        margin: 15px 0;
+    }
+    
+    /* Modals */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .modal-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(100% - 120px);
+        position: relative;
+    }
+    
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+        cursor: pointer;
+        background: none;
+        border: none;
+    }
+    
+    /* Guest Selector */
+    .guest-selector {
+        width: 300px;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        padding: 15px;
+        position: absolute;
+        top: 60px;
+        display: none;
+        z-index: 100;
+    }
+    
+    .guest-type {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 15px 0;
+    }
+    
+    .counter {
+        display: flex;
+        align-items: center;
+    }
+    
+    .counter-btn {
+        width: 30px;
+        height: 30px;
+        background: none;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .counter-display {
+        width: 30px;
+        height: 30px;
+        border: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 5px;
+    }
+    
+    .guest-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+    }
+    
+    .apply-btn, .clear-btn {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    
+    .apply-btn {
+        background-color: black;
+        color: white;
+    }
+    
+    .clear-btn {
+        background-color: white;
+        border: 1px solid #ccc;
+    }
+    
+    /* Calendar */
+    .calendar {
+        background-color: black;
+        color: white;
+        padding: 15px;
+        width: 300px;
+        position: absolute;
+        top: 60px;
+        display: none;
+        z-index: 100;
+    }
+    
+    .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    
+    .calendar-nav {
+        display: flex;
+        gap: 20px;
+    }
+    
+    .calendar-nav button {
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .day-header, .day {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .day {
+        cursor: pointer;
+    }
+    
+    .day.selected {
+        background-color: #d345e2;
+        border-radius: 50%;
+    }
+    
+    .day.current {
+        background-color: white;
+        color: black;
+        border-radius: 50%;
+    }
+    
+    .views {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #555;
+        margin-bottom: 10px;
+    }
+    
+    .view-count {
+        background-color: #f0f0f0;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 22px;
+        font-weight: bold;
+    }
+    
+    /* Trending Villa Transition */
+    .trending-villa {
+        transition: transform 0.5s ease, opacity 0.5s ease;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    
+    .trending-villa.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    /* Media Queries */
+    @media (max-width: 768px) {
+        .amenities-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    
+    @media (max-width: 425px) {
+        .amenities-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    @media (max-width: 320px) {
+        .amenities-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    @media (max-width: 375px) {
+        .amenities-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    .description {
+        line-height: 1.6;
+        color: #000000;
+        margin-bottom: 15px;
+        overflow: hidden;
+        max-height: 200px; /* Adjust as needed */
+        transition: max-height 0.3s ease;
+        font-size: 18px;
+    }
+    
+    #datePicker {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+    #priceDetails {
+        display: none;
+        padding: 10px;
+        background: #f9f9f9;
+        border-radius: 5px;
+        margin-top: 15px;
+    }
+    
+    .tariff-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .tariff-table td {
+        padding: 5px;
+        text-align: left;
+    }
+    
+    .total-row {
+        font-weight: bold;
+        border-top: 1px solid #ccc;
+        padding-top: 10px;
+    }                               
+    @import url("https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&family=Poppins:wght@400;500;600&display=swap");
+    
+    :root {
+      --primary-color: #1a2c50;
+      --secondary-color: #f4f7fe;
+      --text-dark: #333333;
+      --text-light: #767268;
+      --extra-light: #ffffff;
+    }
+    
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    
+    .section__container {
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+      padding: 1rem;
+      text-align: center;
+    }
+    
+    .header {
+      margin-bottom: 2rem;
+    }
+    
+    .header p {
+      letter-spacing: 2px;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    
+    .header h1 {
+      font-family: "Noto Serif", serif;
+      font-size: 2rem;
+      font-weight: 900;
+    }
+    
+    .testimonials__grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .card {
+      padding: 2rem;
+      display: grid;
+      gap: 1rem;
+      background-color: var(--extra-light);
+      border-radius: 5px;
+      box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+    }
+    
+    .card i {
+      font-size: 2.5rem;
+      color: gold;
+    }
+    
+    .card p {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    
+    .card hr {
+      width: 40px;
+      margin: auto;
+      color: var(--text-light);
+    }
+    
+    .card img {
+      width: 60px;
+      height: 60px;
+      margin: auto;
+      border-radius: 100%;
+      border: 1px solid var(--primary-color);
+    }
+    
+    .card .name {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--text-light);
+      transition: 0.3s;
+    }
+    
+    .card .name:hover {
+      color: var(--primary-color);
+    }
+    
+    @media (width < 900px) {
+      .testimonials__grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+    }
+    
+    @media (width < 600px) {
+      .testimonials__grid {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+    
+    </style>
+    <!--header-->
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Stayatlas - Luxury Villa in Panvel</title>
+        <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="../Css/subhead.css">
+      </head>
+      <style>* {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'pt serrif';
+    }
+    
+    body {
+        background-color: #f8f8f8;
+    }
+    
+    .bcontainer {
+        max-width: 2560px;
+        margin: 0 auto;
+        width: 100%;
+    }
+    
+    /* Header Styles */
+    .main-header {
+        background-color: #000000;
+        padding: 0 5%;
+        position: sticky; /* Changed to sticky */
+        top: 0; /* Added to keep it at the top */
+        z-index: 100;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    /* Header Styles */
+    .header-bcontainer {
+        max-width: 2560px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+    }
+    
+    .nav-links {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+    }
+    
+    .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        padding: 8px 0;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-links a:after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        background: #3498db;
+        bottom: 0;
+        left: 0;
+        transition: width 0.3s;
+    }
+    
+    .nav-links a:hover:after {
+        width: 100%;
+    }
+    
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .dropbtn {
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        padding: 8px 0;
+        transition: all 0.3s ease;
+    }
+    
+    .dropbtn::after {
+        content: "▼";
+        font-size: 10px;
+        margin-left: 5px;
+    }
+    
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: white;
+        min-width: 180px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+        z-index: 1;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    
+    .dropdown-content a {
+        color: #333;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        transition: background-color 0.3s;
+    }
+    
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+        color: #3498db;
+    }
+    
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+    
+    .logo {
+        font-size: 28px;
+        color: white;
+        font-weight: 300;
+        letter-spacing: 4px;
+        transition: transform 0.3s;
+    }
+    
+    .logo:hover {
+        transform: scale(1.05);
+    }
+    
+    .hamburger {
+        display: none;
+        cursor: pointer;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30px;
+        height: 20px;
+    }
+    
+    .hamburger span {
+        height: 3px;
+        width: 100%;
+        background-color: white;
+        border-radius: 3px;
+        transition: all 0.3s ease;
+    }
+    
+    /* Villa Header Styles */
+    .villa-header-wrapper {
+        background-color: white;
+        border-bottom: 1px solid #eee;
+        position: sticky;
+        top: 0;
+        z-index: 99;
+    }
+    
+    .villa-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 5%;
+        max-width: 2560px;
+        margin: 0 auto;
+        height: 80px;
+    }
+    
+    .villa-title {
+        font-size: 24px;
+        font-weight: normal;
+        color: #333;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+    }
+    
+    .action-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: grey;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        color: #000000;
+        padding: 10px 15px;
+        border-radius: 20px;
+        transition: background-color 0.2s;
+    }
+    
+    .action-btn:hover {
+        background-color: #c0c0c0;
+    } 
+    
+    /* Gallery Styles */
+    .gallery-bcontainer {
+        padding: 20px 5%;
+        max-width: 2560px;
+        margin: 0 auto;
+        background-color: white;
+    }
+    
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-template-rows: auto;
+        gap: 10px;
+        aspect-ratio: 16/9;
+        max-height: 600px;
+    }
+    
+    .gallery-main {
+        grid-row: 1 / span 1;
+        grid-column: 1 / span 1;
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+        height: 100%;
+    }
+    
+    .gallery-sub {
+        grid-column: 2 / span 1;
+        display: grid;
+        grid-template-rows: repeat(2, 1fr);
+        gap: 10px;
+        height: 100%;
+    }
+    
+    .gallery-item {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+    }
+    
+    .gallery-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s;
+    }
+    
+    .gallery-image:hover {
+        transform: scale(1.05);
+    }
+    
+    .view-photos-btn {
+        position: absolute;
+        left: 20px;
+        bottom: 20px;
+        background-color: white;
+        color: #333;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+    
+    .view-photos-btn:hover {
+        background-color: #f2f2f2;
+        transform: translateY(-2px);
+    }
+    
+    .more-indicator {
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+    
+    /* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        z-index: 1000;
+        overflow: hidden;
+    }
+    
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        color: white;
+    }
+    
+    .close-btn {
+        color: white;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        transition: transform 0.2s;
+    }
+    
+    .close-btn:hover {
+        transform: scale(1.1);
+    }
+    
+    .photo-counter {
+        font-size: 16px;
+    }
+    
+    .modal-actions {
+        display: flex;
+        gap: 15px;
+    }
+    
+    .modal-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(100% - 120px);
+        position: relative;
+    }
+    
+    .modal-image-bcontainer {
+        max-width: 80%;
+        max-height: 80%;
+        position: relative;
+    }
+    
+    .modal-image {
+        max-width: 100%;
+        max-height: 70vh;
+        object-fit: contain;
+    }
+    
+    .image-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(255, 255, 255, 0.8);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        font-size: 20px;
+        color: #333;
+        border: none;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+    
+    .image-nav:hover {
+        background-color: white;
+        transform: translateY(-50%) scale(1.1);
+    }
+    
+    .prev-btn {
+        left: 20px;
+    }
+    
+    .next-btn {
+        right: 20px;
+    }
+    
+    .image-caption {
+        color: white;
+        text-align: center;
+        padding: 15px;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    
+    /* Share Dialog Styles */
+    .share-dialog {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        border-radius: 12px;
+        width: 500px;
+        max-width: 90%;
+        z-index: 1100;
+        padding: 20px;
+    }
+    
+    .dialog-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .dialog-title {
+        font-size: 20px;
+        font-weight: bold;
+    }
+    
+    .share-preview {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        padding: 10px;
+        border-radius: 8px;
+        background-color: #f5f5f5;
+        margin-bottom: 20px;
+    }
+    
+    .preview-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 6px;
+        object-fit: cover;
+    }
+    
+    .preview-info h4 {
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+    
+    .preview-info p {
+        font-size: 14px;
+        color: #666;
+    }
+    
+    .share-options {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+    
+    .share-option {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+    
+    .share-option:hover {
+        background-color: #f5f5f5;
+        transform: translateY(-2px);
+    }
+    
+    .share-icon {
+        font-size: 20px;
+    }
+    
+    .share-label {
+        font-size: 14px;
+    }
+    
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1050;
+    }
+    
+    /* Tablet Responsive Styles */
+    @media (max-width: 1024px) {
+        .header-bcontainer {
+            padding: 15px 0;
+        }
+        
+        .gallery-grid {
+            max-height: 500px;
+        }
+        
+        .share-options {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .villa-title {
+            font-size: 20px;
+        }
+    }
+    
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #2c3e50;
+            flex-direction: column;
+            padding: 0;
+            gap: 0;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-links.show {
+            display: flex;
+        }
+        
+        .nav-links a, .dropdown {
+            width: 100%;
+            padding: 15px 5%;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .dropdown-content {
+            position: static;
+            width: 100%;
+            box-shadow: none;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .dropdown.active .dropdown-content {
+            display: block;
+        }
+        
+        .dropdown-content a {
+            padding-left: 25px;
+            background-color: rgba(0,0,0,0.1);
+        }
+        
+        .hamburger {
+            display: flex;
+        }
+        
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+        
+        .header-bcontainer {
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .gallery-grid {
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr auto;
+            max-height: none;
+            aspect-ratio: auto;
+        }
+        
+        .gallery-main {
+            aspect-ratio: 16/9;
+        }
+        
+        .gallery-sub {
+            grid-column: 1;
+            grid-row: 2;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: 1fr;
+        }
+        
+        .villa-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .action-buttons {
+            width: 100%;
+            justify-content: space-between;
+        }
+        
+        .share-options {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .modal-image-bcontainer {
+            max-width: 95%;
+        }
+        
+        .image-nav {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .prev-btn {
+            left: 10px;
+        }
+        
+        .next-btn {
+            right: 10px;
+        }
+    }
+    
+    /* Small Mobile Styles */
+    @media (max-width: 480px) {
+        .villa-title {
+            font-size: 18px;
+        }
+        
+        .view-photos-btn {
+            left: 10px;
+            bottom: 10px;
+            padding: 8px 12px;
+            font-size: 12px;
+        }
+        
+        .more-indicator {
+            right: 10px;
+            bottom: 10px;
+            padding: 6px 10px;
+            font-size: 12px;
+        }
+    }
+    
+    /* Large Screen Styles */
+    @media (min-width: 1440px) {
+        .gallery-grid {
+            max-height: 700px;
+        }
+        
+        .header-bcontainer, .villa-header, .gallery-bcontainer {
+            padding-left: calc((100% - 1400px) / 2);
+            padding-right: calc((100% - 1400px) / 2);
+        }
+    }
+    </style>
+      <body>
+
+        <!-- Main Header -->
+        <header class="main-header">
+          <div class="header-bcontainer">
+            <div class="logo">StayAtlas</div>
+
+            <div class="hamburger" id="hamburger">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+
+            <div class="nav-links" id="navLinks">
+              <a href="#">HOME</a>
+              <div class="dropdown">
+                <button class="dropbtn">LOCATION</button>
+                <div class="dropdown-content">
+                  <a href="#">Panvel</a>
+                  <a href="#">Khanavale</a>
+                  <a href="#">Other Locations</a>
+                </div>
+              </div>
+              <div class="dropdown">
+                <button class="dropbtn">EXCLUSIVE</button>
+                <div class="dropdown-content">
+                  <a href="#">Villas</a>
+                  <a href="#">Resorts</a>
+                  <a href="#">Pool Homes</a>
+                </div>
+              </div>
+              <a href="https://wa.me/918591131447" target="_blank">CONTACT
+                US</a>
+
+            </div>
+          </div>
+        </header>
+        <!-- Villa Header -->
+        <!-- <div class="villa-header-wrapper">
+          <div class="villa-header">
+            <h1 class="villa-title">Luxury - 3 BHK - AC - Pool Villa - in
+              Panvel</h1>
+            <div class="action-buttons">
+              <button class="action-btn" id="shareBtn">
+                <i class="fas fa-share"></i> Share
+              </button>
+              <button class="action-btn" id="saveBtn">
+                <i class="far fa-heart"></i> Save
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!- Gallery Section --
+        <div class="gallery-bcontainer">
+          <div class="gallery-grid">
+            <div class="gallery-main">
+              <img src="../Media/frontv.jpg" alt="Villa Main View"
+                class="gallery-image">
+              <button class="view-photos-btn" id="viewPhotosBtn">
+                <i class="fas fa-image"></i> View Photos
+              </button>
+            </div>
+            <div class="gallery-sub">
+              <div class="gallery-item">
+                <img src="../Media/bdroom.jpg" alt="Bedroom"
+                  class="gallery-image">
+              </div>
+              <div class="gallery-item">
+                <img src="../Media/bdroom2.jpg" alt="Pool View"
+                  class="gallery-image">
+                <div class="more-indicator">+25 More</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <-- Photo Modal --
+        <div class="modal" id="photoModal">
+          <div class="modal-header">
+            <button class="close-btn" id="closeModal">
+              <i class="fas fa-times"></i>
+            </button>
+            <div class="photo-counter"><span id="currentPhoto">1</span>/<span
+                id="totalPhotos">30</span></div>
+          </div>
+          <div class="modal-content">
+            <button class="image-nav prev-btn" id="prevBtn">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="modal-image-bcontainer">
+              <img src="../Media/outsitv.jpg" alt="Villa View"
+                class="modal-image" id="modalImage">
+            </div>
+            <button class="image-nav next-btn" id="nextBtn">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+          <div class="image-caption" id="imageCaption">Outside sitting
+            area</div>
+        </div>
+
+        <!- Login Modal --
+        <div class="modal" id="loginModal" style="display:none;">
+          <div class="modal-content">
+            <span class="close" id="closeLoginModal">&times;</span>
+            <div id="loginContent"></div>
+          </div>
+        </div>
+
+        <div class="overlay" id="overlay"></div>
+        <div class="share-dialog" id="shareDialog">
+          <div class="dialog-header">
+            <h3 class="dialog-title">Share this place</h3>
+            <button class="close-btn" id="closeShareDialog">
+              <i class="fas fa-times"></i>
+            </button> 
+      < </div> -->
+      
+      <h2 style="text-align: center;">{{ exclusive_property.title }}</h2>
+      <div class="booking-details">
+        <img
+        {% for img in exclusive_images %}
+        <img class="property-image"src="{{ img.image.url }}"alt="Exclusive Property Image" style="width: 15%; height: 10%;">
+    {% endfor %}
+
+        <h2>{{ exclusive_property.title }}</h2>
+
+        <div class="property-location">
+          <i class="fas fa-map-marker-alt location-icon"></i>
+          <span>{{ exclusive_property.location }}</span>
+        </div>
+
+        <div class="property-amenities">
+          {{ exclusive_property.rooms }} Beds | {{ exclusive_property.bath }}
+          Baths
+        </div>
+
+        <div class="property-price">
+          <span class="price-amount">₹ {{ exclusive_property.price }}</span>
+          <span class="price-period">per night</span>
+        </div>
+
+        <!-- <div class="action-buttons">
+          <button class="action-btn">PROPERTY BROCHURE</button>
+          <button class="action-btn"
+            onclick="window.open('../Media/videoplayback.mp4', '_blank')">PROPERTY
+            VIDEOS</button> -->
+
+         <!-- </div> -->
+
+       
+      </div> <h2>Amenities</h2>
+        <div class="amenities-grid">
+          <div class="amenity">
+            <div class="amenity-icon">❄️</div>
+            <div>Air Conditioner</div>
+          </div>
+          <div class="amenity">
+            <div class="amenity-icon">🅿️</div>
+            <div>Private Parking</div>
+          </div>
+          <div class="amenity">
+            <div class="amenity-icon">🍖</div>
+            <div>Barbeque (Chargeable)</div>
+          </div>
+          <div class="amenity">
+            <div class="amenity-icon">🔄</div>
+            <div>Microwave</div>
+          </div>
+          <div class="amenity">
+            <div class="amenity-icon">🛋️</div>
+            <div>Sofa</div>
+          </div>
+          <div class="amenity">
+            <div class="amenity-icon">🍽️</div>
+            <div>Dining Table</div>
+          </div>
+          <div class="amenity">
+            <div class="amenity-icon">📺</div>
+            <div>Flat Screen Tv</div>
+          </div>
+          <div class="amenity">
+            <div class="amenity-icon">👔</div>
+            <div>Wardrobe</div>
+          </div>
+          <div class="amenity">
+            <div class="amenity-icon">🧊</div>
+            <div>Refrigerator</div>
+          </div>
+          <div class="amenity">
+            <div class="amenity-icon">🪑</div>
+            <div>Outdoor Furniture</div>
+          </div>
+          <div class="amenity">
+            <div class="amenity-icon">📶</div>
+            <div>WiFi</div>
+          </div>
+          <div class="amenity">
+            <div class="amenity-icon">🌿</div>
+            <div>Garden</div>
+          </div>
+        </div> 
+
+      <div class="right-content">
+        <div class="booking-card">
+          <div class="booking-header">
+            <div class="price">From ₹ / Person</div>
+          </div>
+
+          <div class="guest-field" id="guestField">
+            <div class="label">Guests</div>
+            <div id="guestDisplay">Guest & Pet</div>
+
+            <div class="guest-selector" id="guestSelector">
+              <div class="guest-type">
+                <div>Adults</div>
+                <div class="counter">
+                  <button class="counter-btn">-</button>
+                  <div class="counter-display">1</div>
+                  <button class="counter-btn">+</button>
+                </div>
+              </div>
+              <div class="guest-type">
+                <div>Pets</div>
+                <div class="counter">
+                  <button class="counter-btn">-</button>
+                  <div class="counter-display">0</div>
+                  <button class="counter-btn">+</button>
+                </div>
+              </div>
+              <div class="guest-type">
+                <div>Children Under 6</div>
+                <div class="counter">
+                  <button class="counter-btn">-</button>
+                  <div class="counter-display">0</div>
+                  <button class="counter-btn">+</button>
+                </div>
+              </div>
+              <div class="guest-actions">
+                <button class="apply-btn">APPLY</button>
+                <button class="clear-btn">CLEAR</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="check-date-field" id="checkDateField">
+            <div>Check in - Check out</div>
+            <input type="text" id="datePicker" placeholder="Select Dates"
+              readonly>
+          </div>
+
+          <div class="discount-field">
+            <div>Have a Discount Coupon?</div>
+          </div>
+
+          <button class="book-btn">VIEW OFFERS</button>
+
+          <table class="tariff-table">
+            <tr>
+              <td>Tariff</td>
+              <td style="text-align: right;" id="tariff">₹5000</td>
+            </tr>
+            <tr>
+              <td>Rs. x nights</td>
+              <td style="text-align: right;" id="perNight">₹20000</td>
+            </tr>
+            <tr>
+              <td>Flat 10% off</td>
+              <td style="text-align: right;" id="discount">-₹0</td>
+            </tr>
+            <tr>
+              <td>GST (18%)</td>
+              <td style="text-align: right;" id="gst">+₹0</td>
+            </tr>
+            <tr class="total-row">
+              <td><strong>Total Amount</strong></td>
+              <td style="text-align: right;"><strong
+                  id="totalAmount">₹0</strong></td>
+            </tr>
+          </table>
+
+          <style>body {
+    font-family: 'Arial', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* .footer {
+    background: #bbbbbb;
+    color: #ffffff;
+    padding: 40px 0;
+    text-align: center;
+    position: relative;
+    width: 100%; /* Full width */ /*
+}
+
+.footer .fcontainer {
+    width: 80%;
+    margin: auto;
+}
+
+div.fcontainer{
+    color: #ffffff;
+    background: #bbbbbb;
+    padding: 30px;
+    margin: 0px 150px 0px 150px;
+} */
+
+.footer h3 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    border-bottom: 2px solid #ffffff;
+    padding-bottom: 10px;
+}
+
+.footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.footer ul li {
+    margin: 0 15px;
+}
+
+.footer a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: bold;
+}
+
+.footer a:hover {
+    color: #ffffff;
+}
+
+.footer .contact-info,
+.footer .policies,
+.footer .intro-text {
+    margin-top: 30px;
+    font-size: 16px;
+}
+
+.footer .intro-text {
+    font-style: italic;
+    line-height: 1.6;
+}
+
+.footer .social-icons {
+    margin-top: 20px;
+}
+
+.footer .social-icons a {
+    margin: 0 10px;
+    font-size: 24px;
+    color: #ffffff;
+    transition: color 0.3s ease;
+}
+
+.footer .social-icons a:hover {
+    color: #ffffff;
+}
+
+.footer .copyright {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .footer h3 {
+        font-size: 20px;
+    }
+
+    .footer .fcontainer {
+        width: 90%;
+    }
+
+    .footer ul {
+        flex-direction: column;
+    }
+
+    .footer ul li {
+        margin: 10px 0;
+    }
+
+    .footer .contact-info,
+    .footer .policies,
+    .footer .intro-text {
+        font-size: 14px;
+    }
+
+    .footer .social-icons a {
+        font-size: 20px;
+    }
+}
+</style>
+          <div class="small-text">
+            You will find the best rates on our website. No discounts will be
+            given on phone.
+          </div>
+
+          <button class="book-btn">BOOK NOW</button>
+          <button class="contact-btn">CONTACT YOUR HOST<br>+91 8591131447
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="section__container">
+      <div class="header">
+        <p>TESTIMONIALS</p>
+        <h1>What our clients say about us.</h1>
+      </div>
+      <div class="testimonials__grid">
+        <div class="card">
+          <span><i class="ri-double-quotes-l"></i></span>
+          <p>
+            I've been working with these guys for a long time and I can say
+            that
+            my house is in the perfect hands.
+          </p>
+          <hr />
+          <img src="../Media/bbqv.jpg" alt="user" />
+          <p class="name">Allan Collins</p>
+        </div>
+        <div class="card">
+          <span><i class="ri-double-quotes-l"></i></span>
+          <p>
+            Working with Sentry Oak is just great, every problem in my house
+            is
+            solved in a matter of days.
+          </p>
+          <hr />
+          <img src="../Media/bdroom.jpg" alt="user" />
+          <p class="name">Clay Washington</p>
+        </div>
+        <div class="card">
+          <span><i class="ri-double-quotes-l"></i></span>
+          <p>
+            Once a pipe burst in my kitchen and an hour later it was already
+            repaired, thanks to Sentry Oak.
+          </p>
+          <hr />
+          <img src="../Media/bathroomv2.jpg" alt="user" />
+          <p class="name">Tanya Grant</p>
+        </div>
+      </div>
+      <h4>No two homes are alike!</h4>
+      <p>
+        Our Elite network, combined with your personal needs, allows us to
+        create a home plan specifically tailored to you.
+      </p>
+    </div>
+
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Stayatlas - Footer</title>
+        <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="stylesheet" href="../footer/css/footer.css">
+        <style>
+            .footer {
+                background: linear-gradient(circle,#0e3226, #eeeeee); /* Fixed radial gradient */
+            }
+            .footer a {
+                transition: color 0.3s ease; /* Smooth color transition on hover */
+            }
+            .footer a:hover {
+                color: #ffcc00; /* Change color on hover */
+            }
+        </style>
+      </head>
+      <body>
+        <div class="footer">
+          <div class="fcontainer">
+            <h3>For more Information</h3>
+            <ul>
+              <li><a href="../footer/html/list.html">List your
+                  property</a></li>
+              <li><a href="#">Stays</a></li>
+              <li><a href="../footer/html/chat.html">Customer Support</a></li>
+              <li><a href="../footer/html/aboutus.html">About us</a></li>
+              <li><a href="Home\Html\index.html">Home</a></li>
+              <!-- Link to main page -->
+              <li><a href="https://wa.me/918591131447" target="_blank">Contact
+                  us</a></li>
+            </ul>
+            <div class="contact-info">
+              <h3>Contact Information</h3>
+              <p>Address: Malad, Mumbai, 400097</p>
+              <p>Phone: +91 85911 31447</p>
+              <p>Email: <a href="mailto:stayatlasin@gmail.com"
+                  style="color: #ffffff;">stayatlasin@gmail.com</a></p>
+            </div>
+            <div class="social-icons">
+              <a href="https://wa.me/918591131447" target="_blank"
+                class="fab fa-whatsapp" aria-label="WhatsApp"></a>
+              <a
+                href="https://www.instagram.com/stayatlas.in?igsh=NXU2NXlhYmRlemJh"
+                target="_blank" class="fab fa-instagram"
+                aria-label="Instagram"></a>
+              <a href="https://www.facebook.com/yourpage" target="_blank"
+                class="fab fa-facebook" aria-label="Facebook"></a>
+            </div>
+            <div class="policies">
+              <h3>Policies</h3>
+              <p>
+                <a href="../footer/html/term.html"
+                  style="color: #ffffff; text-decoration: none;">Terms &
+                  Conditions</a> |
+                <a href="../footer/html/PrivacyPolicy.html"
+                  style="color: #ffffff; text-decoration: none;">Privacy
+                  Policy</a> |
+                <a href="../footer/html/Cancellation Policy.html"
+                  style="color: #ffffff; text-decoration: none;">Cancellation
+                  Policy</a>
+              </p>
+            </div>
+            <div class="intro-text">
+              <p>"Whether you want a quaint abode among the woods, a luxurious stay, or a homely vibe for your vacations - we, at Stayatlas & Experiences, strive to provide the best, striking the right balance between luxury and homely convenience."</p>
+            </div>
+            <div class="copyright">
+              <p>&copy; 2025 Staysatlas | All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+      </body>
+    </html>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="../Js/script.js"></script>
+    <script>
+    document.getElementById('loginBtn').onclick = function() {
+        document.getElementById('loginModal').style.display = 'block';
+        fetch('new2.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('loginContent').innerHTML = data;
+            });
+    };
+
+    document.getElementById('closeLoginModal').onclick = function() {
+        document.getElementById('loginModal').style.display = 'none';
+    };
+
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('loginModal')) {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+    };
+</script>

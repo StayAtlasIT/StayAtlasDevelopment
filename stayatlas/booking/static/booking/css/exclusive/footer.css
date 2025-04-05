@@ -7,19 +7,26 @@ body {
     padding: 0;
 }
 
-.footer {
-    background: #0e3226;
+/* .footer {
+    background: #bbbbbb;
     color: #ffffff;
     padding: 40px 0;
     text-align: center;
     position: relative;
-    width: 100%; /* Full width */
+    width: 100%; /* Full width */ /*
 }
 
-.footer .container {
+.footer .fcontainer {
     width: 80%;
     margin: auto;
 }
+
+div.fcontainer{
+    color: #ffffff;
+    background: #bbbbbb;
+    padding: 30px;
+    margin: 0px 150px 0px 150px;
+} */
 
 .footer h3 {
     margin-bottom: 20px;
@@ -90,7 +97,7 @@ body {
         font-size: 20px;
     }
 
-    .footer .container {
+    .footer .fcontainer {
         width: 90%;
     }
 

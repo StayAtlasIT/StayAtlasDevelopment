@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="../../Home/Media/stay.PNG" style="border-radius: 100%;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayAtlas-Explore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'booking/css/explore/explore.css' %}">
+    <link rel="stylesheet" href="{% static 'booking/css/explore/footer.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+{% load static %}
+<script src="{% static 'booking/js/explore/explore.js' %}"></script>
+
+
+</head>
+<body>
+    <!-- Floating Heart Animation Container -->
+    <div id="heart-popup"></div>
+    <div class="mcontainer">
+            <nav class="navbar">
+                <div><a href="../../Home/Html/index.html" class="logo" id="logo" >StayAtlas</a></div>
+            
+                <div class="navbar-icons">
+                    <div class="search-toggle" id="searchToggle">
+                        <i class="fas fa-search"></i>
+                    </div>
+            
+                    <a href="" class="favorites-link">
+                        <i class="fas fa-heart"></i>
+                    </a>            
+            
+                    <div class="user-icon-container">
+                        <div class="user-icon" id="userIcon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                </div>
+            <div class="best-search-container" id="searchContainer">
+                <!-- Location Input -->
+    <div class="search-item">
+        <input type="text" id="locationInput" placeholder="Enter location">
+        <div id="locationDropdown" class="dropdown"></div>
+    </div>
+    
+    <!-- Check-in & Check-out -->
+    <div class="search-item">
+        <input type="text" id="dateRange" placeholder="Check-in - Check-out" readonly>
+    </div>
+    
+    <!-- Number of Rooms -->
+    <div class="search-item">
+        <select id="roomSelect">
+            <option value="1">1 Room</option>
+            <option value="2">2 Rooms</option>
+            <option value="3">3 Rooms</option>
+            <option value="4">4 Rooms</option>
+            <option value="5+">5+ Rooms</option>
+        </select>
+    </div>
+</div></nav>
+        <br>
+        <div class="category-filters">
+            <div class="filter-item">
+                <img src="../Media/../Media/all places.png" alt="All Places" class="filter-icon">
+                <span class="filter-name">All Places</span>
+            </div>
+            <div class="filter-item">
+                <img src="../Media/../Media/all places.png" alt="Best Seller" class="filter-icon">
+                <span class="filter-name">Best Seller</span>
+            </div>
+            <div class="filter-item">
+                <img src="../Media/../Media/all places.png" alt="One of a Kind" class="filter-icon">
+                <span class="filter-name">Kind</span>
+            </div>
+            <div class="filter-item">
+                <img src="../Media/all places.png" alt="Best Pool" class="filter-icon">
+                <span class="filter-name">Best Pool</span>
+            </div>
+            <div class="filter-item">
+                <img src="../Media/all places.png" alt="Senior citizen" class="filter-icon">
+                <span class="filter-name">Senior Friendly</span>
+            </div>
+            <div class="filter-item">
+                <img src="../Media/all places.png" alt="Luxury" class="filter-icon">
+                <span class="filter-name">Luxury</span>
+            </div>
+            <div class="filter-item">
+                <img src="../Media/all places.png" alt="Pet Friendly" class="filter-icon">
+                <span class="filter-name">Pet Friendly</span>
+            </div>
+            <div class="filter-item">
+                <img src="../Media/all places.png" alt="Pocket Friendly" class="filter-icon">
+                <span class="filter-name">Pocket Friendly</span>
+            </div>
+            <div class="filter-item">
+                <img src="../Media/all places.png" alt="Couple Friendly" class="filter-icon">
+                <span class="filter-name">Couple Friendly</span>
+            </div>
+            <div class="filter-item">
+                <img src="../Media/all places.png" alt="Ideal For Large Groups" class="filter-icon">
+                <span class="filter-name">Large Groups</span>
+            </div>
+            <div class="filter-item">
+                <img src="../Media/all places.png" alt="Kid Friendly" class="filter-icon">
+                <span class="filter-name">Kid Friendly</span>
+            </div>
+            <div class="filter-item">
+                <img src="../Media/all places.png" alt="Unique Architecture" class="filter-icon">
+                <span class="filter-name">Unique Architecture</span>
+            </div>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+            <div></div>
+            <div style="position: relative;">
+                <button id="filterBtn" style="padding: 8px 15px; background: white; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                    <i class="fas fa-sliders-h"></i> Filters
+                </button>
+                <div class="filter-dropdown" id="filterDropdown">
+                    <div class="filter-section">
+                        <div class="filter-title">Price Range</div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="priceLow" class="filter-checkbox">
+                            <label for="priceLow">₹0 - ₹10,000</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="priceMid" class="filter-checkbox">
+                            <label for="priceMid">₹10,000 - ₹20,000</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="priceHigh" class="filter-checkbox">
+                            <label for="priceHigh">₹20,000+</label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <div class="filter-title">Amenities</div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="pool" class="filter-checkbox">
+                            <label for="pool">Pool</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="wifi" class="filter-checkbox">
+                            <label for="wifi">Wi-Fi</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="kitchen" class="filter-checkbox">
+                            <label for="kitchen">Kitchen</label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <div class="filter-title">Sort By</div>
+                        <div class="filter-option">
+                            <input type="radio" name="sort" id="priceLowFirst" class="filter-radio">
+                            <label for="priceLowFirst">Price (Lowest First)</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="radio" name="sort" id="priceHighFirst" class="filter-radio">
+                            <label for="priceHighFirst">Price (Highest First)</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="radio" name="sort" id="newListings" class="filter-radio">
+                            <label for="newListings">New Listings</label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-actions">
+                        <button id="applyFilters" class="apply-button" title="Apply selected filters">Apply Filters</button>
+                        <button id="clearFilters" class="clear-button" title="Clear all filters">Clear All</button>
+                      </div>
+                </div>
+            </div>
+        </div>
+        
+
+        
+        <div class="property-grid">
+            {% if properties %}
+                {% for property in properties %}
+                <div class="property-card" data-id="{{ property.id }}">
+                    <!-- Property Image -->
+                    {% if property.property_images.all %}
+                        <img class="property-image" src="{{ property.property_images.first.image.url }}" alt="{{ property.villa_name }}">
+                    {% else %}
+                        <img class="property-image" src="/static/default-property.jpg" alt="No Image Available">
+                    {% endif %}
+        
+                    <!-- Pet-Friendly Emoji -->
+                    <span class="pet-friendly-emoji">🐾</span>
+        
+                    <!-- Favorite Button -->
+                    <button class="favorite-button">
+                        <i class="far fa-heart"></i>
+                    </button>
+        
+                    <!-- Property Details -->
+                    <div class="property-details">
+                        <div class="property-title">{{ property.villa_name }}</div>
+        
+                        <!-- Location -->
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i> {{ property.location }}
+                        </div>
+        
+                        <!-- Amenities -->
+                        <div class="property-amenities">
+                            {{ property.beds }} Beds | {{ property.baths }} Baths | {{ property.rooms }} room
+                        </div>
+        
+                        <!-- Price & Rating -->
+                        <div class="property-bottom">
+                            <div class="property-price">
+                                <span class="price-amount">₹ {{ property.price }}</span>
+                                <span class="price-period">per night</span>
+                            </div>
+                            <div class="property-rating">
+                                <i class="fas fa-star rating-star"></i>
+                                <span class="rating-value">5</span>
+                            </div>
+                        </div>
+        
+                        <!-- Enquire Now Button -->
+                        <a href="{% url 'property_details' property.id %}">
+                            <button class="cta-button">Enquire Now</button>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No properties available to explore.</p>
+            {% endif %}
+        </div>
+        
+        
+        
+        <div class="pagination">
+            <div class="page-item page-nav">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="page-item active">1</div>
+            <div class="page-item">2</div>
+            <div class="page-item">3</div>
+            <div class="page-item page-nav">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Guest Modal -->
+    <div class="modal" id="guestModal">
+        <div class="modal-content">
+            <div class="modal-header">Number of Guests</div>
+            <div class="guest-counter">
+                <div>Adults</div>
+                <div style="display: flex; align-items: center; gap: 15px;">
+<button class="counter-button" id="adultMinus" title="Decrease adult count">-</button>
+
+                    <span class="guest-count" id="adultCount">0</span>
+<button class="counter-button" id="adultPlus" title="Increase adult count">+</button>
+
+                </div>
+            </div>
+            <div class="guest-counter">
+                <div>Children</div>
+                <div style="display: flex; align-items: center; gap: 15px;">
+<button class="counter-button" id="childMinus" title="Decrease child count">-</button>
+
+                    <span class="guest-count" id="childCount">0</span>
+<button class="counter-button" id="childPlus" title="Increase child count">+</button>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="apply-button" id="applyGuests">Apply</button>
+            </div>
+        </div>
+    </div>
+    <!-- Calendar Modal -->
+<div id="calendarModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>Select Dates</h3>
+        <input type="text" id="dateRange" placeholder="Choose dates..." readonly>
+<button id="applyDates" title="Apply date selection">Apply</button>
+
+    </div>
+</div>
+<script src="{% static 'js/booking/explore.js' %}"></script>
+
+<script>
+    const locations = ["Benaulim, India", "Pawna Lake, India", "Siolim, India", "Arpora, India", "Lonavala, India"]; // Add more locations as needed
+
+    const checkInBtn = document.getElementById("checkInBtn");
+    const checkOutBtn = document.getElementById("checkOutBtn");
+    const roomCount = document.getElementById("roomCount");
+
+    checkInBtn.addEventListener("click", () => {
+        calendarModal.style.display = "flex";
+    });
+
+    checkOutBtn.addEventListener("click", () => {
+        calendarModal.style.display = "flex";
+    });
+
+
+    const locationInput = document.getElementById('locationInput');
+    const locationDropdown = document.getElementById('locationDropdown');
+
+    locationInput.addEventListener('input', function() {
+        const inputValue = this.value.toLowerCase();
+        locationDropdown.innerHTML = '';
+        if (inputValue) {
+            const filteredLocations = locations.filter(location => location.toLowerCase().startsWith(inputValue));
+            filteredLocations.forEach(location => {
+                const option = document.createElement('div');
+                option.textContent = location;
+                option.classList.add('dropdown-option');
+                option.addEventListener('click', function() {
+                    locationInput.value = location;
+                    locationDropdown.style.display = 'none';
+                    filterProperties(location); // Call function to filter properties based on selected location
+                });
+                locationDropdown.appendChild(option);
+            });
+            locationDropdown.style.display = filteredLocations.length ? 'block' : 'none';
+        } else {
+            locationDropdown.style.display = 'none';
+        }
+    });
+
+    function filterProperties(selectedLocation) {
+        const propertyCards = document.querySelectorAll('.property-card');
+        propertyCards.forEach(card => {
+            const cardLocation = card.querySelector('.property-location span').textContent;
+            card.style.display = cardLocation.includes(selectedLocation) ? 'block' : 'none';
+        });
+    }
+</script>
+
+ <!-- Footer Section -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Stayatlas - Footer</title>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+     <style>
+         .footer {
+             background: linear-gradient(circle,#0e3226, #eeeeee); /* Fixed radial gradient */
+         }
+         .footer a {
+             transition: color 0.3s ease; /* Smooth color transition on hover */
+         }
+         .footer a:hover {
+             color: #ffcc00; /* Change color on hover */
+         }
+     </style>
+ </head>
+ <body>
+     <div class="footer">
+         <div class="container">
+             <h3>For more Information</h3>
+             <ul>
+                <li><a href= "{% url 'list_property' %}">List your property</a></li>
+                <li><a href="#">Stays</a></li>
+                <li><a href="{% url 'customer_support' %}">Customer Support</a></li>
+                <li><a href="{% url 'about_us' %}">About us</a></li>
+                <li><a href="https://wa.me/918591131447" target="_blank">Contact us</a></li>
+            </ul>
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <p>Address: Malad, Mumbai, 400097</p>
+                <p>Phone: +91 85911 31447</p>
+                <p>Email: <a href="mailto:stayatlasin@gmail.com" style="color: #ffffff;">stayatlasin@gmail.com</a></p>
+            </div>
+            <div class="social-icons">
+                <a href="https://wa.me/918591131447" target="_blank" class="fab fa-whatsapp" aria-label="WhatsApp"></a>
+                <a href="https://www.instagram.com/stayatlas.in?igsh=NXU2NXlhYmRlemJh" target="_blank" class="fab fa-instagram" aria-label="Instagram"></a>
+                <a href="https://www.facebook.com/yourpage" target="_blank" class="fab fa-facebook" aria-label="Facebook"></a>
+            </div>
+            <div class="policies">
+                <h3>Policies</h3>
+                <p>
+                    <a href="{% url 'terms' %}" style="color: #ffffff; text-decoration: none;">Terms & Conditions</a> | 
+                    <a href="{% url 'privacy_policy' %}" style="color: #ffffff; text-decoration: none;">Privacy Policy</a> | 
+                    <a href="{% url 'privacy_policy' %}" style="color: #ffffff; text-decoration: none;">Cancellation Policy</a>
+                </p>
+            </div>
+            <div class="intro-text">
+                <p style="color: #ffffff;">"Whether you want a quaint abode among the woods, a luxurious stay, or a homely vibe for your vacations - we, at Stayatlas & Experiences, strive to provide the best, striking the right balance between luxury and homely convenience."</p>
+            </div>
+            <div class="copyright"> 
+                <p>&copy; 2025 Staysatlas | All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+</body>
+</html>

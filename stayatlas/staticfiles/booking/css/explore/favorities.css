@@ -1,0 +1,411 @@
+/* 🌟 Full-Screen Glassmorphism Overlay on Page Load */
+.page-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 1;
+    animation: fadeOut 1.5s ease-out forwards;
+}
+
+/* 🌟 Minimalist Elegant Loader */
+.loader-container {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(0, 0, 0, 0.2);
+    border-left-color: #c42020;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+
+/* 🌟 Fade-out Animation */
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; display: none; }
+}
+
+/* 🌟 Loader Spin Animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 🌟 Favorites Page Layout */
+.favorites-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* 🌟 Fade-in & Bounce Effect for Page */
+.mcontainer {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    animation: fadeInBounce 1s ease-out forwards 1.5s;
+}
+
+@keyframes fadeInBounce {
+    0% { opacity: 0; transform: translateY(20px) scale(0.9); }
+    60% { opacity: 1; transform: translateY(-5px) scale(1.02); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* 🌟 Favorites Page Heading */
+.favorites-heading {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #000000;;
+}
+
+/* 🌟 Wave-like Glow Animation */
+@keyframes waveGlow {
+    from { text-shadow: 0px 0px 10px rgba(196, 32, 32, 0.3); }
+    to { text-shadow: 0px 0px 20px rgba(196, 32, 32, 0.6); }
+}
+
+/* 🌟 Favorite Card Styling */
+.property-card {
+    width: 90%;
+    max-width: 400px;
+    margin: auto;
+    margin-bottom: 15px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+}
+
+.property-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* 🌟 Favorite Property Image */
+.property-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px 10px 0 0;
+}
+
+/* 🌟 Favorite Property Details */
+.property-card .property-details {
+    padding: 10px;
+    text-align: center;
+}
+
+/* 🌟 Text Wrapping */
+.property-title, .property-price {
+    word-wrap: break-word;
+    text-align: center;
+}
+
+/* 🌟 Gradient Remove Button */
+.remove-favorite {
+    background: linear-gradient(135deg, #05a11a, #05a11a);
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    width: 90%;
+    display: block;
+    margin: 10px auto;
+    text-transform: uppercase;
+}
+
+.remove-favorite:hover {
+    background: linear-gradient(135deg, #75ff81, #8fff44);
+    transform: scale(1.05);
+}
+
+/* 🌟 Back Button Styling */
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #098113, #098113);
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    box-shadow: 0px 4px 8px rgba(22, 255, 80, 0.2);
+}
+
+.back-button i {
+    font-size: 1.2rem;
+    margin-right: 5px;
+}
+
+/* Hover Effect */
+.back-button:hover {
+    background: linear-gradient(135deg, #9e1919, #7b1313);
+    transform: scale(1.05);
+}
+
+/* 🌟 Favorites Link Button */
+.favorites-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #c42020, #9e1919);
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 12px 18px;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    margin-left: auto;
+}
+
+/* Icon Styling */
+.favorites-link i {
+    font-size: 1.2rem;
+    transition: transform 0.2s ease-in-out, color 0.3s;
+}
+
+/* Hover Effect */
+.favorites-link:hover {
+    background: linear-gradient(135deg, #9e1919, #7b1313);
+    transform: scale(1.05);
+}
+
+.favorites-link:hover i {
+    transform: scale(1.2);
+    color: yellow;
+}
+
+@media (max-width: 426px) {
+    .property-card {
+        width: 80%;
+    }
+
+    .header1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+    }
+
+    .back-button {
+        font-size: 0.85rem;
+        padding: 12px 20px; /* Increased padding for better button appearance */
+        width: auto; /* Allows it to shrink to content */
+        max-width: 250px;
+        text-align: center;
+        display: flex; /* Helps with centering text */
+        justify-content: center; /* Centers text inside the button */
+        align-items: center; /* Aligns text vertically */
+        position: relative; /* Ensures proper positioning */
+        margin: 0 auto; /* Centers the button horizontally */
+    }
+
+    .favorites-heading {
+        font-size: 1.6rem;
+        text-align: center;
+        display: block;
+        
+    }
+
+    .favorites-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .remove-favorite {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+}
+@media (max-width: 426px) {
+    .property-card {
+        width: 80%;
+    }
+
+    .header1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+    }
+
+    .back-button {
+        font-size: 0.85rem;
+        padding: 12px 20px; /* Increased padding for better button appearance */
+        width: auto; /* Allows it to shrink to content */
+        max-width: 250px;
+        text-align: center;
+        display: flex; /* Helps with centering text */
+        justify-content: center; /* Centers text inside the button */
+        align-items: center; /* Aligns text vertically */
+        position: relative; /* Ensures proper positioning */
+        margin: 0 auto; /* Centers the button horizontally */
+    }
+
+    .favorites-heading {
+        font-size: 1.6rem;
+        text-align: center;
+        display: block;
+        
+    }
+
+    .favorites-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .remove-favorite {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .property-card {
+        width: 100%;
+    }
+
+    .header1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+    }
+
+    .back-button {
+        font-size: 0.85rem;
+        padding: 12px 20px; /* Increased padding for better button appearance */
+        width: auto; /* Allows it to shrink to content */
+        max-width: 250px;
+        text-align: center;
+        display: flex; /* Helps with centering text */
+        justify-content: center; /* Centers text inside the button */
+        align-items: center; /* Aligns text vertically */
+        position: relative; /* Ensures proper positioning */
+        margin: 0 auto; /* Centers the button horizontally */
+        margin-top: 5%;
+    }
+
+    .favorites-heading {
+        font-size: 1.6rem;
+        text-align: center;
+        display: block;
+        margin-top: 20px; /* Adds spacing below the button */
+    }
+
+    .favorites-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .remove-favorite {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    .property-card {
+        width: 80%;
+    }
+
+    .header1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+    }
+
+    .back-button {
+        font-size: 0.85rem;
+        padding: 12px 20px; /* Increased padding for better button appearance */
+        width: auto; /* Allows it to shrink to content */
+        max-width: 250px;
+        text-align: center;
+        display: flex; /* Helps with centering text */
+        justify-content: center; /* Centers text inside the button */
+        align-items: center; /* Aligns text vertically */
+        position: relative; /* Ensures proper positioning */
+        margin: 0 auto; /* Centers the button horizontally */
+        top: 10%;
+    }
+
+    .favorites-heading {
+        font-size: 1.6rem;
+        text-align: center;
+        display: block;
+        
+    }
+
+    .favorites-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .remove-favorite {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 1440px) {
+    .back-button{
+        top: 30px;
+    }
+}
+
+@media (min-width: 1440px) {
+    .back-button{
+        top: 40px;
+    }
+}

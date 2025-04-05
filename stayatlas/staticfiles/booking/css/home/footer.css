@@ -7,13 +7,13 @@ body {
     padding: 0;
 }
 
-.footer {
+/* .footer {
     background: #3d3c3c;
     color: #ffffff;
     padding: 40px 0;
     text-align: center;
     position: relative;
-    width: 100%; /* Full width */
+    width: 100%; /* Full width */ /*
 }
 
 .footer .fcontainer {
@@ -26,7 +26,7 @@ div.fcontainer{
     background: #3d3c3c;
     padding: 30px;
     margin: 0px 150px 0px 150px;
-}
+} */
 
 .footer h3 {
     margin-bottom: 20px;

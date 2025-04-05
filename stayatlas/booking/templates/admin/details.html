@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Villa Details</title>
+        <!-- <link rel="stylesheet" href="admin.css"> -->
+    </head>
+    <body>
+        <style>
+    /* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fc;
+    color: #333;
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+}
+
+.filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+}
+.filter input {
+    padding: 10px;
+    width: 48%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+/* Improved Sidebar */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    color: white;
+    padding: 20px;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+/* Sidebar Toggle Button with Arrow */
+#sidebar-toggle {
+    position: absolute;
+    left: 260px;
+    top: 6%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 24px;
+    background: #34495e;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    transition: left 0.3s ease-in-out, background 0.3s ease-in-out;
+    z-index: 1001;
+}
+
+#sidebar-toggle:hover {
+    background: #2c3e50;
+}
+
+.sidebar.hidden + #sidebar-toggle {
+    left: 10px;
+}
+#sidebar-toggle:hover {
+    background: #2c3e50;
+}
+
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+.sidebar ul li {
+    padding: 15px 10px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+    
+}
+.sidebar ul li:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+.sidebar ul li a {
+    color: white; /* Change text color to white */
+    text-decoration: none; /* Remove underline */
+}
+
+
+
+/* Main Content Area */
+.main-content {
+    margin-left: 300px;
+    width: calc(100% - 250px);
+    padding: 20px;
+    transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+
+.sidebar.hidden ~ .main-content {
+    margin-left: 0;
+    width: 100%;
+}
+
+/* Title */
+.title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #007BFF;
+    text-shadow: 2px 2px 5px rgba(0, 123, 255, 0.2);
+    margin-bottom: 20px;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+.nav-btn {
+    padding: 12px 18px;
+    border: none;
+    background: #007BFF;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.3s;
+    font-weight: bold;
+    display: inline-block;
+}
+.nav-btn.active, .nav-btn:hover {
+    background: #0056b3;
+}
+
+/* Filters */
+.filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+}
+.filters input {
+    padding: 10px;
+    width: 48%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Sections */
+.section {
+    display: none;
+}
+.section.active {
+    display: block;
+}
+
+/* Property Cards */
+.property-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+.property-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 300px;
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.property-card:hover {
+    transform: scale(1.05);
+    box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.2);
+}
+.property-info h3 {
+    margin-bottom: 5px;
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;
+}
+.property-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+/* Card Actions */
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+.btn {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 8px;
+    transition: 0.3s;
+    font-weight: bold;
+    display: inline-block;
+}
+.accept {
+    background: #28a745;
+    color: white;
+    border: none;
+}
+.reject {
+    background: #dc3545;
+    color: white;
+    border: none;
+}
+.details {
+    background: #007BFF;
+    color: white;
+    text-decoration: none;
+    border: none;
+}
+.btn:hover {
+    opacity: 0.85;
+}
+
+/* Details Page Styles */
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 50%;
+    margin: auto;
+}
+
+/* Title */
+h1 {
+    font-size: 26px;
+    color: #007BFF;
+    margin-bottom: 20px;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    font-size: 16px;
+}
+
+table td:first-child {
+    font-weight: bold;
+    color: #555;
+}
+
+/* Image */
+img {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 5px;
+    margin-top: 10px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Back Button */
+.back-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    background: #007BFF;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: #0056b3;
+}
+
+/* Clear List Buttons */
+.clear-btn {
+    display: block;
+    margin: 10px auto;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    background: #ff4d4d;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.clear-btn:hover {
+    background: #cc0000;
+}
+
+
+
+.filters {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    
+}
+
+.filters input {
+    padding: 12px;
+    width: 100%;
+    max-width: 800px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.filters input:focus {
+    box-shadow: 0px 0px 10px rgba(0, 123, 255, 0.3);
+    outline: none;
+}
+
+/* Property Card Styling */
+.prop-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 320px;
+    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    top:50%;
+    position: relative;
+    overflow: hidden;
+}
+
+.prop-card:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 4px 4px 25px rgba(0, 0, 0, 0.25);
+}
+
+.prop-info h3 {
+    margin-bottom: 10px;
+    font-size: 22px;
+    color: #222;
+    font-weight: bold;
+    text-align: center;
+}
+
+.prop-info p {
+    margin: 8px 0;
+    font-size: 15px;
+    color: #555;
+    text-align: center;
+}
+
+/* Property List Container */
+.prop-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+    
+}
+
+.card-act {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.details {
+    background: #007BFF;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.3s ease-in-out;
+}
+
+.details:hover {
+    background: #0056b3;
+}
+
+
+.main {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+.sidebar.hidden ~ .main {
+    margin-left: 0px;
+    width: 90%;
+}
+.sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+
+/* Navigation Buttons */
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    font-size: 40px;  /* Make buttons bigger */
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    padding: 15px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;   /* Circle buttons */
+    user-select: none;
+    z-index: 1001;  /* Ensure buttons are above modal */
+}
+
+.prev { left: 20px; }  /* Position left arrow */
+.next { right: 20px; } /* Position right arrow */
+
+.prev:hover, .next:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@media (max-width: 320px) {
+    .container {
+        width: 95%;  /* Reduce width */
+        padding: 15px; /* Less padding */
+    }
+
+    h1 {
+        font-size: 20px; /* Make title smaller */
+    }
+
+    table td {
+        font-size: 13px; /* Adjust text size */
+        padding: 6px;
+    }
+
+    img {
+        max-width: 230px; /* Ensure image fits */
+    }
+
+    .back-btn {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
+
+@media (max-width: 425px) {
+    .container {
+        width: 99%;  /* Reduce width */
+        padding: 15px; /* Less padding */
+    }
+
+    h1 {
+        font-size: 40px; /* Make title smaller */
+    }
+
+    table td {
+        font-size: 15px; /* Adjust text size */
+        padding: 6px;
+    }
+
+    img {
+        max-width: 300px; /* Ensure image fits */
+    }
+
+    .back-btn {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
+
+
+    </style><!-- Add Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+        <div class="container">
+            <h1 id="villa-title">Villa Details</h1>
+            <table>
+                <tr><td>First Name:</td><td>{{ property.first_name }}</td></tr>
+                <tr><td>Last Name:</td><td>{{ property.last_name }}</td></tr>
+                <tr><td>Email:</td><td>{{ property.email }}</td></tr>
+                <tr><td>Mobile:</td><td>{{ property.mobile }}</td></tr>
+                <tr><td>Location:</td><td>{{ property.location }}</td></tr>
+                <tr><td>Type:</td><td>{{ property.property_type }}</td></tr>
+                <tr><td>No. of Rooms:</td><td>{{ property.rooms }}</td></tr>
+                <tr><td>Description:</td><td>{{ property.description }}</td></tr>
+               <td> <h2>Amenities</h2>
+                <div class="amenities-grid">
+                    {% if property.amenities.all %}
+                        {% for amenity in property.amenities.all %}
+                            <div class="amenity">
+                                <i class="{{ amenity.icon }}"></i> {{ amenity.name }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No amenities available.</p>
+                    {% endif %}
+                </div><style>
+                    .amenities-grid {
+                        display: grid;
+                        grid-template-columns: repeat(3, 1fr); /* 3 columns */
+                        gap: 10px; /* Reduced gap */
+                        margin-top: 10px; /* Adjusted margin */
+                    }
+                    
+                    .amenity {
+                        display: flex;
+                        align-items: center;
+                        gap: 5px; /* Reduced space between icon and text */
+                        padding: 5px;
+                    }
+                    
+                </style>
+                
+            </tr>
+                <tr>
+                    <td>Photos:</td>
+                    <td>
+                        {% for img in property.property_images.all %}
+                            <img id="villa-image" src="{{ img.image.url }}" alt="Villa Image" style="width: 200px; height: 150px;">
+                        {% empty %}
+                            No images available.
+                        {% endfor %}
+                    </td>
+                </tr>
+                
+            </table>
+
+            <button class="back-btn" onclick="window.history.back()">Back</button>
+        </div>
+
+         <!-- Modal for Image Zoom with Navigation -->
+        <div id="imageModal" class="modal">
+            <span class="close">&times;</span>
+            <span class="prev">&#10094;</span>  <!-- Left Navigation -->
+            <img class="modal-content" id="modalImg">
+            <span class="next">&#10095;</span>  <!-- Right Navigation -->
+        </div>
+
+        <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const villaDetails = {
+            };
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const villa = urlParams.get("villa");
+
+            if (villa && villaDetails[villa]) {
+                document.getElementById("first-name").innerText = villaDetails[villa].firstName;
+                document.getElementById("last-name").innerText = villaDetails[villa].lastName;
+                document.getElementById("email").innerText = villaDetails[villa].email;
+                document.getElementById("mobile").innerText = villaDetails[villa].mobile;
+                document.getElementById("location").innerText = villaDetails[villa].location;
+                document.getElementById("type").innerText = villaDetails[villa].type;
+                document.getElementById("rooms").innerText = villaDetails[villa].rooms;
+                document.getElementById("description").innerText = villaDetails[villa].description;
+                document.getElementById("villa-image").src = villaDetails[villa].image;
+            }
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImg");
+    const closeBtn = document.querySelector(".close");
+    const prevBtn = document.querySelector(".prev");
+    const nextBtn = document.querySelector(".next");
+
+    let images = [];
+    let currentIndex = 0;
+
+    // Fetch all images inside the property listing
+    document.querySelectorAll("td img").forEach((img, index) => {
+        images.push(img.src);
+
+        img.addEventListener("click", function () {
+            currentIndex = index;
+            showImage(currentIndex);
+        });
+    });
+
+    function showImage(index) {
+        modal.style.display = "flex";
+        modalImg.src = images[index];
+    }
+
+    // Close modal
+    closeBtn.addEventListener("click", function () {
+        modal.style.display = "none";
+    });
+
+    // Navigate Images
+    prevBtn.addEventListener("click", function () {
+        currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1;
+        showImage(currentIndex);
+    });
+
+    nextBtn.addEventListener("click", function () {
+        currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0;
+        showImage(currentIndex);
+    });
+
+    // Close modal on outside click
+    modal.addEventListener("click", function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+
+    // Keyboard Navigation
+    document.addEventListener("keydown", function (event) {
+        if (modal.style.display === "flex") {
+            if (event.key === "ArrowLeft") prevBtn.click();
+            if (event.key === "ArrowRight") nextBtn.click();
+            if (event.key === "Escape") modal.style.display = "none";
+        }
+    });
+});
+    </script>
+    </body>
+</html>
